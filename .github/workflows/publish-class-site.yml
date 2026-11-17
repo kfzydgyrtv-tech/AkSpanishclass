@@ -14,6 +14,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
+      actions: read
       contents: read
       pages: write
       id-token: write
@@ -33,6 +34,25 @@ jobs:
         uses: actions/upload-pages-artifact@v4
         with:
           path: _class_site
+      - name: Wait for any branch-based Pages deployment
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Repositories still using Deploy from a branch can publish both builds.
+          # Let the generated site deploy last. Actions-only sites have no branch run.
+          for attempt in {1..36}; do
+            runs=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs?head_sha=$GITHUB_SHA&per_page=50" \
+              --jq '[.workflow_runs[] | select(.path == "dynamic/pages/pages-build-deployment")]')
+            if jq -e 'length > 0 and all(.[]; .status == "completed")' <<< "$runs" >/dev/null; then
+              exit 0
+            fi
+            if [[ $attempt -ge 5 && $runs == '[]' ]]; then
+              exit 0
+            fi
+            sleep 5
+          done
+          echo 'The branch-based Pages deployment did not finish within three minutes.' >&2
+          exit 1
       - name: Publish the website
         id: deployment
         uses: actions/deploy-pages@v4
