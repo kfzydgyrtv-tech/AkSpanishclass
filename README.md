@@ -1,30 +1,3 @@
-# Ak’s Spanish Class
+## Ak's Spanish Class
+Mainly built for the students of GHA (Guanghua Academy) but this site will be left open for anyone
 
-## Upload the site to GitHub
-
-1. Extract the ZIP and copy its contents into the top level of the AkSpanishclass repository on the `main` branch. At the top level you should see `index.html`, `aula-1.html`, `style.css`, `files/`, and `.github/`. The files in this package go directly in the repository root.
-2. Include the hidden `.github/` folder. In Finder, press **Command + Shift + .** to show hidden files. If GitHub’s web uploader skips the hidden folder, create its two files from the **Code** tab using **Add file → Create new file**. Enter the full paths and paste the matching files from this package.
-   - `.github/build_class_site.py`
-   - `.github/workflows/publish-class-site.yml`
-3. Commit the upload to `main`. Under **Settings → Pages → Build and deployment → Source**, select **GitHub Actions**. Under **Actions → Publish class website**, run the workflow on `main` if a deployment hasn't started.
-4. After the run completes, open the site from **Settings → Pages**. The short root URL opens the homepage. The previously shared `/index/` URL also leads to the site.
-
-Use the two workflow files from this package together. GitHub Actions builds and publishes the resource listings. There is no local build step required for uploads.
-
-## Add class materials
-
-Open a folder below, choose **Add file → Upload files**, and commit the upload to `main`. The Pages workflow will update the corresponding page.
-
-| Repository folder | Website destination and file types |
-| --- | --- |
-| `files/books/` | **Aula 1** · PDF books |
-| `files/audio/` | **Aula 1** · MP3, M4A, WAV, OGG, AAC, and Opus tracks with players |
-| `files/slides/` | **Class Slides** · PDF, PPTX, PPT, and ODP |
-| `files/vocabulary/` | **Vocabulary Sheets** · PDF, DOCX, and DOC |
-| `files/review/` | **Review Materials** · PDF, DOCX, and DOC |
-
-You can group files in a subfolder like `unit-01`. Number tracks in their filenames to set their order. Give a PowerPoint and its PDF preview the same basename in the same folder to put both formats on one card. Use the same path and filename to replace an existing resource.
-
-The Grade 10 Unit 1 quiz and Grade 12 presentation rubric are linked under **Review Materials → Assessment archive**. The corrected subject-pronoun reference is on **Vocabulary Sheets**.
-
-The site and its repository are public. Use the book and audio folders for material you can share publicly. GitHub's browser uploader allows files up to 25 MiB each. The Campus Difusión and local PDF-reader options remain available on the Aula 1 page.
