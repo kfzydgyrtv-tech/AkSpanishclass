@@ -92,7 +92,7 @@ p { line-height: 1.55; }
 .file-card { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 17px; padding: 20px; }
 .file-copy .topic, .status { color: #5c4e3b; font-size: .8rem; }
 .file-copy .topic { font-weight: 700; }
-.file-copy h2, .unit-heading h2 { margin-block: 3px; font: 700 1.35rem/1.16 var(--heading); letter-spacing: -.025em; }
+.file-copy h2, .resource-pdf-title, .unit-heading h2 { margin-block: 3px; font: 700 1.35rem/1.16 var(--heading); letter-spacing: -.025em; }
 .file-copy p:last-child, .unit-heading p, .contents > p, .book-panel p { color: var(--muted); font-size: .9rem; }
 .book-panel { overflow: hidden; }
 .book-panel-copy { padding: 22px; }
