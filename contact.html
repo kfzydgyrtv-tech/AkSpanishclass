@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f3e9">
+  <title>Contact Me | Ak's Spanish Class</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="student-message.js"></script>
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="site-header">
+  <div class="wrap header-inner">
+  <a class="brand" href="index.html"><span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5h16v10H11l-4 3v-3H4z"/><path d="M8.5 10.5h.01m3.5 0h.01m3.5 0h.01"/></svg></span>Ak's Spanish Class</a>
+  <nav aria-label="Main navigation"><a href="aula-1.html" >Aula 1</a><a href="class-slides.html" >Class Slides</a><a href="vocabulary.html" >Vocabulary Sheets</a><a href="review.html" >Review Materials</a><a href="practice.html" >Practice</a><a href="contact.html" aria-current="page">Contact Me</a></nav>
+</div>
+  </header>
+  <main id="content" class="wrap inner-page" tabindex="-1">
+    <div class="page-intro">
+      <a class="back" href="index.html">← Home</a>
+      <h1>Contact Me</h1>
+    </div>
+    <div class="contact-grid">
+      <section class="book-panel" aria-labelledby="message-heading">
+        <div class="book-panel-copy">
+          <h2 id="message-heading">Send me a message</h2>
+          <p>Share a class idea, ask a question, or tell me what you’d like to practise.</p>
+          <form id="student-message" class="message-form" hidden aria-describedby="message-help">
+            <div class="message-field">
+              <label for="message-topic">Topic</label>
+              <select id="message-topic" name="topic" required>
+                <option value="">Choose a topic</option>
+                <option>Class idea</option>
+                <option>Question</option>
+                <option>Website feedback</option>
+                <option>Other message</option>
+              </select>
+            </div>
+            <div class="message-field">
+              <label for="message-text">Your message</label>
+              <textarea id="message-text" name="message" rows="6" maxlength="500" required aria-describedby="message-length"></textarea>
+              <small id="message-length">Up to 500 characters.</small>
+            </div>
+            <div>
+              <button type="submit" class="button primary">Open email draft</button>
+              <p id="message-help">This opens a draft in your email app. Review it and press Send there.</p>
+            </div>
+          </form>
+          <noscript><p>Use the email address on this page to send your message.</p></noscript>
+        </div>
+      </section>
+      <aside class="book-panel" aria-labelledby="email-heading">
+        <div class="book-panel-copy">
+          <h2 id="email-heading">Email me</h2>
+          <p><a class="contact-email" id="contact-email" href="mailto:akash@ghedu.com">akash@ghedu.com</a></p>
+          <p>You can also copy this address into your school email.</p>
+        </div>
+      </aside>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="wrap"><a href="index.html">Ak's Spanish Class</a><span>Grade 10 Spanish · A1</span><a href="teacher.html">Teacher Access</a></div></footer>
+</body>
+</html>

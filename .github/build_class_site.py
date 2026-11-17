@@ -141,6 +141,9 @@ def copy_site(source, destination):
         copy2(source / name, destination / name)
     copytree(source / "files", destination / "files",
              ignore=lambda _, names: [name for name in names if name.startswith(".")])
+    for name in ("contact.html", "teacher.html", "student-message.js"):
+        if (source / name).is_file():
+            copy2(source / name, destination / name)
     render_resources(destination)
 
 

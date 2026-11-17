@@ -191,3 +191,30 @@ a.print-page:hover { text-decoration: underline; }
 @media (max-width: 490px) {
   .pronoun-reference th, .pronoun-reference td { padding: 7px; font-size: .8rem; }
 }
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+.contact-email { font-weight: 700; text-decoration: underline; overflow-wrap: anywhere; }
+.message-form { display: grid; gap: 15px; margin-top: 20px; }
+.message-field { display: grid; gap: 6px; }
+.message-field label { font-size: .88rem; font-weight: 700; }
+.message-field select, .message-field textarea {
+  width: 100%;
+  border: 1px solid #998e7d;
+  border-radius: 9px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  padding: 10px 12px;
+}
+.message-field textarea { resize: vertical; }
+.message-field small { color: var(--muted); }
+.teacher-panel { max-width: 750px; }
+
+@media (max-width: 735px) {
+  .contact-grid { grid-template-columns: 1fr; }
+}

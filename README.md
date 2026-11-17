@@ -28,3 +28,9 @@ You can group files in a subfolder like `unit-01`. Number tracks in their filena
 The Grade 10 Unit 1 quiz and Grade 12 presentation rubric are linked under **Review Materials → Assessment archive**. The corrected subject-pronoun reference is on **Vocabulary Sheets**.
 
 The site and its repository are public. Use the book and audio folders for material you can share publicly. GitHub's browser uploader allows files up to 25 MiB each. The Campus Difusión and local PDF-reader options remain available on the Aula 1 page.
+
+## Student messages and teacher access
+
+The **Contact Me** page opens a prepared email draft addressed to the teacher. Students send it from their email app. Messages go to the teacher’s mailbox and are not stored on the website or in GitHub.
+
+The **Teacher Access** page links to GitHub’s resource folders and homepage editor. Published changes require a GitHub account with write access to this repository. Keep repository write access limited to teachers and site maintainers.
