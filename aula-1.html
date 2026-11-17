@@ -22,21 +22,45 @@
     <div class="page-intro">
   <a class="back" href="index.html">← Home</a>
   <span class="resource-icon tone-book"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6c-2.5-2-5.7-2.3-9-1v14c3.3-1.3 6.5-1 9 1 2.5-2 5.7-2.3 9-1V5c-3.3-1.3-6.5-1-9 1Zm0 0v14"/></svg></span>
-  <h1>Aula 1</h1><p>Aula Internacional Plus 1 · A1</p>
+  <h1>Aula 1</h1><p>Your course textbook, grammar reference, and unit index.</p>
 </div>
-    <section class="book-panel" aria-labelledby="book-access">
+    <section class="contents" aria-labelledby="course-books">
+      <h2 id="course-books">Books for this course</h2>
+      <div class="file-list archive-list">
+        <article class="file-card archive-card">
+          <div class="file-copy">
+            <p class="topic">Course textbook · A1</p>
+            <h3 lang="es">Aula Internacional Plus 1</h3>
+            <p>Follow the unit index below and use Campus Difusión for the digital book and textbook audio.</p>
+          </div>
+          <div class="actions file-actions">
+            <a class="button primary" href="https://campus.difusion.com/" target="_blank" rel="noopener noreferrer">Open Campus Difusión</a>
+          </div>
+        </article>
+        <article class="file-card archive-card">
+          <div class="file-copy">
+            <p class="topic">Grammar reference · A1–B1</p>
+            <h3 lang="es">Gramática básica del estudiante de español</h3>
+            <p>Look up grammar explanations and practice topics such as articles, pronouns, and verb forms.</p>
+          </div>
+          <div class="actions file-actions">
+            <a class="button" href="https://difusion.com/tienda/producto/gramatica-basica-del-estudiante-de-espanol-ne-revisada" target="_blank" rel="noopener noreferrer">View publisher listing</a>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section class="book-panel" style="margin-top: 18px;" aria-labelledby="book-access">
       <div class="book-panel-copy"><h2 id="book-access">Textbook reader</h2>
-      <p>Open your own PDF on this device or sign in to Campus Difusión to read the digital edition.</p>
+      <p>If you already have a PDF of either book, select it to read it here.</p>
       <div class="actions">
         <label class="button primary file-picker" for="local-pdf">
           <span id="local-label">Open a PDF from this device</span> <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6zM14 3v5h4M9 13h6m-6 4h6"/></svg>
           <input id="local-pdf" type="file" accept="application/pdf,.pdf">
         </label>
-        <a class="button" href="https://campus.difusion.com/" target="_blank" rel="noopener noreferrer">Campus Difusión <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M13 4h7v7m0-7-9 9m8 0v7H4V5h7"/></svg></a>
         <a class="button" id="open-pdf" target="_blank" rel="noopener noreferrer" hidden>Open PDF in a new tab <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M13 4h7v7m0-7-9 9m8 0v7H4V5h7"/></svg></a>
       </div>
       <p id="book-status" class="status" aria-live="polite">Your PDF stays on this device.</p></div>
-      <iframe id="book-reader" title="Aula 1 PDF reader" hidden></iframe>
+      <iframe id="book-reader" title="Course book PDF reader" hidden></iframe>
     </section>
     <section class="contents" aria-labelledby="unit-heading">
       <h2 id="unit-heading">Unit index</h2><p>Page numbers refer to the printed edition.</p>
