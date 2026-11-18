@@ -9,6 +9,7 @@ BUILD_DIR = Path("_class_site")
 AUDIO = {".mp3", ".m4a", ".wav", ".ogg", ".oga", ".aac", ".opus"}
 DOCUMENTS = {".pdf", ".docx", ".doc"}
 SLIDES = {".pdf", ".pptx", ".ppt", ".odp"}
+UNIT_PREFIX = re.compile(r"unit-([0-9]+)--(.+)", re.IGNORECASE)
 
 
 def natural_order(value):
@@ -45,8 +46,13 @@ def resource_groups(site, category, extensions):
             continue
         if any(part.startswith(".") for part in relative.parts):
             continue
-        key = item.stem.casefold() if category == "slides" else item.name
-        _, versions = groups[relative.parent.parts].setdefault(key, (display_name(item.stem), []))
+        folders = tuple(unit_name(folder) for folder in relative.parent.parts)
+        stem = item.stem
+        if not folders and (prefix := UNIT_PREFIX.fullmatch(stem)):
+            folders = (f"Unit {int(prefix[1])}",)
+            stem = prefix[2]
+        key = (relative.parent, item.stem.casefold() if category == "slides" else item.name)
+        _, versions = groups[folders].setdefault(key, (display_name(stem), []))
         versions.append(item)
     return groups
 
@@ -70,10 +76,11 @@ def room(site, category, extensions, title, anchor):
         return ""
 
     parts = [f'<section class="contents resource-uploads" id="{anchor}"><h2>{title}</h2>']
-    for folders, resources in groups.items():
+    for folders in sorted(groups, key=lambda parts: natural_order(" / ".join(parts))):
+        resources = groups[folders]
         heading = "h3"
         if folders:
-            parts.append(f'<h3 class="resource-group">{" / ".join(escape(unit_name(folder)) for folder in folders)}</h3>')
+            parts.append(f'<h3 class="resource-group">{escape(" / ".join(folders))}</h3>')
             heading = "h4"
         parts.append('<div class="file-list">')
         for title, versions in resources.values():

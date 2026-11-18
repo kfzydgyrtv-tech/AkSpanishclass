@@ -19,16 +19,27 @@
     <div class="page-intro">
       <a class="back" href="index.html">← Home</a>
       <h1>Teacher Access</h1>
+      <p>Upload classroom materials using your GitHub account. GitHub checks upload permissions before changes can be published.</p>
     </div>
     <section class="book-panel teacher-panel" aria-labelledby="manage-heading">
       <div class="book-panel-copy">
-        <h2 id="manage-heading">Manage class materials</h2>
-        <p>Sign in to GitHub with your teacher account to edit pages or upload files. GitHub checks your editing permissions.</p>
-        <div class="actions">
-          <a class="button primary" href="https://github.com/kfzydgyrtv-tech/AkSpanishclass/tree/main/files">Open resource folders on GitHub</a>
-          <a class="button" href="https://github.com/kfzydgyrtv-tech/AkSpanishclass/edit/main/index.html">Edit the homepage on GitHub</a>
-        </div>
+        <h2 id="manage-heading">Upload class materials</h2>
+        <p>Choose where the file should appear, add it on GitHub, and commit to <code>main</code>. The site lists it automatically after deployment. Upload only files you intend to make public. GitHub’s browser uploader accepts up to 25 MiB per file.</p>
       </div>
+    </section>
+    <section class="contents" aria-labelledby="destination-heading">
+      <h2 id="destination-heading">Choose a destination</h2>
+      <div class="file-list archive-list">
+        <article class="file-card archive-card"><div class="file-copy"><h3>Class Slides</h3><p>PDF, PPTX, PPT, or ODP</p></div><div class="actions file-actions"><a class="button primary" href="https://github.com/kfzydgyrtv-tech/AkSpanishclass/upload/main/files/slides">Upload slides</a></div></article>
+        <article class="file-card archive-card"><div class="file-copy"><h3>Vocabulary Sheets</h3><p>PDF, DOCX, or DOC</p></div><div class="actions file-actions"><a class="button primary" href="https://github.com/kfzydgyrtv-tech/AkSpanishclass/upload/main/files/vocabulary">Upload vocabulary</a></div></article>
+        <article class="file-card archive-card"><div class="file-copy"><h3>Review Materials</h3><p>Worksheets, rubrics, and review packets in PDF, DOCX, or DOC</p></div><div class="actions file-actions"><a class="button primary" href="https://github.com/kfzydgyrtv-tech/AkSpanishclass/upload/main/files/review">Upload review materials</a></div></article>
+        <article class="file-card archive-card"><div class="file-copy"><h3>Aula 1</h3><p>Textbook PDFs and audio tracks</p></div><div class="actions file-actions"><a class="button" href="https://github.com/kfzydgyrtv-tech/AkSpanishclass/upload/main/files/books">Upload a book</a><a class="button" href="https://github.com/kfzydgyrtv-tech/AkSpanishclass/upload/main/files/audio">Upload audio</a></div></article>
+      </div>
+    </section>
+    <section class="contents" aria-labelledby="unit-label-heading">
+      <h2 id="unit-label-heading">Label files by unit</h2>
+      <p>Start the filename with <code>unit-01--</code> to list it under Unit 1. For example, <code>unit-01--Definite articles.pdf</code> appears as “Definite articles.” Files for the whole course can keep their usual names.</p>
+      <p>To pair a slide deck with its PDF preview, give both files the same name before the extension.</p>
     </section>
   </main>
   <footer class="site-footer"><div class="wrap"><a href="index.html">Ak's Spanish Class</a><span>Grade 10 Spanish · A1</span><a href="teacher.html" aria-current="page">Teacher Access</a></div></footer>

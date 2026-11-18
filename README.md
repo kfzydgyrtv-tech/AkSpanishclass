@@ -13,7 +13,7 @@ Use the two workflow files from this package together. GitHub Actions builds and
 
 ## Add class materials
 
-Open a folder below, choose **Add file → Upload files**, and commit the upload to `main`. The Pages workflow will update the corresponding page.
+Open **Teacher Access** on the website and choose an upload destination. In GitHub, sign in with an account that can write to the repository, select your file, and commit the upload to `main`. The Pages workflow will update the corresponding page.
 
 | Repository folder | Website destination and file types |
 | --- | --- |
@@ -23,7 +23,7 @@ Open a folder below, choose **Add file → Upload files**, and commit the upload
 | `files/vocabulary/` | **Vocabulary Sheets** · PDF, DOCX, and DOC |
 | `files/review/` | **Review Materials** · PDF, DOCX, and DOC |
 
-You can group files in a subfolder like `unit-01`. Number tracks in their filenames to set their order. Give a PowerPoint and its PDF preview the same basename in the same folder to put both formats on one card. Use the same path and filename to replace an existing resource.
+Keep files directly in the appropriate category folder. To group a file under Unit 1, name it `unit-01--Definite articles.pdf`. The page shows **Definite articles** under **Unit 1**. Leave off the prefix for general resources. Existing unit subfolders still work. Number tracks in their filenames to set their order. Give a PowerPoint and its PDF preview the same basename in the same folder to put both formats on one card. Use the same path and filename to replace an existing resource.
 
 The Grade 10 Unit 1 quiz and Grade 12 presentation rubric are linked under **Review Materials → Assessment archive**. The corrected subject-pronoun reference is on **Vocabulary Sheets**.
 
@@ -33,4 +33,4 @@ The site and its repository are public. Use the book and audio folders for mater
 
 The **Contact Me** page opens a prepared email draft addressed to the teacher. Students send it from their email app. Messages go to the teacher’s mailbox and are not stored on the website or in GitHub.
 
-The **Teacher Access** page links to GitHub’s resource folders and homepage editor. Published changes require a GitHub account with write access to this repository. Keep repository write access limited to teachers and site maintainers.
+The **Teacher Access** page links directly to GitHub’s upload screens. GitHub authenticates the uploader and enforces repository write permissions.
