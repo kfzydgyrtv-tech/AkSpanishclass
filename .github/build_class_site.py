@@ -165,7 +165,7 @@ def render_resources(site):
 def copy_site(source, destination):
     destination.mkdir(parents=True)
     for name in ("index.html", "aula-1.html", "class-slides.html", "vocabulary.html", "review.html",
-                 "practice.html", "style.css", "pdf-reader.js"):
+                 "practice.html", "style.css", "pdf-reader.js", "theme.js"):
         copy2(source / name, destination / name)
     copytree(source / "files", destination / "files",
              ignore=lambda _, names: [name for name in names if name.startswith(".")])
