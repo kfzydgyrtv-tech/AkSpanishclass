@@ -10,6 +10,7 @@ AUDIO = {".mp3", ".m4a", ".wav", ".ogg", ".oga", ".aac", ".opus"}
 DOCUMENTS = {".pdf", ".docx", ".doc"}
 SLIDES = {".pdf", ".pptx", ".ppt", ".odp"}
 UNIT_PREFIX = re.compile(r"unit-([0-9]+)--(.+)", re.IGNORECASE)
+AULA_UNITS = tuple((f"Unit {number}",) for number in range(10))
 
 
 def natural_order(value):
@@ -70,6 +71,20 @@ def actions(title, versions, site):
     return '<div class="actions file-actions">' + "".join(links) + "</div>"
 
 
+def resource_cards(site, resources, heading, audio=False):
+    parts = ['<div class="file-list">']
+    for title, versions in resources:
+        safe_title = escape(title)
+        parts.append(f'<article class="file-card uploaded-resource"><div class="file-copy">'
+                     f'<{heading} class="uploaded-title">{safe_title}</{heading}>')
+        if audio:
+            url = file_url(versions[0], site)
+            parts.append(f'<audio controls preload="none" src="{url}" aria-label="{safe_title}"></audio>')
+        parts.append('</div>' + actions(title, versions, site) + '</article>')
+    parts.append('</div>')
+    return "\n".join(parts)
+
+
 def room(site, category, extensions, title, anchor):
     groups = resource_groups(site, category, extensions)
     if not groups:
@@ -82,37 +97,40 @@ def room(site, category, extensions, title, anchor):
         if folders:
             parts.append(f'<h3 class="resource-group">{escape(" / ".join(folders))}</h3>')
             heading = "h4"
-        parts.append('<div class="file-list">')
-        for title, versions in resources.values():
-            safe_title = escape(title)
-            parts.append(f'<article class="file-card uploaded-resource"><div class="file-copy">'
-                         f'<{heading} class="uploaded-title">{safe_title}</{heading}>')
-            if category == "audio":
-                item = versions[0]
-                url = file_url(item, site)
-                parts.append(f'<audio controls preload="none" src="{url}" aria-label="{safe_title}"></audio>')
-            parts.append('</div>' + actions(title, versions, site) + '</article>')
-        parts.append("</div>")
+        parts.append(resource_cards(site, resources.values(), heading))
     parts.append("</section>")
+    return "\n".join(parts)
+
+
+def audio_room(site):
+    groups = resource_groups(site, "audio", AUDIO)
+    parts = ['<section class="contents resource-uploads" id="audio" aria-labelledby="audio-heading">',
+             '<h2 id="audio-heading">Textbook audio by unit</h2>',
+             '<p>Choose a unit to see its tracks.</p>']
+    for folders in sorted(set(AULA_UNITS) | groups.keys(),
+                          key=lambda parts: (not parts, natural_order(" / ".join(parts)))):
+        title = escape(" / ".join(folders) or "General audio")
+        tracks = sorted(groups.get(folders, {}).values(), key=lambda track: natural_order(track[0]))
+        parts.append(f'<details class="audio-unit"><summary>{title}</summary>')
+        parts.append(resource_cards(site, tracks, "h3", audio=True) if tracks else
+                     '<p class="audio-empty">No tracks available yet.</p>')
+        parts.append('</details>')
+    parts.append('</section>')
     return "\n".join(parts)
 
 
 def render_resources(site):
     book = room(site, "books", {".pdf"}, "Class textbook PDFs", "textbook-pdfs")
-    audio = room(site, "audio", AUDIO, "Textbook audio", "audio")
     shortcuts = []
     if book:
         shortcuts.append('<a class="button" href="#textbook-pdfs">Textbook PDFs</a>')
-    if audio:
-        shortcuts.append('<a class="button" href="#audio">Textbook audio</a>')
-    if shortcuts:
-        marker = '    <section class="contents" aria-labelledby="unit-heading">'
-        edit(site / "aula-1.html", marker, '<div class="actions upload-shortcuts">' +
-             "".join(shortcuts) + "</div>\n" + book + "\n" + audio + "\n" + marker)
-    if audio:
-        edit(site / "index.html", '    <section class="practice-banner">',
-             '    <div class="actions upload-shortcuts"><a class="button" href="aula-1.html#audio">'
-             'Listen to textbook audio →</a></div>\n    <section class="practice-banner">')
+    shortcuts.append('<a class="button" href="#audio">Textbook audio</a>')
+    marker = '    <section class="contents" aria-labelledby="unit-heading">'
+    edit(site / "aula-1.html", marker, '<div class="actions upload-shortcuts">' +
+         "".join(shortcuts) + "</div>\n" + book + "\n" + audio_room(site) + "\n" + marker)
+    edit(site / "index.html", '    <section class="practice-banner">',
+         '    <div class="actions upload-shortcuts"><a class="button" href="aula-1.html#audio">'
+         'Textbook audio by unit →</a></div>\n    <section class="practice-banner">')
 
     for page, folder, extensions, title, anchor in (
         ("class-slides.html", "slides", SLIDES, "Additional class slides", "class-uploads"),
@@ -133,6 +151,9 @@ def render_resources(site):
 .uploaded-resource .file-copy { min-width: 0; }
 .uploaded-title { font-size: 1rem; margin: 0; overflow-wrap: anywhere; }
 .uploaded-resource audio { display: block; width: min(100%, 380px); margin-top: 9px; }
+.audio-unit { border-top: 1px solid var(--line, #dedbd5); }
+.audio-unit summary { cursor: pointer; padding: 12px 4px; font-weight: 700; }
+.audio-unit > .file-list, .audio-unit > .audio-empty { margin: 0 0 12px; }
 .resource-sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 @media (max-width: 735px) {
   .uploaded-resource { grid-template-columns: minmax(0, 1fr); }

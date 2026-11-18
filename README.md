@@ -18,12 +18,14 @@ Open **Teacher Access** on the website and choose an upload destination. In GitH
 | Repository folder | Website destination and file types |
 | --- | --- |
 | `files/books/` | **Aula 1** · PDF books |
-| `files/audio/` | **Aula 1** · MP3, M4A, WAV, OGG, AAC, and Opus tracks with players |
+| `files/audio/` | **Aula 1 → Textbook audio by unit** · MP3, M4A, WAV, OGG, AAC, and Opus tracks with players |
 | `files/slides/` | **Class Slides** · PDF, PPTX, PPT, and ODP |
 | `files/vocabulary/` | **Vocabulary Sheets** · PDF, DOCX, and DOC |
 | `files/review/` | **Review Materials** · PDF, DOCX, and DOC |
 
 Keep files directly in the appropriate category folder. To group a file under Unit 1, name it `unit-01--Definite articles.pdf`. The page shows **Definite articles** under **Unit 1**. Leave off the prefix for general resources. Existing unit subfolders still work. Number tracks in their filenames to set their order. Give a PowerPoint and its PDF preview the same basename in the same folder to put both formats on one card. Use the same path and filename to replace an existing resource.
+
+For audio, name files like `unit-03--Track 02.mp3`. The **Textbook audio by unit** section shows **Track 02** under **Unit 3**. Units 0 to 9 are available from the start, and audio with no unit prefix appears under **General audio**.
 
 The Grade 10 Unit 1 quiz and Grade 12 presentation rubric are linked under **Review Materials → Assessment archive**. The corrected subject-pronoun reference is on **Vocabulary Sheets**.
 
