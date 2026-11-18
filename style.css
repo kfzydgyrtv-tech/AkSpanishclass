@@ -70,7 +70,8 @@ p { line-height: 1.55; }
 .header-inner { min-height: 76px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
 .brand { display: inline-flex; align-items: center; gap: 10px; width: max-content; font-weight: 740; white-space: nowrap; }
 .brand span { display: grid; place-items: center; width: 35px; height: 35px; background: var(--dark); color: #fff5e6; border-radius: 11px; }
-.theme-toggle { flex: 0 0 auto; min-height: 40px; padding: 6px 11px; border: 1px solid var(--control-line); border-radius: 9px; color: var(--ink); background: var(--surface); font: 650 .83rem var(--body); cursor: pointer; white-space: nowrap; }
+.theme-toggle { flex: 0 0 auto; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid var(--control-line); border-radius: 9px; color: var(--ink); background: var(--surface); cursor: pointer; }
+.theme-toggle svg { width: 20px; height: 20px; }
 .theme-toggle:hover, .theme-toggle[aria-pressed="true"] { background: var(--button-hover); }
 .header-inner nav { display: flex; justify-content: flex-end; align-items: center; gap: 6px; flex-wrap: wrap; }
 .header-inner nav a { padding: 9px 10px; border-radius: 8px; color: var(--nav-ink); font-size: .83rem; font-weight: 600; }
