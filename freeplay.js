@@ -56,20 +56,24 @@
     [3,"type","Complete: Cuando tengo tiempo libre, ___ libros. (leer, yo)","leo",null,"Leo is the present first-person of leer."]
   ].map(([level,type,prompt,answer,options,explanation])=>({level,type,prompt,answer,options,explanation}));
 
-  const TOTAL=12,MAX_MISSES=3;
-  const norm=s=>String(s).normalize("NFD").replace(/[\u0300-\u036f]/g,"")
-    .toLowerCase().replace(/[¿?¡!.,]/g,"").replace(/\s+/g," ").trim();
+
+  const questions=items.concat(ArcadeQuestionBank.all);
+  const MAX_MISSES=3, BASE_TIME_MS=30000, STEP=1.003;
+  const norm=s=>String(s).normalize("NFC").toLocaleLowerCase("es")
+    .replace(/[¿?¡!.,]/g,"").replace(/\s+/g," ").trim();
   const mix=a=>{const out=[...a];for(let i=out.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[out[i],out[j]]=[out[j],out[i]]}return out};
   const fmt=n=>String(n).padStart(6,"0");
   const el=(tag,text,cls)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(cls)node.className=cls;return node};
-  const byLevel={};
-  let deck={},index=0,misses=0,points=0,streak=0,answered=false,active=null,initials=["A","A","A"],selected=0;
-  let initialKeyHandler=null;
+  let deck={1:[],2:[],3:[],4:[]},index=0,misses=0,points=0,streak=0,answered=false,active=null,initials=["A","A","A"],selected=0;
+  let initialKeyHandler=null,clock=null,deadline=0,questionTime=BASE_TIME_MS;
+  const stage=()=>Math.min(4,1+Math.floor(index/10));
+  const stepIndex=()=>Math.floor(index/10);
+  const multiplier=()=>Math.pow(STEP,stepIndex());
+  const allowedMs=()=>BASE_TIME_MS/multiplier();
 
   function panel(id){
     ["freeplay-locked","freeplay-intro-panel","freeplay-board","freeplay-finish"].forEach(key=>$(key).hidden=(key!==id));
   }
-
   function setup(){
     const p=ArcadeProgress.status();
     if(!p.unlocked){
@@ -77,30 +81,67 @@
         p.correct+" / "+p.target+" answers, "+p.modes+" / "+p.requiredModes+" game types.";
       $("freeplay-meter-fill").style.width=Math.min(100,p.correct/30*100)+"%";
       panel("freeplay-locked");
-    } else panel("freeplay-intro-panel");
+    }else panel("freeplay-intro-panel");
   }
-
+  function stopClock(){if(clock!==null){clearInterval(clock);clock=null}}
+  function updateTimer(){
+    if(answered)return;
+    const remaining=Math.max(0,deadline-Date.now());
+    $("freeplay-timer").textContent=(remaining/1000).toFixed(1)+"s";
+    $("freeplay-timer").style.color=remaining<6000?"#ffa2bd":"#97f5f1";
+    $("freeplay-time-fill").style.width=100*remaining/questionTime+"%";
+    if(remaining<=0){stopClock();settle(false,true)}
+  }
+  function startClock(){
+    stopClock();questionTime=allowedMs();deadline=Date.now()+questionTime;
+    updateTimer();
+    clock=setInterval(updateTimer,100);
+  }
   function updateHud(){
-    $("freeplay-round").textContent="ROUND "+String(Math.min(index+1,TOTAL)).padStart(2,"0")+"/"+TOTAL;
+    $("freeplay-round").textContent="ROUND "+String(index+1).padStart(2,"0")+" / ∞";
     $("freeplay-score").textContent=fmt(points);
     $("freeplay-lives").textContent="♥ ".repeat(MAX_MISSES-misses)+"♡ ".repeat(misses);
-    $("freeplay-run-fill").style.width=100*index/TOTAL+"%";
+    $("freeplay-run-fill").style.width=(index%10)*10+"%";
+    $("freeplay-difficulty").textContent="DIFFICULTY ×"+multiplier().toFixed(4)+" · +0.3% EVERY 10 ROUNDS";
+    $("freeplay-progress-caption").textContent="Next difficulty increase in "+(10-index%10)+" round(s)";
   }
-
   function begin(){
     if(!ArcadeProgress.status().unlocked){setup();return;}
-    deck={1:mix(items.filter(q=>q.level===1)),2:mix(items.filter(q=>q.level===2)),3:mix(items.filter(q=>q.level===3))};
+    deck={1:[],2:[],3:[],4:[]};
     index=0;misses=0;points=0;streak=0;answered=false;active=null;
-    stopInitialKeys();panel("freeplay-board");question();
+    stopClock();stopInitialKeys();panel("freeplay-board");question();
   }
-
+  function drawQuestion(level){
+    if(!deck[level]||!deck[level].length){
+      const pool=questions.filter(q=>q.level===level);
+      if(!pool.length)throw Error("No questions available for stage "+level);
+      deck[level]=mix(pool);
+    }
+    return deck[level].pop();
+  }
+  function addAccentToolbar(input,container){
+    const toolbar=el("div",undefined,"accent-toolbar");
+    toolbar.setAttribute("aria-label","Spanish accent keyboard");
+    for(const char of ["á","é","í","ó","ú","ü","ñ","¿","¡"]){
+      const key=el("button",char);key.type="button";
+      key.setAttribute("aria-label","Insert "+char);
+      key.addEventListener("click",()=>{
+        const start=Number.isInteger(input.selectionStart)?input.selectionStart:input.value.length;
+        const end=Number.isInteger(input.selectionEnd)?input.selectionEnd:start;
+        input.value=input.value.slice(0,start)+char+input.value.slice(end);
+        if(typeof input.setSelectionRange==="function")input.setSelectionRange(start+1,start+1);
+        input.focus();
+      });toolbar.append(key);
+    }
+    container.append(toolbar);
+  }
   function question(){
-    if(index>=TOTAL||misses>=MAX_MISSES){finish();return;}
-    const level=index<4?1:index<8?2:3;
-    active=deck[level].shift();
+    if(misses>=MAX_MISSES){finish();return;}
+    active=drawQuestion(stage());
     answered=false;
     updateHud();
-    $("freeplay-level").textContent=level===1?"LEVEL A1":level===2?"LEVEL A1+":"LEVEL A2";
+    const stages=["","A1","A1+","A2","B1 / EXPERT"];
+    $("freeplay-level").textContent="LEVEL "+stages[stage()]+" · ROUND "+(index+1);
     $("freeplay-prompt").textContent=active.prompt;
     $("freeplay-feedback").textContent="";
     $("freeplay-next").hidden=true;
@@ -108,58 +149,56 @@
     if(active.type==="choice"){
       const options=el("div",undefined,"freeplay-options");
       mix(active.options).forEach((choice,i)=>{
-        const b=el("button",String.fromCharCode(65+i)+". "+choice);
-        b.type="button";
+        const b=el("button",String.fromCharCode(65+i)+". "+choice);b.type="button";
         b.addEventListener("click",()=>{
           if(answered)return;
-          const ok=choice===active.answer;
-          settle(ok);
+          const ok=choice===active.answer;settle(ok,false);
           for(const child of options.children){
             child.disabled=true;
             if(child.textContent.slice(3)===active.answer)child.classList.add("correct-answer");
             else if(child===b&&!ok)child.classList.add("wrong-answer");
           }
-        });
-        options.append(b);
-      });
-      a.append(options);
-    } else {
+        });options.append(b);
+      });a.append(options);
+    }else{
       const form=el("form",undefined,"freeplay-type-form");
       const input=el("input");input.type="text";input.autocomplete="off";input.spellcheck=false;
-      input.maxLength=90;input.setAttribute("aria-label","Type the Spanish answer");
+      input.maxLength=100;input.setAttribute("aria-label","Type the Spanish answer with all accents");
       const submit=el("button","CONFIRM");submit.type="submit";
       form.append(input,submit);
       form.addEventListener("submit",e=>{
         e.preventDefault();
         if(answered||!input.value.trim())return;
-        settle(norm(input.value)===norm(active.answer));
+        settle(norm(input.value)===norm(active.answer),false);
         input.disabled=true;submit.disabled=true;
-      });
-      a.append(form);
-      input.focus();
+        a.querySelectorAll?.(".accent-toolbar button").forEach(b=>b.disabled=true);
+      });a.append(form);addAccentToolbar(input,a);input.focus();
     }
+    startClock();
   }
-
-  function settle(ok){
-    answered=true;
-    if(ok){streak++;points+=100+25*Math.min(5,streak); }
-    else {misses++;streak=0;}
+  function settle(ok,timedOut){
+    if(answered)return;
+    answered=true;stopClock();
+    const earned=ok?Math.round((100+25*Math.min(5,streak+1))*multiplier()):0;
+    if(ok){streak++;points+=earned}
+    else{misses++;streak=0}
     updateHud();
+    if(timedOut){const input=$("freeplay-answer-area").querySelector?.("input");
+      if(input)input.disabled=true;
+      $("freeplay-answer-area").querySelectorAll?.("button").forEach(b=>b.disabled=true)}
     $("freeplay-feedback").textContent=ok?
-      "CORRECT! +"+(100+25*Math.min(5,streak))+" POINTS · "+active.explanation:
-      "MISS! Correct: "+active.answer+" · "+active.explanation;
+      "CORRECT! +"+earned+" POINTS · "+active.explanation:
+      (timedOut?"TIME'S UP! ":"MISS! ")+"Correct: "+active.answer+" · "+active.explanation;
     $("freeplay-feedback").style.color=ok?"#91ffd7":"#ffa5b4";
     $("freeplay-next").hidden=false;
-    $("freeplay-next").textContent=misses>=MAX_MISSES||index+1>=TOTAL?"SEE FINAL SCORE →":"NEXT ROUND →";
+    $("freeplay-next").textContent=misses>=MAX_MISSES?"SEE FINAL SCORE →":"NEXT ROUND →";
   }
-
   function next(){
     if(!answered)return;
     index++;
-    if(misses>=MAX_MISSES||index>=TOTAL)finish();
+    if(misses>=MAX_MISSES)finish();
     else question();
   }
-
   function stopInitialKeys(){
     if(initialKeyHandler)document.removeEventListener("keydown",initialKeyHandler);
     initialKeyHandler=null;
@@ -181,53 +220,58 @@
       letter.addEventListener("click",()=>{selected=i;redraw()});
       col.append(up,letter,down);host.append(col);slots.push({col,letter});
     }
-    function redraw(){slots.forEach((slot,i)=>{
-      slot.letter.textContent=initials[i];
-      slot.col.classList.toggle("active",i===selected);
-    })}
+    function redraw(){slots.forEach((slot,i)=>{slot.letter.textContent=initials[i];slot.col.classList.toggle("active",i===selected)})}
     function turn(i,d){
-      selected=i;
-      initials[i]=String.fromCharCode(65+(initials[i].charCodeAt(0)-65+d+26)%26);
-      redraw();
+      selected=i;initials[i]=String.fromCharCode(65+(initials[i].charCodeAt(0)-65+d+26)%26);redraw();
     }
     initialKeyHandler=e=>{
       if($("freeplay-initials-entry").hidden)return;
-      if(/^[a-z]$/i.test(e.key)){initials[selected]=e.key.toUpperCase();selected=Math.min(2,selected+1);redraw();e.preventDefault();}
-      else if(e.key==="ArrowLeft"){selected=Math.max(0,selected-1);redraw();e.preventDefault();}
-      else if(e.key==="ArrowRight"){selected=Math.min(2,selected+1);redraw();e.preventDefault();}
-      else if(e.key==="ArrowUp"){turn(selected,1);e.preventDefault();}
-      else if(e.key==="ArrowDown"){turn(selected,-1);e.preventDefault();}
-      else if(e.key==="Enter"){e.preventDefault();saveScore();}
+      if(/^[a-z]$/i.test(e.key)){initials[selected]=e.key.toUpperCase();selected=Math.min(2,selected+1);redraw();e.preventDefault()}
+      else if(e.key==="ArrowLeft"){selected=Math.max(0,selected-1);redraw();e.preventDefault()}
+      else if(e.key==="ArrowRight"){selected=Math.min(2,selected+1);redraw();e.preventDefault()}
+      else if(e.key==="ArrowUp"){turn(selected,1);e.preventDefault()}
+      else if(e.key==="ArrowDown"){turn(selected,-1);e.preventDefault()}
+      else if(e.key==="Enter"){e.preventDefault();saveScore()}
     };
-    document.addEventListener("keydown",initialKeyHandler);
-    redraw();
+    document.addEventListener("keydown",initialKeyHandler);redraw();
   }
-
   function saveScore(){
     if($("freeplay-initials-entry").hidden)return;
     const ok=ArcadeProgress.addScore(initials.join(""),points);
-    stopInitialKeys();
-    $("freeplay-initials-entry").hidden=true;
+    stopInitialKeys();$("freeplay-initials-entry").hidden=true;
     $("freeplay-saved-message").textContent=ok?
-      "SCORE SAVED! "+initials.join("")+" — "+fmt(points):
-      "This score no longer qualifies for the top ten.";
+      "SCORE SAVED ON THIS DEVICE! "+initials.join("")+" — "+fmt(points):
+      "This score no longer qualifies for the device top ten.";
+    const slip=$("freeplay-score-slip");if(slip){
+      slip.value="AK'S SPANISH ARCADE | "+initials.join("")+" | SCORE "+points+
+        " | SURVIVED "+index+" ROUNDS | STRICT ACCENTS | "+new Date().toISOString().slice(0,10);
+      slip.hidden=false;
+    }
     window.dispatchEvent(new Event("ak-arcade-progress"));
   }
-
   function finish(){
-    stopInitialKeys();
-    panel("freeplay-finish");
-    $("freeplay-result").textContent=misses>=MAX_MISSES?"GAME OVER":"LEVEL CLEARED";
+    stopClock();stopInitialKeys();panel("freeplay-finish");
+    $("freeplay-result").textContent="GAME OVER · ROUND "+(index+1);
     $("freeplay-final-score").textContent=fmt(points);
     $("freeplay-saved-message").textContent="";
     $("freeplay-initials-entry").hidden=true;
+    $("freeplay-score-slip").hidden=true;
     if(ArcadeProgress.qualifies(points))showInitials();
-    else $("freeplay-saved-message").textContent="No high-score entry this time. Try another run!";
+    else $("freeplay-saved-message").textContent="You survived "+index+
+      " rounds. No top-ten device record this time. Try another run!";
   }
-
   $("freeplay-start").addEventListener("click",begin);
   $("freeplay-next").addEventListener("click",next);
   $("freeplay-again").addEventListener("click",begin);
   $("freeplay-save-score").addEventListener("click",saveScore);
+  $("freeplay-copy-score").addEventListener("click",()=>{
+    const slip=$("freeplay-score-slip");
+    if(!slip||slip.hidden)return;
+    slip.select();
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(slip.value).then(()=>{$("freeplay-copy-message").textContent="Score slip copied."})
+        .catch(()=>{$("freeplay-copy-message").textContent="Select and copy the score slip manually."});
+    }else $("freeplay-copy-message").textContent="Select and copy the score slip manually.";
+  });
   setup();
 })();
