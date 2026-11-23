@@ -33,10 +33,120 @@ function fill(){mount("Fill in the blanks","Type the word missing from the sente
 function error(){mount("Error detective","Rewrite the sentence with its grammar mistake corrected.");const list=shuffled(data().errors);let n=0;const ask=()=>{area.replaceChildren();const x=list[n++%list.length];singleInput("Correct: "+x[0],x[1],ask)};ask()}
 function verbs(){mount("Conjugation challenge","Conjugate the verb in the present tense.");const list=shuffled(hard()?VERBS:VERBS.filter(v=>["yo","tú","él / ella"].includes(v[1])));let n=0;const ask=()=>{area.replaceChildren();const x=list[n++%list.length];singleInput(x[1]+" + "+x[0],x[2],ask)};ask()}
 function wordsearch(){mount("Sopa de letras","Find each Spanish word. Click the first letter and then the last letter in a straight line.");const words=shuffled(data().words.map(x=>normalize(x[0]).replace(/[^a-zñ]/g,""))).filter(x=>x.length>=3&&x.length<=11).slice(0,hard()?7:5);const size=hard()?13:11,grid=Array.from({length:size},()=>Array(size).fill("")),placements=[];const dirs=[[0,1],[1,0],[1,1],[1,-1]];for(const w of words){let placed=false;for(let a=0;a<200&&!placed;a++){const d=dirs[Math.floor(Math.random()*dirs.length)],r=Math.floor(Math.random()*size),c=Math.floor(Math.random()*size),endR=r+d[0]*(w.length-1),endC=c+d[1]*(w.length-1);if(endR<0||endR>=size||endC<0||endC>=size)continue;if([...w].every((ch,i)=>!grid[r+d[0]*i][c+d[1]*i]||grid[r+d[0]*i][c+d[1]*i]===ch)){[...w].forEach((ch,i)=>grid[r+d[0]*i][c+d[1]*i]=ch);placements.push({w,r,c,endR,endC});placed=true}}}const alphabet="abcdefghijklmnñopqrstuvwxyz";grid.forEach(row=>row.forEach((v,i)=>{if(!v)row[i]=alphabet[Math.floor(Math.random()*alphabet.length)]}));const ui=E("div",undefined,"game-word-grid");ui.style.gridTemplateColumns="repeat("+size+", 1fr)";area.append(E("p","Find: "+placements.map(p=>p.w).join(" · "),"game-prompt"),ui);let start=null;const found=new Set();grid.forEach((row,r)=>row.forEach((ch,c)=>{const b=button(ch.toUpperCase(),()=>{if(start===null){start={r,c};feedback("Now select the last letter.")}else{const p=placements.find(p=>!found.has(p.w)&&((p.r===start.r&&p.c===start.c&&p.endR===r&&p.endC===c)||(p.endR===start.r&&p.endC===start.c&&p.r===r&&p.c===c)));attempts++;if(p){correct++;found.add(p.w);const steps=p.w.length,dr=Math.sign(p.endR-p.r),dc=Math.sign(p.endC-p.c);for(let i=0;i<steps;i++)ui.children[(p.r+dr*i)*size+p.c+dc*i].classList.add("selected");feedback("Found: "+p.w,true)}else feedback("That is not one of the hidden words.",false);score();start=null;if(found.size===placements.length)feedback("All words found!",true)}});b.setAttribute("aria-label","Row "+(r+1)+", column "+(c+1)+": "+ch);ui.append(b)}))}
-function crossword(){mount("Crossword","Complete the crossing Spanish words using English clues. Accents are optional.");const words=shuffled(data().words.map(p=>({word:normalize(p[0]).replace(/[^a-zñ]/g,"").toUpperCase(),clue:p[1]}))).filter(x=>x.word.length>2&&x.word.length<=12).slice(0,hard()?8:6);const n=19,grid=Array.from({length:n},()=>Array(n).fill(null)),placed=[];const fits=(w,r,c,dr,dc)=>{if(r<1||c<1||r+dr*(w.length-1)>=n-1||c+dc*(w.length-1)>=n-1)return false;let crosses=0;for(let i=0;i<w.length;i++){const rr=r+dr*i,cc=c+dc*i,v=grid[rr][cc];if(v&&v!==w[i])return false;if(v)crosses++;else if((dr&& (grid[rr][cc-1]||grid[rr][cc+1]))||(dc&&(grid[rr-1][cc]||grid[rr+1][cc])))return false}if(grid[r-dr]?.[c-dc]||grid[r+dr*w.length]?.[c+dc*w.length])return false;return placed.length===0||crosses>0};
-for(const item of words){let candidate=null;if(!placed.length){candidate={r:9,c:Math.floor((n-item.word.length)/2),dr:0,dc:1}}else{outer:for(let i=0;i<item.word.length;i++)for(let r=1;r<n-1;r++)for(let c=1;c<n-1;c++)if(grid[r][c]===item.word[i])for(const [dr,dc] of [[1,0],[0,1]]){const rr=r-dr*i,cc=c-dc*i;if(fits(item.word,rr,cc,dr,dc)){candidate={r:rr,c:cc,dr,dc};break outer}}}if(candidate&&fits(item.word,candidate.r,candidate.c,candidate.dr,candidate.dc)){[...item.word].forEach((ch,i)=>grid[candidate.r+candidate.dr*i][candidate.c+candidate.dc*i]=ch);placed.push({...item,...candidate})}}
-if(!placed.length){area.append(E("p","No crossword generated. Try a new round."));return}
-let minR=n,maxR=0,minC=n,maxC=0;placed.forEach(p=>{minR=Math.min(minR,p.r);minC=Math.min(minC,p.c);maxR=Math.max(maxR,p.r+p.dr*(p.word.length-1));maxC=Math.max(maxC,p.c+p.dc*(p.word.length-1))});const ui=E("div",undefined,"crossword"),cells=new Map();ui.style.gridTemplateColumns="repeat("+(maxC-minC+1)+", 31px)";for(let r=minR;r<=maxR;r++)for(let c=minC;c<=maxC;c++){if(!grid[r][c])ui.append(E("span",undefined,"black"));else{const inp=E("input");inp.maxLength=1;inp.setAttribute("aria-label","Crossword row "+(r-minR+1)+" column "+(c-minC+1));cells.set(r+","+c,inp);ui.append(inp)}}area.append(ui);const clues=E("ol",undefined,"game-clues");placed.forEach(p=>clues.append(E("li",p.clue+" ("+p.word.length+" letters; "+(p.dr?"down":"across")+")")));area.append(clues);area.append(button("Check crossword",()=>{attempts++;const ok=placed.every(p=>[...p.word].every((ch,i)=>normalize(cells.get((p.r+p.dr*i)+","+(p.c+p.dc*i)).value).toUpperCase()===ch));if(ok)correct++;score();feedback(ok?"Crossword complete!":"Some letters need correcting.",ok)},"primary"))}
+function crossword() {
+  mount("Crossword", "Use the small numbers in the top-left of each starting square to match the English clues. Accents are optional.");
+  const words = shuffled(data().words.map(p => ({
+    word: normalize(p[0]).replace(/[^a-zñ]/g, "").toUpperCase(),
+    clue: p[1]
+  }))).filter(x => x.word.length > 2 && x.word.length <= 12).slice(0, hard() ? 8 : 6);
+
+  const n = 19;
+  const grid = Array.from({length: n}, () => Array(n).fill(null));
+  const placed = [];
+  const fits = (w, r, c, dr, dc) => {
+    if (r < 1 || c < 1 || r + dr * (w.length - 1) >= n - 1 ||
+        c + dc * (w.length - 1) >= n - 1) return false;
+    let crosses = 0;
+    for (let i = 0; i < w.length; i++) {
+      const rr = r + dr * i, cc = c + dc * i, existing = grid[rr][cc];
+      if (existing && existing !== w[i]) return false;
+      if (existing) crosses++;
+      else if ((dr && (grid[rr][cc - 1] || grid[rr][cc + 1])) ||
+               (dc && (grid[rr - 1][cc] || grid[rr + 1][cc]))) return false;
+    }
+    if (grid[r - dr]?.[c - dc] || grid[r + dr * w.length]?.[c + dc * w.length]) return false;
+    return placed.length === 0 || crosses > 0;
+  };
+
+  for (const item of words) {
+    let candidate = null;
+    if (!placed.length) {
+      candidate = {r: 9, c: Math.floor((n - item.word.length) / 2), dr: 0, dc: 1};
+    } else {
+      outer: for (let i = 0; i < item.word.length; i++)
+        for (let r = 1; r < n - 1; r++)
+          for (let c = 1; c < n - 1; c++)
+            if (grid[r][c] === item.word[i])
+              for (const [dr, dc] of [[1, 0], [0, 1]]) {
+                const rr = r - dr * i, cc = c - dc * i;
+                if (fits(item.word, rr, cc, dr, dc)) {
+                  candidate = {r: rr, c: cc, dr, dc};
+                  break outer;
+                }
+              }
+    }
+    if (candidate && fits(item.word, candidate.r, candidate.c, candidate.dr, candidate.dc)) {
+      [...item.word].forEach((ch, i) =>
+        grid[candidate.r + candidate.dr * i][candidate.c + candidate.dc * i] = ch);
+      placed.push({...item, ...candidate});
+    }
+  }
+
+  if (!placed.length) {
+    area.append(E("p", "No crossword generated. Try a new round."));
+    return;
+  }
+
+  // Number each clue by its list position, and mark its word's starting square.
+  // Crosswords can have across and down clues starting in the same cell; show
+  // both numbers there (for example, "2/5") rather than hiding either clue.
+  const starts = new Map();
+  placed.forEach((entry, index) => {
+    const key = entry.r + "," + entry.c;
+    if (!starts.has(key)) starts.set(key, []);
+    starts.get(key).push(index + 1);
+  });
+
+  let minR = n, maxR = 0, minC = n, maxC = 0;
+  placed.forEach(p => {
+    minR = Math.min(minR, p.r);
+    minC = Math.min(minC, p.c);
+    maxR = Math.max(maxR, p.r + p.dr * (p.word.length - 1));
+    maxC = Math.max(maxC, p.c + p.dc * (p.word.length - 1));
+  });
+
+  const ui = E("div", undefined, "crossword"), cells = new Map();
+  ui.style.gridTemplateColumns = "repeat(" + (maxC - minC + 1) + ", var(--cross-cell))";
+
+  for (let r = minR; r <= maxR; r++) {
+    for (let c = minC; c <= maxC; c++) {
+      if (!grid[r][c]) {
+        ui.append(E("span", undefined, "black"));
+        continue;
+      }
+      const square = E("span", undefined, "crossword-cell");
+      const input = E("input");
+      const numbers = starts.get(r + "," + c);
+      input.maxLength = 1;
+      input.autocomplete = "off";
+      input.setAttribute("aria-label", "Crossword row " + (r - minR + 1) +
+        ", column " + (c - minC + 1) +
+        (numbers ? "; clue " + numbers.join(" and ") + " starts here" : ""));
+      square.append(input);
+      if (numbers) {
+        const number = E("span", numbers.join("/"), "crossword-number");
+        number.setAttribute("aria-hidden", "true");
+        square.append(number);
+      }
+      cells.set(r + "," + c, input);
+      ui.append(square);
+    }
+  }
+  area.append(ui);
+  const clues = E("ol", undefined, "game-clues");
+  placed.forEach(p => clues.append(E("li", p.clue + " (" + p.word.length +
+    " letters; " + (p.dr ? "down" : "across") + ")")));
+  area.append(clues);
+  area.append(button("Check crossword", () => {
+    attempts++;
+    const ok = placed.every(p => [...p.word].every((ch, i) =>
+      normalize(cells.get((p.r + p.dr * i) + "," + (p.c + p.dc * i)).value).toUpperCase() === ch));
+    if (ok) correct++;
+    score();
+    feedback(ok ? "Crossword complete!" : "Some letters need correcting.", ok);
+  }, "primary"));
+}
+
 const RUN={memory,scramble,search:wordsearch,crossword,match:matching,sentence,fill,error,verbs};
 function start(){RUN[mode]();const u=new URL(location.href);u.searchParams.set("unit",$("unit").value);u.searchParams.set("game",mode);history.replaceState(null,"",u);document.querySelectorAll("#game-tabs button").forEach(b=>b.setAttribute("aria-current",String(b.dataset.mode===mode)))}
 Object.entries(DATA).forEach(([k,v])=>{const opt=E("option","Unit "+k+" · "+v.name);opt.value=k;$("unit").append(opt)});

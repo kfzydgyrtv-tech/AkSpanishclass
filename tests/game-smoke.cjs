@@ -72,7 +72,17 @@ function simulate(unit, game, difficulty) {
     assert.ok(ids["game-score"].textContent, "Word search selection failed");
   } else if (game === "crossword") {
     const grid = area.children.find(x => x.className === "crossword");
-    assert.ok(grid && grid.children.some(x => x.tagName === "INPUT"), "Missing crossword cells");
+    const clues = area.children.find(x => x.tagName === "OL");
+    assert.ok(grid && clues, "Missing crossword grid or clues");
+    const squares = grid.children.filter(x => x.className === "crossword-cell");
+    assert.ok(squares.length && squares.every(x => x.children[0].tagName === "INPUT"), "Missing editable crossword squares");
+    const numbers = squares.flatMap(square => square.children
+      .filter(child => child.className === "crossword-number")
+      .flatMap(number => number.textContent.split("/").map(Number)))
+      .sort((a, b) => a - b);
+    const expected = Array.from({length: clues.children.length}, (_, i) => i + 1);
+    assert.deepEqual(numbers, expected, "Every crossword clue must be numbered once in its starting square");
+    assert.ok(grid.style.gridTemplateColumns.includes("var(--cross-cell)"), "Crossword must respect mobile cell sizing");
     area.children.find(x => x.tagName === "BUTTON").click();
     assert.ok(ids["game-score"].textContent, "Crossword check failed");
   }
