@@ -1,5 +1,5 @@
-1,AKA 99999999{
+{
   "schema": 1,
   "notes": "Teacher-approved class high scores, displayed on all devices. Update scores manually in GitHub; no public write API or automatic student submissions.",
-  "scores": []
+  "scores": [1,999999 AKA]
 }
