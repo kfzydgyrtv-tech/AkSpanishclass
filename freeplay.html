@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Unlock a mixed-unit Spanish challenge and enter your initials on the local arcade high-score board.">
+<meta name="description" content="Survive infinite Spanish A1–B1 rounds with mandatory accents, increasing difficulty, and arcade high scores.">
 <meta name="theme-color" content="#f8f3e9"><title>Free Play | Ak's Arcade</title>
 <script src="theme.js?v=2"></script><link rel="stylesheet" href="style.css?v=3">
 <link rel="stylesheet" href="arcade.css?v=2"><link rel="stylesheet" href="freeplay.css?v=1">
-<script src="arcade-progress.js?v=1" defer></script><script src="arcade-leaderboard.js?v=1" defer></script><script src="freeplay.js?v=1" defer></script>
+<script src="arcade-progress.js?v=1" defer></script><script src="arcade-leaderboard.js?v=2" defer></script><script src="freeplay-bank.js?v=1" defer></script><script src="freeplay.js?v=2" defer></script>
 </head>
 <body><a class="skip" href="#content">Skip to content</a>
 <header class="site-header"><div class="wrap header-inner"><a class="brand" href="index.html">Ak's Spanish Class</a>
@@ -15,7 +15,7 @@
 <div class="freeplay-shell">
  <div class="freeplay-topline"><span>AK'S ARCADE / BONUS ROUND</span><span>★ FREE PLAY ★</span></div>
  <h1 class="freeplay-title">FREE <span>PLAY</span></h1>
- <p class="freeplay-intro">A mixed-unit Spanish challenge. Twelve rounds, three lives, and a chance to claim a place on the local high-score table.</p>
+ <p class="freeplay-intro">An endless Spanish survival challenge. Three lives, strict accents, faster timers, and 0.3% more difficulty every ten rounds.</p>
  <section id="freeplay-locked" class="freeplay-panel" hidden aria-live="polite">
   <h2>MODE LOCKED</h2><p id="freeplay-lock-copy">Complete 30 different answers across three games to unlock Free Play.</p>
   <div class="freeplay-meter"><span id="freeplay-meter-fill"></span></div>
@@ -24,12 +24,14 @@
  <section id="freeplay-intro-panel" class="freeplay-panel" hidden>
   <p class="freeplay-kicker">READY PLAYER ONE</p>
   <h2>ENTER THE CHALLENGE</h2>
-  <p>Rounds 1–4: A1 · Rounds 5–8: A1+ · Rounds 9–12: A2. Correct answers earn 100 points plus a streak bonus. Three wrong answers end the run.</p>
+  <p>There is no final round. Every 10 rounds the time-pressure multiplier grows by exactly 0.3% (compounded). Challenges progress from A1 to A1+, A2 and B1. Accent marks are required in typed answers. Three misses or timeouts end the run.</p>
   <button id="freeplay-start" type="button" class="freeplay-action">START GAME →</button>
  </section>
  <section id="freeplay-board" class="freeplay-panel" hidden aria-live="polite">
-  <div class="freeplay-stats"><span id="freeplay-round">ROUND 01/12</span><span id="freeplay-lives">♥ ♥ ♥</span><span id="freeplay-score">000000</span></div>
-  <div class="freeplay-progress-track"><span id="freeplay-run-fill"></span></div>
+  <div class="freeplay-stats"><span id="freeplay-round">ROUND 01 / ∞</span><span id="freeplay-lives">♥ ♥ ♥</span><span id="freeplay-score">000000</span></div>
+  <div class="freeplay-extras"><span id="freeplay-timer">30.0s</span><span id="freeplay-difficulty">DIFFICULTY ×1.0000</span></div>
+  <div class="freeplay-timer-track" role="presentation"><span id="freeplay-time-fill"></span></div>
+  <div class="freeplay-progress-track"><span id="freeplay-run-fill"></span></div><p id="freeplay-progress-caption" class="freeplay-progress-caption">Next difficulty increase in 10 rounds</p>
   <div class="freeplay-level" id="freeplay-level">LEVEL A1</div>
   <h2 id="freeplay-prompt"></h2>
   <div id="freeplay-answer-area"></div>
@@ -47,13 +49,22 @@
    <button id="freeplay-save-score" type="button" class="freeplay-action">SAVE HIGH SCORE</button>
   </div>
   <p id="freeplay-saved-message" role="status"></p>
+  <div id="score-slip-panel" class="score-slip" hidden>
+   <label for="freeplay-score-slip">Score slip (share with your teacher for consideration on the published class board)</label>
+   <textarea id="freeplay-score-slip" rows="2" readonly></textarea>
+   <button id="freeplay-copy-score" type="button" class="freeplay-action">COPY SCORE SLIP</button><p id="freeplay-copy-message" role="status"></p>
+  </div>
   <button id="freeplay-again" class="freeplay-action" type="button">PLAY AGAIN ↻</button>
  </section>
 </div>
 <section class="arcade-highscore-panel" aria-labelledby="freeplay-leaders">
  <div class="arcade-score-heading"><h2 id="freeplay-leaders">HIGH SCORES</h2><span>TOP TEN / THIS DEVICE</span></div>
  <div id="arcade-highscores"></div>
- <p class="arcade-local-note">Scores and unlock progress are stored only in this browser. No shared online ranking, accounts, or teacher collection.</p>
+ <p class="arcade-local-note">Device records are stored in this browser. Published class scores are maintained separately on the website.</p>
+</section>
+<section class="arcade-highscore-panel" aria-labelledby="class-freeplay-leaders">
+ <div class="arcade-score-heading"><h2 id="class-freeplay-leaders">CLASS RECORDS</h2><span>PUBLISHED ON THIS WEBSITE</span></div>
+ <div id="class-highscores"></div><p class="arcade-local-note">Shared, teacher-published scores. New entries require approval and a site update; this static website cannot automatically accept scores from other devices.</p>
 </section>
 </main>
 <footer class="site-footer"><div class="wrap"><a href="index.html">Ak's Spanish Class</a><span>Spanish arcade · A1–A2</span><a href="teacher.html">Teacher Access</a></div></footer>
