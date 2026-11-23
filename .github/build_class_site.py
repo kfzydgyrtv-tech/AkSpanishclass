@@ -166,7 +166,7 @@ def copy_site(source, destination):
     destination.mkdir(parents=True)
     # Publish every root-level web asset, not an incomplete hardcoded list.
     # This also ensures future games, scripts and stylesheets reach GitHub Pages.
-    allowed = {".html", ".css", ".js", ".svg", ".webmanifest", ".ico"}
+    allowed = {".html", ".css", ".js", ".json", ".svg", ".webmanifest", ".ico"}
     for item in source.iterdir():
         if item.is_file() and item.suffix.lower() in allowed:
             copy2(item, destination / item.name)

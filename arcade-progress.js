@@ -11,7 +11,7 @@ const ArcadeProgress = (() => {
       .filter(x => typeof x === "string" && x.length <= 180).slice(-MAX_KEYS) : [];
     const scores = Array.isArray(value.scores) ? value.scores
       .filter(s => s && /^[A-Z]{3}$/.test(s.initials) &&
-        Number.isSafeInteger(s.score) && s.score > 0 && s.score <= 1000000)
+        Number.isSafeInteger(s.score) && s.score > 0 && s.score <= Number.MAX_SAFE_INTEGER)
       .map(s => ({initials:s.initials, score:s.score})).sort((a,b) => b.score - a.score).slice(0,10) : [];
     return {earned:[...new Set(earned)], scores};
   }

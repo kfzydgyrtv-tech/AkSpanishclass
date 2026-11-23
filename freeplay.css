@@ -57,3 +57,36 @@
 @media(max-width:800px){.arcade-freeplay-feature{grid-template-columns:1fr}}
 @media(max-width:500px){.freeplay-options{grid-template-columns:1fr}.freeplay-panel{padding:16px}.initial-slot button,.initial-slot .initial-letter{width:54px}.initial-slot .initial-letter{height:61px;font-size:2.2rem}}
 @media(prefers-reduced-motion:reduce){.initial-slot.active .initial-letter{animation:none}.freeplay-meter span,.freeplay-progress-track span{transition:none}}
+
+
+/* Endless-mode HUD, accessible accent input, and public record display. */
+.freeplay-extras{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-top:20px;font:900 .85rem "Courier New",monospace;color:#96faf1}
+#freeplay-timer{font-size:1.55rem;font-variant-numeric:tabular-nums}
+#freeplay-difficulty{color:#ffe38c;letter-spacing:.01em}
+.freeplay-timer-track{width:100%;height:11px;margin-top:6px;background:#261950;border-radius:4px;overflow:hidden;border:1px solid #64519b}
+.freeplay-timer-track span{display:block;height:100%;width:100%;background:linear-gradient(90deg,#ff9ac7,#8ffbee);transition:width .1s linear}
+.freeplay-progress-caption{font:800 .75rem "Courier New",monospace;color:#a9a3d7!important;margin:5px 0 0}
+.accent-toolbar{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.accent-toolbar button{font:900 1.15rem "Courier New",monospace;padding:7px 11px;min-height:40px;background:#322469;color:#f9e78c;border:1px solid #8171cf;border-radius:5px;cursor:pointer}
+.accent-toolbar button:hover:not(:disabled),.accent-toolbar button:focus-visible{background:#4c318e;color:white}
+.accent-toolbar button:disabled{opacity:.4;cursor:default}
+.score-slip{margin-top:18px;background:#0e0c2d;border:1px solid #8275ca;padding:16px;border-radius:8px}
+.score-slip label{display:block;color:#a4f9f3;font:800 .82rem "Courier New",monospace}
+.score-slip textarea{display:block;margin-top:8px;width:100%;max-width:100%;resize:vertical;background:#fdfbf2;color:#201745;border-radius:5px;padding:11px;font:700 .9rem "Courier New",monospace}
+.score-slip button{margin-top:13px}
+@media(prefers-reduced-motion:reduce){.freeplay-timer-track span{transition:none}}
+
+/* Endless CEFR ladder: high contrast timer and optional on-screen accent keys. */
+.freeplay-extras{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:10px;font:900 .78rem "Courier New",monospace;letter-spacing:.04em;color:#9df9f3}
+.freeplay-timer-track{height:10px;background:#271b51;border:1px solid #7b5cbc;border-radius:6px;overflow:hidden;margin:9px 0 12px}
+.freeplay-timer-track span{display:block;height:100%;width:100%;background:linear-gradient(90deg,#54eacb,#eef480);transition:width .1s linear}
+.freeplay-progress-caption{font:700 .72rem "Courier New",monospace;color:#b7aed9!important;margin:4px 0 0}
+.accent-toolbar{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.accent-toolbar button{width:36px;min-height:36px;border:1px solid #8d6fbb;background:#392967;color:#faffd8;border-radius:5px;font:800 1rem "Courier New",monospace;cursor:pointer}
+.accent-toolbar button:hover,.accent-toolbar button:focus-visible{background:#504194;border-color:#fff}
+.accent-toolbar button:disabled{opacity:.5;cursor:default}
+.score-slip{margin:17px 0;padding:15px;border:1px solid #55468d;border-radius:8px}
+.score-slip label{display:block;color:#dbd2ff;font:.84rem "Courier New",monospace;margin-bottom:9px}
+.score-slip textarea{display:block;width:100%;background:#100d30;color:#f3ecff;border:1px solid #7e60b1;border-radius:5px;padding:10px;font:700 .77rem "Courier New",monospace;resize:vertical}
+.score-slip .freeplay-action{margin-top:12px}
+@media(prefers-reduced-motion:reduce){.freeplay-timer-track span{transition:none}}
