@@ -40,6 +40,10 @@ jobs:
           node --check arcade-progress.js
           node --check arcade-leaderboard.js
           node tests/arcade-smoke.cjs
+          node --check language-lab-core.js
+          node --check language-lab-content.js
+          node --check language-lab.js
+          node tests/language-lab-smoke.cjs
       - name: List the class files on the website
         run: python3 .github/build_class_site.py
       - name: Check published game links and assets
