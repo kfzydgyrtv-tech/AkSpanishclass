@@ -74,9 +74,11 @@ for(const name of ["dictionary","translate","pronounce","grammar"]){
   assert.ok(html.includes('id="panel-'+name+'"'),"Missing panel "+name);
 }
 for(const asset of ["language-lab.js","language-lab-core.js","language-lab-content.js",
- "language-lab-dictionary.json","language-lab.css","language-lab-license.md"]){
+ "language-lab.css","language-lab-license.md"]){
   assert.ok(html.includes(asset),"Lab HTML must link to "+asset);
 }
+assert.ok(read("language-lab.js").includes('fetch("language-lab-dictionary.json")'),
+  "Dictionary must be loaded by the client script");
 assert.ok(html.includes('id="lab-translation-speech-status"'));
 assert.ok(Content.curated.length>=100 && Content.phrases.length>=30 && Content.phones.length>=10);
 console.log("PASS: 4,502 source entries, reverse lookup, accent search, "+
