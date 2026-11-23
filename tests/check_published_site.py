@@ -10,7 +10,7 @@ PAGES = [
     "review.html", "practice.html", "contact.html", "teacher.html",
     "games.html", "arcade.html", "freeplay.html",
 ]
-ASSETS = ["games.js", "games.css", "arcade.css", "style.css", "theme.js", "freeplay.js", "freeplay.css", "arcade-progress.js", "arcade-leaderboard.js"]
+ASSETS = ["games.js", "games.css", "arcade.css", "style.css", "theme.js", "freeplay.js", "freeplay-bank.js", "freeplay-advanced.js", "freeplay.css", "arcade-progress.js", "arcade-leaderboard.js", "arcade-class-highscores.json"]
 MODES = {"memory", "scramble", "search", "crossword", "match",
          "sentence", "fill", "error", "verbs"}
 
@@ -49,7 +49,7 @@ for filename in PAGES:
             continue
         if not parts.path:
             continue
-        if parts.path in {"games.html", "arcade.html", "games.js", "games.css", "arcade.css", "freeplay.html", "freeplay.js", "freeplay.css", "arcade-progress.js", "arcade-leaderboard.js"}:
+        if parts.path in {"games.html", "arcade.html", "games.js", "games.css", "arcade.css", "freeplay.html", "freeplay.js", "freeplay-bank.js", "freeplay-advanced.js", "freeplay.css", "arcade-progress.js", "arcade-leaderboard.js", "arcade-class-highscores.json"}:
             assert (ROOT / parts.path).is_file(), f"Broken new game asset link: {filename}: {link}"
 
 runner = read_links(ROOT / "games.html")
@@ -61,9 +61,12 @@ assert any(urlparse(x).path == "arcade.css" for x in hub.assets), "Hub missing a
 
 freeplay = read_links(ROOT / "freeplay.html")
 assert any(urlparse(x).path == "freeplay.js" for x in freeplay.assets), "Free Play missing engine"
+assert any(urlparse(x).path == "freeplay-bank.js" for x in freeplay.assets), "Free Play missing grammar bank"
+assert any(urlparse(x).path == "freeplay-advanced.js" for x in freeplay.assets), "Free Play missing C1–C2 bank"
 assert any(urlparse(x).path == "arcade-progress.js" for x in freeplay.assets), "Free Play missing progress store"
 assert any(urlparse(x).path == "arcade-leaderboard.js" for x in freeplay.assets), "Free Play missing scores"
 assert "freeplay.html" in read_links(ROOT / "arcade.html").links, "Arcade must link to Free Play"
+assert (ROOT / "arcade-class-highscores.json").is_file(), "Shared class scores must be deployed"
 assert "freeplay.html" in read_links(ROOT / "games.html").links, "Unit games must link to Free Play"
 
 hub_links = [link for link in hub.links if urlparse(link).path == "games.html"]
