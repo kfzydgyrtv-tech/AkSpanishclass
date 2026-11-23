@@ -51,7 +51,7 @@ for path in paths:
                     raise RuntimeError("Wrong page served for game route")
                 if path == "freeplay.html" and b"freeplay-initials-entry" not in data:
                     raise RuntimeError("Wrong page served for Free Play")
-                if path == "freeplay.js" and b"NEW HIGH SCORE" not in data:
+                if path == "freeplay.js" and b"function showInitials" not in data:
                     raise RuntimeError("Free Play script missing score entry")
             last_error = None
             break
