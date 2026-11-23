@@ -266,3 +266,6 @@ a.print-page:hover { text-decoration: underline; }
 @media (max-width: 735px) {
   .contact-grid { grid-template-columns: 1fr; }
 }
+
+/* Dedicated games discovery link on the existing AULA practice page */
+.arcade-promo{margin:3px 0 18px;align-items:center}.arcade-promo span{font-size:.88rem;color:var(--muted)}
