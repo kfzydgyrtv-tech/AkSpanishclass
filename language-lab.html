@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Ak's Spanish Language Lab: self-hosted Spanish–English dictionary, phrase lookup, pronunciation, and grammar practice.">
+<meta name="theme-color" content="#f8f3e9">
+<title>Language Lab | Ak's Spanish Class</title>
+<script src="theme.js?v=2"></script>
+<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="language-lab.css?v=1">
+<script src="language-lab-content.js?v=1" defer></script>
+<script src="language-lab-core.js?v=1" defer></script>
+<script src="language-lab.js?v=1" defer></script>
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><div class="wrap header-inner">
+<a class="brand" href="index.html"><span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5h16v10H11l-4 3v-3H4z"/><path d="M8.5 10.5h.01m3.5 0h.01m3.5 0h.01"/></svg></span>Ak's Spanish Class</a>
+<nav aria-label="Main navigation"><a href="aula-1.html">Aula 1</a><a href="class-slides.html">Class Slides</a><a href="vocabulary.html">Vocabulary Sheets</a><a href="review.html">Review Materials</a><a href="practice.html">Practice</a><a href="arcade.html">Games</a><a href="language-lab.html" aria-current="page">Language Lab</a><a href="contact.html">Contact Me</a></nav>
+<button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" hidden>Dark mode</button>
+</div></header>
+<main id="content" class="wrap lab-page" tabindex="-1">
+<div class="lab-return"><a class="back" href="index.html">← Home</a><span class="lab-edition">SPANISH · ENGLISH · SELF-HOSTED</span></div>
+<section class="lab-hero" aria-labelledby="lab-title">
+<div class="lab-hero-copy">
+<span class="lab-kicker">AK'S SPANISH CLASS / LANGUAGE LAB 01</span>
+<h1 id="lab-title">Your Spanish<br><em>Language Lab.</em></h1>
+<p>Look up a word. Hear it spoken. Understand how it works. Practice saying it yourself.</p>
+<div class="lab-hero-stats"><span><strong id="lab-dictionary-count">4,502+</strong> dictionary entries</span><span><strong>4</strong> learning tools</span><span><strong>0</strong> external dictionary calls</span></div>
+</div>
+<div class="lab-hero-art" aria-hidden="true"><div class="lab-letter-stack"><span>Ñ</span><span>á</span><span>¿</span></div><div class="lab-audio-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><small>BUSCA · ESCUCHA · APRENDE</small></div>
+</section>
+<nav class="lab-tabs" aria-label="Language Lab tools" role="tablist">
+ <button id="tab-dictionary" type="button" role="tab" aria-controls="panel-dictionary" aria-selected="true" data-lab-tab="dictionary"><span>01</span> Dictionary</button>
+ <button id="tab-translate" type="button" role="tab" aria-controls="panel-translate" aria-selected="false" tabindex="-1" data-lab-tab="translate"><span>02</span> Translator</button>
+ <button id="tab-pronounce" type="button" role="tab" aria-controls="panel-pronounce" aria-selected="false" tabindex="-1" data-lab-tab="pronounce"><span>03</span> Pronunciation</button>
+ <button id="tab-grammar" type="button" role="tab" aria-controls="panel-grammar" aria-selected="false" tabindex="-1" data-lab-tab="grammar"><span>04</span> Grammar</button>
+</nav>
+<section id="panel-dictionary" class="lab-panel" role="tabpanel" aria-labelledby="tab-dictionary">
+ <div class="lab-section-heading"><div><span class="lab-overline">01 / BILINGUAL LOOKUP</span><h2>Diccionario</h2><p>Search Spanish or English words, with meanings, examples, and pronunciation.</p></div><span class="lab-symbol" aria-hidden="true">A↔B</span></div>
+ <form id="lab-search-form" class="lab-search-form">
+  <label for="lab-search-input">Search a word or expression</label>
+  <div class="lab-search-controls">
+   <select id="lab-direction" aria-label="Dictionary direction"><option value="es-en">Spanish → English</option><option value="en-es">English → Spanish</option></select>
+   <input id="lab-search-input" type="search" value="hola" maxlength="80" placeholder="e.g. hablar, casa, árbol..." autocomplete="off" spellcheck="false" required>
+   <button type="submit" class="lab-cta"><span aria-hidden="true">⌕</span> SEARCH</button>
+  </div>
+ </form>
+ <div class="lab-quickwords" aria-label="Quick searches"><span>TRY:</span><button type="button" data-quickword="hablar">hablar</button><button type="button" data-quickword="familia">familia</button><button type="button" data-quickword="miércoles">miércoles</button><button type="button" data-quickword="comer">comer</button><button type="button" data-quickword="árbol">árbol</button></div>
+ <div class="lab-results-toolbar"><p id="lab-result-status" role="status" aria-live="polite">Loading the dictionary…</p><label class="lab-favourites-filter"><input type="checkbox" id="lab-filter-favourites"> Only saved words</label></div>
+ <div id="lab-dictionary-results" class="lab-results" aria-live="polite"></div>
+ <div class="lab-paging"><button id="lab-more" class="lab-outline" type="button" hidden>LOAD MORE WORDS ↓</button></div>
+ <p class="lab-disclaimer">Classroom-reviewed entries are labeled separately. Other translations come from FreeDict and can be context-dependent. A dictionary entry is not a complete sentence translation.</p>
+</section>
+<section id="panel-translate" class="lab-panel" role="tabpanel" aria-labelledby="tab-translate" hidden>
+ <div class="lab-section-heading"><div><span class="lab-overline">02 / LOCAL PHRASE LOOKUP</span><h2>Traductor</h2><p>Translate common classroom expressions and individual words without leaving the website.</p></div><span class="lab-symbol" aria-hidden="true">⇄</span></div>
+ <div class="lab-limit-note"><strong>Offline phrase translator — limited coverage.</strong> This tab translates curated everyday phrases and dictionary words. It does <strong>not</strong> claim to translate arbitrary paragraphs or complex sentences. A full machine translation engine has not been connected.</div>
+ <form id="lab-translation-form">
+  <label for="lab-translation-input">Write a word or common phrase</label>
+  <div class="lab-translation-top"><select id="lab-translation-direction" aria-label="Translate direction"><option value="es-en">Spanish → English</option><option value="en-es">English → Spanish</option></select><button id="lab-swap" type="button" class="lab-outline" aria-label="Swap languages">⇄ Switch</button></div>
+  <textarea id="lab-translation-input" rows="4" maxlength="240" placeholder="¿Cómo te llamas?" spellcheck="false"></textarea>
+  <div class="lab-translate-actions"><button type="submit" class="lab-cta">LOOK UP TRANSLATION</button><button id="lab-translate-speak" type="button" class="lab-outline">♫ LISTEN TO SPANISH</button></div>
+ </form>
+ <p id="lab-translation-speech-status" class="lab-muted" role="status" aria-live="polite"></p>
+ <div id="lab-translation-output" class="lab-translation-result" role="status" aria-live="polite"><span class="lab-muted">A translation or clear coverage message will appear here.</span></div>
+ <div class="lab-phrase-samples"><p>TRY A CLASSROOM PHRASE</p><div id="lab-phrase-chips"></div></div>
+</section>
+<section id="panel-pronounce" class="lab-panel" role="tabpanel" aria-labelledby="tab-pronounce" hidden>
+ <div class="lab-section-heading"><div><span class="lab-overline">03 / SOUND LAB</span><h2>Pronunciación</h2><p>Listen to Spanish words and explore how sounds are made.</p></div><span class="lab-symbol" aria-hidden="true">♪</span></div>
+ <div class="lab-speech-box">
+ <label for="lab-speech-text">Type a Spanish word or sentence</label>
+ <textarea id="lab-speech-text" rows="3" maxlength="280" placeholder="Hola, ¿cómo estás?">Hola, ¿cómo estás?</textarea>
+ <div class="lab-voice-row"><label for="lab-voice">Spanish voice</label><select id="lab-voice" aria-label="Spanish voice"><option value="">Detecting browser voices…</option></select><label for="lab-speech-rate">Speed <output id="lab-speech-rate-value">0.85×</output></label><input id="lab-speech-rate" type="range" min="0.6" max="1.2" step="0.05" value="0.85"></div>
+ <div class="lab-translate-actions"><button id="lab-speak" type="button" class="lab-cta">▶ LISTEN</button><button id="lab-stop-speech" type="button" class="lab-outline">■ STOP</button></div>
+ <p class="lab-muted" id="lab-voice-status" role="status">Speech is generated by your browser, not copied from Forvo or another pronunciation website. Available voices depend on your device.</p>
+ </div>
+ <div class="lab-subheading"><h3>Sounds of Spanish</h3><p>An original overview inspired by phonetics teaching resources, not a reproduction of their animations.</p></div>
+ <div id="lab-phoneme-grid" class="lab-phoneme-grid"></div>
+ <div class="lab-subheading"><h3>Accent marks and stress</h3></div>
+ <div class="lab-stress-grid"><article><strong>Vowels, -n, -s</strong><p>Words ending in a vowel, n, or s usually stress the penultimate syllable if no written accent tells you otherwise.</p><em>ca-sa · ha-blan</em></article><article><strong>Other endings</strong><p>Words ending in other consonants usually stress the final syllable if unmarked.</p><em>pa-pel · re-loj</em></article><article><strong>Written accents</strong><p>A written accent overrides the default stress rule and may distinguish meanings.</p><em>mú-si-ca · es-tá</em></article></div>
+</section>
+<section id="panel-grammar" class="lab-panel" role="tabpanel" aria-labelledby="tab-grammar" hidden>
+ <div class="lab-section-heading"><div><span class="lab-overline">04 / GRAMMAR WORKBENCH</span><h2>Gramática</h2><p>Explore essential grammar and check verified verb conjugations.</p></div><span class="lab-symbol" aria-hidden="true">≡</span></div>
+ <div class="lab-conjugation">
+ <div class="lab-conjugation-head"><div><h3>Verb conjugation table</h3><p>A curated set of regular and common irregular verbs.</p></div><span>6 PRONOUN FORMS</span></div>
+ <form id="lab-conjugate-form" class="lab-conjugate-form">
+  <label for="lab-verb">Infinitive</label><input id="lab-verb" type="search" maxlength="40" value="hablar" autocomplete="off" spellcheck="false">
+  <label for="lab-tense">Tense</label><select id="lab-tense"><option value="present">Present indicative</option><option value="past">Preterite (indefinido)</option><option value="imperfect">Imperfect</option><option value="future">Simple future</option><option value="subj">Present subjunctive</option></select>
+  <button type="submit" class="lab-cta">CONJUGATE</button>
+ </form>
+ <div id="lab-conjugation-result" aria-live="polite"></div>
+ <p class="lab-disclaimer">Only verified regular verbs and selected irregular verbs are supported. Unsupported verbs will not receive guessed conjugations.</p>
+ </div>
+ <div class="lab-subheading"><h3>Grammar quick guides</h3><p>Short, original notes aligned with beginner and intermediate Spanish study.</p></div>
+ <div id="lab-grammar-guides" class="lab-grammar-guides"></div>
+</section>
+<section class="lab-source-footer" aria-label="Source credits"><div><strong>Built for learning, not copied from commercial dictionaries.</strong><p>Spanish–English base data: FreeDict 0.3.1 (4,502 headwords, GPL-2.0-or-later). Core classroom examples and phonetics notes are independently authored. Speech uses installed browser voices.</p></div><div class="lab-source-links"><a href="language-lab-license.md" target="_blank" rel="noopener">Dictionary attribution &amp; license</a><a href="https://freedict.org/" target="_blank" rel="noopener">FreeDict project ↗</a><a href="https://soundsofspeech.uiowa.edu/" target="_blank" rel="noopener">Phonetics reference ↗</a></div></section>
+</main>
+<footer class="site-footer"><div class="wrap"><a href="index.html">Ak's Spanish Class</a><span>Spanish Language Lab · A1–B1 foundations</span><a href="teacher.html">Teacher Access</a></div></footer>
+</body></html>

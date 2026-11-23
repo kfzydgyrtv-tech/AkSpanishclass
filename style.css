@@ -277,3 +277,25 @@ a.print-page:hover { text-decoration: underline; }
 .arcade-home-feature p{max-width:650px;color:#e6ddf5;font-size:.91rem}
 .arcade-home-feature .button{font-family:"Courier New",monospace;font-weight:900}
 @media(max-width:490px){.arcade-home-feature{padding:19px 17px}.arcade-home-feature .button{width:100%}}
+
+
+/* Language Lab discovery panel on the existing homepage. */
+.lab-home-feature{
+  display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:20px;
+  border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px;
+  background:var(--surface);
+}
+.lab-home-icon{
+  position:relative;display:grid;place-items:center;width:86px;height:88px;border-radius:18px;
+  background:#e7f3e9;border:1px solid #aacbb8;color:#274b43;font:850 2rem Georgia,serif;
+}
+.lab-home-icon span{position:absolute;bottom:8px;right:7px;font:800 .9rem "Courier New",monospace;color:#5a7b71}
+.lab-home-eyebrow{font:800 .7rem "Courier New",monospace;letter-spacing:.07em;color:var(--muted)}
+.lab-home-feature h2{font:800 clamp(1.25rem,3vw,1.7rem) Georgia,serif;margin:6px 0}
+.lab-home-feature p{color:var(--muted);font-size:.87rem;max-width:650px}
+.lab-home-feature .button{white-space:nowrap}
+@media(max-width:720px){
+  .lab-home-feature{grid-template-columns:auto minmax(0,1fr)}.lab-home-feature .button{grid-column:1/-1}
+  .lab-home-icon{width:66px;height:69px;font-size:1.55rem}
+}
+@media(max-width:470px){.lab-home-feature{padding:18px 15px;gap:12px}}
