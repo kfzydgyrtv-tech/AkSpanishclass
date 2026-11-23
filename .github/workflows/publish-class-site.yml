@@ -32,6 +32,8 @@ jobs:
         run: |
           node --check games.js
           node tests/game-smoke.cjs
+          node --check arcade-rules.js
+          node tests/arcade-rules-smoke.cjs
           node --check freeplay.js
           node --check freeplay-bank.js
           node --check freeplay-advanced.js
