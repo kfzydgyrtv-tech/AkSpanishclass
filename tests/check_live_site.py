@@ -17,7 +17,10 @@ paths = [
     "games.js",
     "freeplay.html",
     "freeplay.js",
+    "freeplay-bank.js",
+    "freeplay-advanced.js",
     "freeplay.css",
+    "arcade-class-highscores.json",
     "arcade-progress.js",
     "arcade-leaderboard.js",
     "games.html?unit=2&game=error",
@@ -51,6 +54,10 @@ for path in paths:
                     raise RuntimeError("Wrong page served for game route")
                 if path == "freeplay.html" and b"freeplay-initials-entry" not in data:
                     raise RuntimeError("Wrong page served for Free Play")
+                if path == "freeplay-advanced.js" and b"ArcadeAdvancedBank" not in data:
+                    raise RuntimeError("Wrong advanced grammar bank served")
+                if path == "arcade-class-highscores.json" and b'"scores"' not in data:
+                    raise RuntimeError("Wrong class board data served")
                 if path == "freeplay.js" and b"function showInitials" not in data:
                     raise RuntimeError("Free Play script missing score entry")
             last_error = None
