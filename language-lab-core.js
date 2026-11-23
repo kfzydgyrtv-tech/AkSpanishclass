@@ -84,11 +84,12 @@
   };
   const regularVerbs=new Set((
     "hablar estudiar trabajar caminar cocinar cantar bailar escuchar viajar " +
-    "comprar necesitar llevar ayudar dibujar mirar visitar pagar ganar terminar tomar " +
-    "comer beber aprender correr vender comprender responder leer " +
+    "comprar necesitar llevar ayudar dibujar mirar visitar ganar terminar tomar " +
+    "comer beber aprender correr vender comprender responder " +
     "vivir escribir abrir recibir compartir subir decidir permitir existir"
   ).split(" "));
   const irregular = {
+    leer:{present:["leo","lees","lee","leemos","leéis","leen"],past:["leí","leíste","leyó","leímos","leísteis","leyeron"],imperfect:["leía","leías","leía","leíamos","leíais","leían"],subj:["lea","leas","lea","leamos","leáis","lean"]},
     ser:{present:["soy","eres","es","somos","sois","son"],past:["fui","fuiste","fue","fuimos","fuisteis","fueron"],imperfect:["era","eras","era","éramos","erais","eran"],subj:["sea","seas","sea","seamos","seáis","sean"]},
     estar:{present:["estoy","estás","está","estamos","estáis","están"],past:["estuve","estuviste","estuvo","estuvimos","estuvisteis","estuvieron"],subj:["esté","estés","esté","estemos","estéis","estén"]},
     ir:{present:["voy","vas","va","vamos","vais","van"],past:["fui","fuiste","fue","fuimos","fuisteis","fueron"],imperfect:["iba","ibas","iba","íbamos","ibais","iban"],subj:["vaya","vayas","vaya","vayamos","vayáis","vayan"]},
@@ -110,7 +111,7 @@
   function conjugate(input,tense) {
     const verb=exact(input);
     const t=String(tense||"present");
-    if (!/^[a-záéíóúñü]+(?:ar|er|ir)$/i.test(verb) || verb.length<3)
+    if (!(verb==="ir" || /^[a-záéíóúñü]+(?:ar|er|ir)$/i.test(verb)))
       return {status:"unsupported",message:"Enter a Spanish infinitive ending in -ar, -er or -ir."};
     if (!regularVerbs.has(verb) && !irregular[verb])
       return {status:"unsupported",message:"This verb isn't in the verified classroom conjugation set yet. Search the dictionary for its meaning; no unverified forms will be generated."};
