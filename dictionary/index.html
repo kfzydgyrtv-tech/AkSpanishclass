@@ -21,7 +21,7 @@
 <p class="dict-footer">FreeDict Spanish–English 0.3.1 (GPL-2.0-or-later) and English–Spanish 2025.11.23 (CC BY-SA 3.0). <a href="SOURCES_AND_LICENSES.md">Sources and licensing</a>. This is a dictionary, not an unrestricted sentence translator.</p>
 </main><footer class="site-footer"><div class="wrap"><a href="../index.html">Ak's Spanish Class</a><span>Spanish learning · Reference tools</span></div></footer>
 <script>
-(function(){
+document.addEventListener('DOMContentLoaded',function(){
 'use strict';
 var idx=window.DIC_INDEX;
 var $=function(id){return document.getElementById(id)}, results=$('results'),status=$('status'),word=$('word'),lang=$('lang'),more=$('more'),cache={},items=[],offset=0,requestId=0;
@@ -46,5 +46,5 @@ if(!idx){status.textContent='Dictionary index unavailable. Please reload.';retur
 $('counts').textContent=idx.counts.spanish_terms.toLocaleString()+' Spanish search strings · '+idx.counts.english_terms.toLocaleString()+' English terms';
 $('form').addEventListener('submit',function(e){e.preventDefault();search()});lang.addEventListener('change',search);more.addEventListener('click',function(){append(requestId)});
 document.querySelectorAll('[data-word]').forEach(function(b){b.addEventListener('click',function(){word.value=b.dataset.word;lang.value=b.dataset.lang||'es';search()})});search();
-})();
+});
 </script></body></html>
