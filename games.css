@@ -10,3 +10,9 @@
 .crossword .crossword-cell input{display:block;width:100%;height:100%;min-width:0;max-width:none;padding:12px 2px 3px;text-align:center;border-radius:3px;text-transform:uppercase;font-size:1.02rem;font-weight:700;line-height:1}
 .crossword .crossword-number{position:absolute;top:3px;left:4px;z-index:1;pointer-events:none;color:var(--ink);font-size:10px;font-weight:800;line-height:1;white-space:nowrap;letter-spacing:-.04em}
 .crossword .crossword-cell:focus-within{outline:2px solid var(--focus);outline-offset:1px;border-radius:3px}.game-clues{margin-top:15px}.game-clues li{margin:5px 0}.game-two-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.game-two-columns button{width:100%;min-height:56px;overflow-wrap:anywhere}.game-two-columns .active{outline:3px solid #6098e3}.game-two-columns .matched{background:#d8f1e0;color:#14532d}.game-hint{font-size:.85rem;color:var(--muted)}@media(max-width:550px){.game-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.game-grid button{min-height:65px;padding:6px}.game-word-grid button{width:25px;height:25px;font-size:12px}.crossword{--cross-cell:30px}.crossword .crossword-cell input{font-size:.92rem;padding-top:10px}.crossword .crossword-number{top:2px;left:3px;font-size:9px}.games-controls,.game-tabs,.game-shell{padding:12px}}
+
+/* Arcade bonus unlock progress above existing game tabs. */
+.game-unlock-strip{background:linear-gradient(135deg,#1e1548,#39236c);border:1px solid #7650c2;border-radius:12px;padding:17px 20px;color:#fff;margin:17px 0}
+.game-unlock-title{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font:800 .82rem "Courier New",monospace;color:#e6ddff}
+.game-unlock-title strong{color:#a6fff2}.game-unlock-strip .freeplay-meter{height:9px;margin-top:12px}
+.game-unlock-strip .button{margin-top:12px;font-family:"Courier New",monospace;font-weight:900}
