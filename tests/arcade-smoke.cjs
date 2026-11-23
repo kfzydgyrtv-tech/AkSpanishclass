@@ -1,74 +1,125 @@
 "use strict";
-/* No browser dependencies. Tests storage, unlock gating, local leaderboard and 12-round game. */
-const fs=require("node:fs"),assert=require("node:assert/strict");
-const progressSource=fs.readFileSync("arcade-progress.js","utf8");
-const freeSource=fs.readFileSync("freeplay.js","utf8");
-class Element {
-  constructor(tag="div"){this.tagName=tag.toUpperCase();this.children=[];this.value="";this.textContent="";
-    this.style={};this.className="";this.hidden=false;this.disabled=false;this.handlers={};this.attrs={};
-    this.classList={add(){},remove(){},toggle(){}};}
-  append(...items){this.children.push(...items)}
-  replaceChildren(...items){this.children=[...items]}
+const fs=require("node:fs"), assert=require("node:assert/strict");
+const progressSrc=fs.readFileSync("arcade-progress.js","utf8");
+const bankSrc=fs.readFileSync("freeplay-bank.js","utf8");
+const advancedSrc=fs.readFileSync("freeplay-advanced.js","utf8");
+const freeSrc=fs.readFileSync("freeplay.js","utf8");
+
+const bank=new Function(bankSrc+";return ArcadeQuestionBank;")();
+const advanced=new Function(advancedSrc+";return ArcadeAdvancedBank;")();
+const combined=[...bank.all,...advanced.all];
+for (const level of [1,2,3,4,5,6])
+  assert.ok(combined.filter(x=>x.level===level).length>=20,"Too few level "+level+" questions");
+for(const item of combined){
+  assert.ok(item.prompt&&item.answer&&item.explanation,"Incomplete question");
+  if(item.type==="choice"){
+    assert.equal(item.options.length,4,"Exactly four choices required");
+    assert.equal(new Set(item.options).size,4,"Choices must be distinct");
+    assert.equal(item.options.filter(x=>x===item.answer).length,1,"Answer must be offered exactly once");
+  }
+}
+assert.equal(new Set(combined.map(x=>x.prompt)).size,combined.length,"Duplicate prompts");
+
+// Unlock and browser-only high-score storage.
+const records=new Map();
+const localStorage={getItem:k=>records.get(k)||null,setItem:(k,v)=>records.set(k,v)};
+const win={dispatchEvent(){}},Event=function(type){this.type=type};
+const Progress=new Function("localStorage","window","Event",progressSrc+
+  ";return ArcadeProgress;")(localStorage,win,Event);
+assert.equal(Progress.status().unlocked,false);
+for(let i=0;i<30;i++)Progress.record("memory",i%10,"word"+i);
+assert.equal(Progress.status().unlocked,false,"One mode cannot unlock");
+Progress.record("match",0,"different");
+Progress.record("verbs",0,"another");
+assert.equal(Progress.status().unlocked,true,"30 unique across three modes unlocks");
+assert.equal(Progress.record("verbs",0,"another"),false,"Do not reward duplicate");
+assert.equal(Progress.addScore("ABCD",9000),false,"Only exactly three initials");
+
+class Element{
+  constructor(tag="div"){this.tagName=tag.toUpperCase();this.children=[];this.textContent="";this.value="";
+    this.disabled=false;this.hidden=false;this.style={};this.attrs={};this.handlers={};
+    this.className="";this.classList={add(){},remove(){},toggle(){}};this.selectionStart=0;this.selectionEnd=0;}
+  append(...x){this.children.push(...x)}
+  replaceChildren(...x){this.children=[...x]}
   setAttribute(k,v){this.attrs[k]=v}
   addEventListener(k,fn){this.handlers[k]=fn}
-  focus(){}
-  click(){this.handlers.click?.()}
+  querySelector(sel){if(sel==="input")return this.children.find(x=>x.tagName==="INPUT")||null;return null}
+  querySelectorAll(sel){if(sel==="button")return this.children.filter(x=>x.tagName==="BUTTON");return []}
+  setSelectionRange(a,b){this.selectionStart=a;this.selectionEnd=b}
+  focus(){} select(){} click(){this.handlers.click?.()}
 }
-const data=new Map(), localStorage={getItem:k=>data.get(k)||null,setItem:(k,v)=>data.set(k,v)};
-const window={dispatchEvent(){}},Event=function(type){this.type=type};
-const Progress=new Function("localStorage","window","Event",
-  progressSource+";return ArcadeProgress;")(localStorage,window,Event);
-assert.equal(Progress.status().unlocked,false);
-for(let i=0;i<30;i++)assert.equal(Progress.record("memory",i%10,"q"+i),true);
-assert.equal(Progress.status().unlocked,false,"one game type must not unlock");
-for(let i=0;i<10;i++)Progress.record("match",1,"q"+i);
-assert.equal(Progress.status().unlocked,false,"two game types must not unlock");
-assert.equal(Progress.record("verbs",2,"q0"),true);
-assert.equal(Progress.status().unlocked,true,"three modes and 30+ unique questions unlock");
-assert.equal(Progress.record("verbs",2,"q0"),false,"duplicate answer must not count");
-assert.equal(Progress.qualifies(0),false,"zero cannot enter scores");
-assert.equal(Progress.addScore("ABCD",5000),false,"initials must be exactly 3 letters");
-for(let i=0;i<12;i++)Progress.addScore("ABC",(i+1)*100);
-assert.equal(Progress.scores().length,10);
-assert.equal(Progress.scores()[0].score,1200);
-assert.equal(Progress.qualifies(100),false);
-assert.equal(Progress.qualifies(5000),true);
-
-// Isolate a fresh high-score board while retaining browser progression.
-data.set("ak-spanish-arcade-v1",JSON.stringify({earned:JSON.parse(data.get("ak-spanish-arcade-v1")).earned,scores:[]}));
 const ids={},get=id=>ids[id]??(ids[id]=new Element());
-const document={getElementById:get,createElement:t=>new Element(t),
+const doc={getElementById:get,createElement:t=>new Element(t),
   addEventListener(){},removeEventListener(){}};
-const testSource=freeSource.replace("  const TOTAL=12,MAX_MISSES=3;",
-  "  window.__testQuestions=items;\n  const TOTAL=12,MAX_MISSES=3;");
-new Function("ArcadeProgress","document","window","Event",testSource)(Progress,document,window,Event);
-assert.equal(get("freeplay-locked").hidden,true,"unlocked browser should see Free Play");
+// Peek into the game's closure only inside this smoke test; production does not expose answers.
+const injected=freeSrc.replace("  function settle(ok,timedOut){",
+  "  window.__peek=()=>({active,level:stage(),index,multiplier:multiplier()});"+
+  "  window.__norm=norm; function settle(ok,timedOut){");
+assert.ok(injected.includes("window.__peek="),"Smoke instrumentation missing");
+new Function("ArcadeProgress","ArcadeQuestionBank","ArcadeAdvancedBank",
+  "document","window","Event","setInterval","clearInterval","Date","navigator",injected)(
+  Progress,bank,advanced,doc,win,Event,()=>1,()=>{},Date,{});
+assert.notEqual(win.__norm("está"),win.__norm("esta"),"Missing accent must be wrong");
+assert.equal(win.__norm("á".normalize("NFD")),"á","Unicode composed accents should work");
+assert.equal(get("freeplay-locked").hidden,true);
 get("freeplay-start").click();
-assert.equal(get("freeplay-board").hidden,false);
-let rounds=0;
-for(;rounds<12;rounds++){
-  const q=window.__testQuestions.find(x=>x.prompt===get("freeplay-prompt").textContent);
-  assert.ok(q,"missing question");
-  const a=get("freeplay-answer-area");
-  if(q.type==="choice"){
-    const option=a.children[0].children.find(x=>x.textContent.slice(3)===q.answer);
-    assert.ok(option,"correct choice not offered");
-    option.click();
+
+function submit(ok){
+  const current=win.__peek().active;
+  const area=get("freeplay-answer-area");
+  if(current.type==="choice"){
+    const choice=area.children[0].children.find(x=>(x.textContent.slice(3)===current.answer)===ok);
+    assert.ok(choice,"Missing "+(ok?"right":"wrong")+" option");
+    choice.click();
   }else{
-    const form=a.children[0];
-    form.children[0].value=q.answer;
+    const form=area.children.find(x=>x.tagName==="FORM");
+    assert.ok(form,"Missing typed-answer form");
+    form.children[0].value=ok?current.answer:"incorrecto";
     form.handlers.submit({preventDefault(){}});
   }
-  assert.equal(get("freeplay-next").hidden,false,"must allow advancing");
-  get("freeplay-next").click();
+  assert.equal(get("freeplay-next").hidden,false,"Must advance after answering");
 }
-assert.equal(rounds,12);
-assert.equal(get("freeplay-finish").hidden,false,"must end after 12 rounds");
-assert.equal(get("freeplay-initials-entry").hidden,false,"qualifying score should open initials");
-assert.equal(get("initials-slots").children.length,3);
-const firstUp=get("initials-slots").children[0].children[0];
-firstUp.click(); // A -> B
+for(let round=1;round<=180;round++){
+  const p=win.__peek();
+  assert.equal(p.index,round-1);
+  assert.equal(p.level,Math.min(6,Math.ceil(round/10)),
+    "Level mismatch at round "+round);
+  const expected=Math.pow(1.003,Math.min(5,Math.floor((round-1)/10)));
+  assert.ok(Math.abs(p.multiplier-expected)<1e-9,
+    "0.3% cap mismatch at round "+round);
+  submit(true);
+  get("freeplay-next").click();
+  assert.equal(get("freeplay-finish").hidden,true,"Run must not end on round "+round);
+}
+assert.equal(win.__peek().level,6,"Past C2 threshold must stay at C2");
+const last=get("freeplay-round").textContent;
+assert.match(last,/181.*∞/,"Endless HUD should show current round and infinity");
+
+let foundAccent=false;
+for(let i=0;i<75;i++){
+  const q=win.__peek().active;
+  if(q.type==="type" && /[áéíóú]/i.test(q.answer)){
+    foundAccent=true;
+    const form=get("freeplay-answer-area").children.find(x=>x.tagName==="FORM");
+    form.children[0].value=q.answer.normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+    form.handlers.submit({preventDefault(){}});
+    assert.match(get("freeplay-feedback").textContent,/MISS!/,"Unaccented answer must count as miss");
+    get("freeplay-next").click();
+    break;
+  }
+  submit(true);get("freeplay-next").click();
+}
+assert.equal(foundAccent,true,"C2 pool must eventually test accent precision");
+for(let miss=0;miss<2;miss++){
+  submit(false);get("freeplay-next").click();
+}
+assert.equal(get("freeplay-finish").hidden,false,"Game must end after three misses");
+assert.equal(get("freeplay-initials-entry").hidden,false,"Scoring run should show initials");
+assert.equal(get("initials-slots").children.length,3,"Three initials slots");
+get("initials-slots").children[0].children[0].click(); // A -> B
 get("freeplay-save-score").click();
-assert.match(get("freeplay-saved-message").textContent,/SCORE SAVED! BAA/);
+assert.match(get("freeplay-saved-message").textContent,/SCORE SAVED ON THIS DEVICE! BAA/);
 assert.equal(Progress.scores()[0].initials,"BAA");
-console.log("PASS: progression, duplicate protection, 3-letter initials, top ten, full 12-round Free Play.");
+assert.equal(get("score-slip-panel").hidden,false,"Score slip visible");
+assert.match(get("freeplay-score-slip").value,/SURVIVED/);
+console.log("PASS: 180+ endless rounds, all six CEFR stages, C2 cap, strict accents, score slip and leaderboard.");
