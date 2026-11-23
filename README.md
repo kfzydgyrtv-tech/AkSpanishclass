@@ -103,3 +103,25 @@ node tests/arcade-smoke.cjs
 
 The GitHub Pages workflow runs these tests plus site-asset and live-URL checks.
 
+
+## Spanish Language Lab
+
+A new standalone site section, `language-lab.html`, provides four learning tools using only original code and self-hosted data:
+
+- **Dictionary:** accent-insensitive Spanish→English and English→Spanish lookup, including approximately 4,500 FreeDict headwords plus 119 independently written classroom-reviewed terms, gender or part of speech where checked, usage examples, local-browser favorites, pagination, and optional browser audio.
+- **Translator:** exact-match translations for 38 reviewed classroom expressions and dictionary headwords. It does **not** generate arbitrary sentence translations or pretend to connect to an external machine-translation API.
+- **Pronunciation:** browser SpeechSynthesis using Spanish voices, speed control, IPA phoneme explanations, stress rules, and sample words. Availability depends on installed device voices. No third-party audio has been scraped or reproduced.
+- **Grammar:** nine short guides and verified regular/irregular conjugations for present, preterite, imperfect, future, and present subjunctive. Unsupported verbs show an explanation rather than fabricated inflections.
+
+The dictionary source is FreeDict Spanish–English v0.3.1, 4,502 headwords, © FreeDict contributors 1999–2019, distributed under GPL-2.0-or-later. The derived JSON includes metadata; a complete license and extraction notes are available at `freedict-gpl-2.0.txt` and `language-lab-license.md`. The source TEI is publicly available at [FreeDict on GitHub](https://github.com/freedict/fd-dictionaries/blob/master/spa-eng/spa-eng.tei). Older FreeDict content may contain limited or ambiguous glosses, which is why common student words are independently curated. The original HTML/CSS/JS and curated content remain clearly separated from the FreeDict-derived data.
+
+For an **offline/local test**, run:
+
+```bash
+node --check language-lab.js
+node tests/language-lab-smoke.cjs
+python3 .github/build_class_site.py
+python3 tests/check_published_site.py
+```
+
+The GitHub Pages publish workflow runs these smoke checks and checks the public Language Lab URLs. Full-sentence machine translation is a potential second phase requiring a suitable service and connectivity testing, especially for mainland-China use.
