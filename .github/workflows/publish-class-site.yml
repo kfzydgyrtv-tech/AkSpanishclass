@@ -32,6 +32,10 @@ jobs:
         run: |
           node --check games.js
           node tests/game-smoke.cjs
+          node --check freeplay.js
+          node --check arcade-progress.js
+          node --check arcade-leaderboard.js
+          node tests/arcade-smoke.cjs
       - name: List the class files on the website
         run: python3 .github/build_class_site.py
       - name: Check published game links and assets
