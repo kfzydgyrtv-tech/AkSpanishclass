@@ -8,9 +8,9 @@ ROOT = Path("_class_site")
 PAGES = [
     "index.html", "aula-1.html", "class-slides.html", "vocabulary.html",
     "review.html", "practice.html", "contact.html", "teacher.html",
-    "games.html", "arcade.html", "freeplay.html",
+    "games.html", "arcade.html", "freeplay.html", "language-lab.html",
 ]
-ASSETS = ["games.js", "games.css", "arcade.css", "style.css", "theme.js", "freeplay.js", "freeplay-bank.js", "freeplay-advanced.js", "freeplay.css", "arcade-progress.js", "arcade-leaderboard.js", "arcade-class-highscores.json", "arcade-rules.js"]
+ASSETS = ["games.js", "games.css", "arcade.css", "style.css", "theme.js", "freeplay.js", "freeplay-bank.js", "freeplay-advanced.js", "freeplay.css", "arcade-progress.js", "arcade-leaderboard.js", "arcade-class-highscores.json", "arcade-rules.js", "language-lab.css", "language-lab.js", "language-lab-core.js", "language-lab-content.js", "language-lab-dictionary.json", "language-lab-license.md", "freedict-gpl-2.0.txt"]
 MODES = {"memory", "scramble", "search", "crossword", "match",
          "sentence", "fill", "error", "verbs"}
 
@@ -43,14 +43,25 @@ for filename in PAGES + ASSETS:
 for filename in PAGES:
     page = read_links(ROOT / filename)
     assert "arcade.html" in page.links, f"Missing Games navigation: {filename}"
+    assert "language-lab.html" in page.links, f"Missing Language Lab navigation: {filename}"
     for link in page.links + page.assets:
         parts = urlparse(link)
         if parts.scheme or parts.netloc or link.startswith("#"):
             continue
         if not parts.path:
             continue
-        if parts.path in {"games.html", "arcade.html", "games.js", "games.css", "arcade.css", "freeplay.html", "freeplay.js", "freeplay-bank.js", "freeplay-advanced.js", "freeplay.css", "arcade-progress.js", "arcade-leaderboard.js", "arcade-class-highscores.json"}:
+        if parts.path in {"games.html", "arcade.html", "games.js", "games.css", "arcade.css", "freeplay.html", "freeplay.js", "freeplay-bank.js", "freeplay-advanced.js", "freeplay.css", "arcade-progress.js", "arcade-leaderboard.js", "arcade-class-highscores.json", "language-lab.html", "language-lab.css", "language-lab.js", "language-lab-core.js", "language-lab-content.js", "language-lab-dictionary.json", "language-lab-license.md", "freedict-gpl-2.0.txt"}:
             assert (ROOT / parts.path).is_file(), f"Broken new game asset link: {filename}: {link}"
+
+# Language Lab is static, attributed, and backed by a real local dictionary file.
+import json
+lab_page = (ROOT / "language-lab.html").read_text(encoding="utf-8")
+assert all(f'data-lab-tab="{name}"' in lab_page for name in ("dictionary","translate","pronounce","grammar")), "Missing Language Lab tool"
+lab_data = json.loads((ROOT / "language-lab-dictionary.json").read_text(encoding="utf-8"))
+assert lab_data.get("headwords") == 4502, "FreeDict dataset metadata mismatch"
+assert len(lab_data.get("entries", [])) == 4502, "Incomplete Spanish-English dictionary"
+assert lab_data.get("license") == "GPL-2.0-or-later", "Missing dictionary license"
+assert (ROOT / "freedict-gpl-2.0.txt").is_file(), "Missing FreeDict license text"
 
 runner = read_links(ROOT / "games.html")
 assert any(urlparse(x).path == "games.js" for x in runner.assets), "Runner missing games.js"
