@@ -105,5 +105,20 @@ def validate_routes(links):
 
 assert validate_routes(hub_links) == MODES, "Arcade missing one or more modes"
 validate_routes(practice_links)
+
+# Diccionario Vivo V2 must be fully published, including nested JSON shards.
+dict_root = ROOT / "dictionary"
+for name in ("index.html", "phonetics.html", "SOURCES_AND_LICENSES.md",
+             "data/index.js", "data/manifest.json", "data/es/c.json",
+             "data/es/b.json", "data/en/h.json"):
+    assert (dict_root / name).is_file(), f"Missing deployed dictionary file: {name}"
+manifest = json.loads((dict_root / "data/manifest.json").read_text(encoding="utf-8"))
+assert manifest["counts"]["spanish_direct_entries"] == 4502
+assert manifest["counts"]["english_terms"] >= 59000
+assert manifest["counts"]["spanish_terms"] >= 83000
+assert "dictionary/index.html" in read_links(ROOT / "index.html").links
+assert "dictionary/index.html" in read_links(ROOT / "language-lab.html").links
+assert "phonetics.html" in read_links(dict_root / "index.html").links
+
 print(f"PASS: {len(PAGES)} deployed pages, {len(ASSETS)} core assets, "
       f"{len(hub_links)} arcade cards, {len(practice_links)} unit game links")
