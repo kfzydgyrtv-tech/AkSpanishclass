@@ -3,6 +3,7 @@ from html import escape
 from pathlib import Path
 import re
 from shutil import copy2, copytree, rmtree
+import subprocess
 from urllib.parse import quote
 
 BUILD_DIR = Path("_class_site")
@@ -172,6 +173,14 @@ def copy_site(source, destination):
             copy2(item, destination / item.name)
     copytree(source / "files", destination / "files",
              ignore=lambda _, names: [name for name in names if name.startswith(".")])
+    # Build the pinned bilingual FreeDict assets during publishing. The browser needs
+    # no upstream service because the data is copied into GitHub Pages.
+    dictionary = source / "dictionary"
+    if (dictionary / "build_data.py").is_file():
+        subprocess.run(["python3", str(dictionary / "build_data.py")], check=True)
+        copytree(dictionary, destination / "dictionary", dirs_exist_ok=True,
+                 ignore=lambda folder, names: [n for n in names if n.endswith(".src.tar.xz")
+                          or n == "build_data.py" or n == "__pycache__"])
     render_resources(destination)
 
 

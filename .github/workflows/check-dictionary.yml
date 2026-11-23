@@ -1,0 +1,27 @@
+name: Verify Diccionario Vivo
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'dictionary/**'
+      - '.github/build_class_site.py'
+      - 'language-lab.html'
+      - 'index.html'
+      - 'tests/check_published_site.py'
+      - '.github/workflows/check-dictionary.yml'
+  workflow_dispatch:
+jobs:
+  dictionary-smoke:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+      - name: Compile dictionary build script
+        run: python3 -m py_compile dictionary/build_data.py
+      - name: Generate pinned FreeDict data
+        run: python3 dictionary/build_data.py
+      - name: Build full static website
+        run: python3 .github/build_class_site.py
+      - name: Verify published assets and dictionary
+        run: python3 tests/check_published_site.py
