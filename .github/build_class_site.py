@@ -164,14 +164,14 @@ def render_resources(site):
 
 def copy_site(source, destination):
     destination.mkdir(parents=True)
-    for name in ("index.html", "aula-1.html", "class-slides.html", "vocabulary.html", "review.html",
-                 "practice.html", "style.css", "pdf-reader.js", "theme.js"):
-        copy2(source / name, destination / name)
+    # Publish every root-level web asset, not an incomplete hardcoded list.
+    # This also ensures future games, scripts and stylesheets reach GitHub Pages.
+    allowed = {".html", ".css", ".js", ".svg", ".webmanifest", ".ico"}
+    for item in source.iterdir():
+        if item.is_file() and item.suffix.lower() in allowed:
+            copy2(item, destination / item.name)
     copytree(source / "files", destination / "files",
              ignore=lambda _, names: [name for name in names if name.startswith(".")])
-    for name in ("contact.html", "teacher.html", "student-message.js"):
-        if (source / name).is_file():
-            copy2(source / name, destination / name)
     render_resources(destination)
 
 

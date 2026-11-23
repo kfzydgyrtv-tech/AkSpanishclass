@@ -28,8 +28,14 @@ jobs:
           persist-credentials: false
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
+      - name: Smoke-test every AULA game and difficulty
+        run: |
+          node --check games.js
+          node tests/game-smoke.cjs
       - name: List the class files on the website
         run: python3 .github/build_class_site.py
+      - name: Check published game links and assets
+        run: python3 tests/check_published_site.py
       - name: Upload the generated website
         uses: actions/upload-pages-artifact@v4
         with:

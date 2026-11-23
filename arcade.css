@@ -1,0 +1,56 @@
+/* Self-hosted 90s arcade gallery: no external images, fonts or scripts. */
+.arcade-page{padding-bottom:24px}
+.arcade-back{padding:20px 0 12px}
+.arcade-hero{position:relative;isolation:isolate;display:flex;align-items:center;min-height:340px;overflow:hidden;border:2px solid #5c44cf;border-radius:22px;background:radial-gradient(ellipse at 85% 25%,#501e91 0,transparent 44%),linear-gradient(130deg,#11123e,#171042 60%,#080b23);box-shadow:0 13px 0 #14103224,0 24px 44px #15084424;color:#f8efff}
+.arcade-hero:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.38;background:repeating-linear-gradient(0deg,transparent 0 5px,#ffffff0b 6px 7px)}
+.arcade-hero:after{content:"";position:absolute;bottom:-100px;right:-70px;width:56%;height:230px;transform:perspective(260px) rotateX(58deg);transform-origin:bottom;background:repeating-linear-gradient(90deg,transparent 0 41px,#25e7ff65 42px 44px),repeating-linear-gradient(0deg,transparent 0 34px,#25e7ff55 35px 37px);opacity:.6}
+.arcade-copy{z-index:2;position:relative;max-width:690px;padding:43px 46px}
+.arcade-kicker,.arcade-overline,.arcade-hero-stats,.arcade-meta,.arcade-play,.mini-label,.art-small,.arcade-footer-banner>div>span{font-family:"Courier New",monospace;font-weight:800;letter-spacing:.08em}
+.arcade-kicker{font-size:.77rem;color:#85fff8;display:flex;align-items:center;gap:11px}
+.arcade-live{display:inline-block;width:11px;height:11px;border-radius:50%;background:#f3fa7a;box-shadow:0 0 0 5px #f3fa7a2b,0 0 15px #fff9ae}
+.arcade-hero h1{margin:20px 0 15px;font:900 clamp(2.9rem,7.2vw,5.8rem)/.97 "Courier New",monospace;letter-spacing:-.085em;text-shadow:5px 5px 0 #6032a1}
+.arcade-hero h1 span{color:#ff80d2;text-shadow:4px 4px 0 #45157f,0 0 19px #ff42dc55}
+.arcade-hero p{font-size:1rem;max-width:510px;color:#ddd8fe}
+.arcade-hero-stats{display:flex;flex-wrap:wrap;gap:9px;margin-top:23px;font-size:.73rem}
+.arcade-hero-stats span{border:1px solid #67eefa88;border-radius:3px;padding:8px 11px;background:#080c2b99;color:#9cf9f5}
+.arcade-console{z-index:1;position:absolute;right:65px;top:25px;width:185px;height:270px;transform:rotate(10deg);border:9px solid #e3a5ff;border-radius:23px 23px 45px 45px;background:#9a52df;box-shadow:13px 15px 0 #170c39,0 0 40px #d4a4ff55}
+.arcade-console .screen{position:relative;display:grid;place-items:center;align-content:center;gap:7px;margin:22px 14px;height:147px;border:12px solid #251153;border-radius:10px;background:radial-gradient(circle,#24489c,#0b123d);color:#a1fff4;font:900 1.3rem "Courier New",monospace;text-shadow:2px 2px #521eb2}
+.arcade-console .screen small{font-size:.65rem;color:#fff179}
+.pixel-star{position:absolute;right:4px;top:-6px;font-size:1.5rem;color:#ffff7c}
+.console-controls{display:flex;align-items:center;gap:19px;padding:0 25px;color:#251153;font-size:2.6rem;font-weight:900}
+.console-controls i{display:inline-block;width:23px;height:23px;background:#ff87d1;border:4px solid #251153;border-radius:50%;box-shadow:3px 5px 0 #591f85}
+.arcade-section{margin-top:37px}.arcade-section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin-bottom:17px}
+.arcade-overline{color:#7858b1;font-size:.73rem;margin-bottom:6px}.arcade-section-head h2{font:800 clamp(1.55rem,3vw,2.25rem)/1.1 "Courier New",monospace;letter-spacing:-.04em}
+.arcade-key{color:var(--muted);font-size:.83rem;max-width:300px}
+.arcade-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
+.arcade-card{display:flex;flex-direction:column;min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:16px;background:var(--surface);box-shadow:0 6px 0 #51426315;transition:transform .2s,box-shadow .2s,border-color .2s}
+.arcade-card:hover,.arcade-card:focus-visible{transform:translateY(-5px);border-color:#915bcc;box-shadow:0 12px 0 #9f5ad52a,0 14px 24px #5e297a1e}
+.arcade-art{position:relative;isolation:isolate;display:flex;align-items:center;justify-content:center;overflow:hidden;min-height:190px;background:radial-gradient(circle at 80% 20%,#392a8b,transparent 55%),linear-gradient(145deg,#0b1233,#25104e);color:#fff;font-family:"Courier New",monospace}
+.arcade-art:before{content:"";position:absolute;z-index:2;inset:0;pointer-events:none;opacity:.25;background:repeating-linear-gradient(0deg,transparent 0 4px,#07071a 5px 6px)}
+.arcade-art:after{content:"";position:absolute;inset:12px;border:1px solid #ffffff37;border-radius:4px;pointer-events:none}
+.arcade-art .mini-label{position:absolute;top:21px;left:27px;font-size:.67rem;color:#b9ffff}
+.arcade-art .art-small{position:absolute;bottom:18px;left:28px;font-size:.59rem;color:#eee}
+.arcade-card-body{padding:18px 19px 19px;display:flex;flex-direction:column;flex:1}
+.arcade-meta{font-size:.68rem;color:#7355a4}.arcade-card h3{margin:8px 0 7px;font:800 1.15rem/1.2 "Courier New",monospace;letter-spacing:-.045em}.arcade-card p{font-size:.88rem;color:var(--muted);flex:1;line-height:1.5}
+.arcade-play{display:flex;justify-content:space-between;align-items:center;margin-top:18px;border-top:1px solid var(--line);padding-top:13px;font-size:.73rem;color:#7553ac}
+.arcade-play b{font-size:1.3rem;line-height:1}.arcade-card:hover .arcade-play{color:#a142a8}
+.memory-pieces{display:grid;grid-template-columns:repeat(2,55px);gap:8px;transform:rotate(-8deg);filter:drop-shadow(5px 8px 0 #09052d66)}
+.memory-pieces b{display:grid;place-items:center;width:55px;height:57px;border:3px solid #8dfaff;border-radius:8px;background:#ae50f8;font-size:1.7rem;color:#fff5a1}.memory-pieces b:nth-child(even){background:#32217a;color:#ff9ce7}
+.art-memory{background:radial-gradient(circle at 75% 75%,#b236ba55,transparent 40%),linear-gradient(135deg,#191356,#432171)}.art-spark{position:absolute;right:29px;top:43px;font-size:2.4rem;color:#ffef8a}
+.art-scramble{background:radial-gradient(circle at 40% 85%,#fc6a9070,transparent 55%),linear-gradient(135deg,#361142,#8b2250)}
+.scramble-pieces,.sentence-pieces{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:0 24px;transform:rotate(-5deg)}.scramble-pieces b,.sentence-pieces b{display:grid;place-items:center;width:48px;height:52px;background:#ffd36d;border:3px solid #fff0bd;color:#622e64;box-shadow:4px 5px 0 #3a073c;font-size:1.6rem}
+.scramble-pieces b:nth-child(2){transform:translateY(-12px)}.scramble-pieces b:nth-child(3){transform:translateY(9px)}
+.art-search{background:linear-gradient(125deg,#092c51,#124e77)}.search-board,.cross-board{display:grid;grid-template-columns:repeat(4,33px);gap:3px;transform:rotate(-7deg);padding:12px;background:#050e2f;border:3px solid #2eeced;box-shadow:7px 7px 0 #0a1834}
+.search-board span{display:grid;place-items:center;width:33px;height:33px;font-size:1.05rem;color:#d2eafc;border:1px solid #426b8f}.search-board span:nth-child(-n+3){background:#ff79c9;color:#17133d;font-weight:900}
+.art-crossword{background:linear-gradient(145deg,#39224c,#984e70)}.cross-board{transform:rotate(7deg);border-color:#ffe480}.cross-board b,.cross-board i{width:33px;height:33px;display:grid;place-items:center;font-style:normal;background:#ffe9a6;color:#4b1d57;font-size:1.2rem}.cross-board i{background:#3e1a48}
+.art-match{background:radial-gradient(circle at 50% 55%,#1586a377,transparent 60%),linear-gradient(135deg,#052c4c,#153a78)}.match-pieces{display:flex;align-items:center;gap:8px;transform:rotate(-4deg)}.match-pieces span{border:3px solid #81fff5;padding:12px 8px;background:#071a4c;font-size:.92rem;font-weight:900;box-shadow:4px 6px 0 #071b2e}.match-pieces b{color:#ffed8d;font-size:2rem}
+.art-sentence{background:linear-gradient(130deg,#13265a,#44328d)}.sentence-pieces b{font-size:1rem;width:auto;height:auto;min-height:45px;padding:8px 11px;background:#89fbe9;color:#162a58;border-color:#d0fff5}.sentence-pieces b:nth-child(2){transform:translateY(-8px)}
+.art-fill{background:radial-gradient(circle at 80% 80%,#b6f45f44,transparent 55%),linear-gradient(125deg,#26452e,#20634a)}.fill-pieces{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center;padding:15px 26px;font-size:.94rem;font-weight:900}.fill-pieces b{border-bottom:3px solid #f7f189;padding:9px 5px;color:#f7f189;white-space:nowrap}
+.art-error{background:linear-gradient(145deg,#4c102c,#831d48)}.error-pieces{display:grid;gap:10px;transform:rotate(5deg);font-size:1rem;font-weight:900}.error-pieces span{padding:9px 13px;border-radius:3px;background:#240e31;box-shadow:4px 4px 0 #240d2e}.error-pieces .wrong{color:#ff91a8;border-left:5px solid #ff4b82}.error-pieces .correct{color:#a5ffd3;border-left:5px solid #55ffc0}
+.art-verbs{background:linear-gradient(125deg,#503500,#906a04)}.verb-pieces{text-align:center;border:4px solid #ffec9c;background:#362344;padding:14px 35px;transform:rotate(-5deg);box-shadow:7px 7px 0 #3a2317}.verb-pieces small,.verb-pieces span{display:block;color:#b7fcf8;font-size:.7rem}.verb-pieces strong{display:block;margin:5px 0;font-size:2.2rem;color:#ffef9b;text-shadow:2px 2px #9e3478}
+.arcade-footer-banner{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-top:26px;border:1px solid #7740ae;border-radius:15px;padding:25px 29px;background:linear-gradient(110deg,#190f47,#382063);color:#fff}
+.arcade-footer-banner>div>span{font-size:.69rem;color:#8bfff0}.arcade-footer-banner h2{margin:9px 0;font:800 1.26rem "Courier New",monospace}.arcade-footer-banner p{color:#e5def9;font-size:.9rem}.arcade-back-button{flex-shrink:0;border:2px solid #89f5ee;border-radius:4px;padding:12px 16px;color:#12153b;background:#8af4ea;font:900 .75rem "Courier New",monospace}.arcade-back-button:hover{background:#c9fff8}
+.arcade-note{font-size:.8rem;color:var(--muted);margin:14px 0}
+@media(max-width:920px){.arcade-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.arcade-console{right:20px;opacity:.55}.arcade-copy{padding-right:175px}}
+@media(max-width:680px){.arcade-cards{grid-template-columns:1fr}.arcade-art{min-height:180px}.arcade-console{display:none}.arcade-copy{padding:32px 21px}.arcade-hero{min-height:unset}.arcade-hero h1{font-size:clamp(2.7rem,11vw,4.3rem)}.arcade-hero-stats{gap:6px}.arcade-footer-banner{display:block;padding:24px 20px}.arcade-back-button{display:inline-block;margin-top:18px}}
+@media(prefers-reduced-motion:reduce){.arcade-card{transition:none}.arcade-card:hover{transform:none}}
