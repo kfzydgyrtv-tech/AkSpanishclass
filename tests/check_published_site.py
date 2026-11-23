@@ -8,9 +8,9 @@ ROOT = Path("_class_site")
 PAGES = [
     "index.html", "aula-1.html", "class-slides.html", "vocabulary.html",
     "review.html", "practice.html", "contact.html", "teacher.html",
-    "games.html", "arcade.html",
+    "games.html", "arcade.html", "freeplay.html",
 ]
-ASSETS = ["games.js", "games.css", "arcade.css", "style.css", "theme.js"]
+ASSETS = ["games.js", "games.css", "arcade.css", "style.css", "theme.js", "freeplay.js", "freeplay.css", "arcade-progress.js", "arcade-leaderboard.js"]
 MODES = {"memory", "scramble", "search", "crossword", "match",
          "sentence", "fill", "error", "verbs"}
 
@@ -49,7 +49,7 @@ for filename in PAGES:
             continue
         if not parts.path:
             continue
-        if parts.path in {"games.html", "arcade.html", "games.js", "games.css", "arcade.css"}:
+        if parts.path in {"games.html", "arcade.html", "games.js", "games.css", "arcade.css", "freeplay.html", "freeplay.js", "freeplay.css", "arcade-progress.js", "arcade-leaderboard.js"}:
             assert (ROOT / parts.path).is_file(), f"Broken new game asset link: {filename}: {link}"
 
 runner = read_links(ROOT / "games.html")
@@ -57,6 +57,14 @@ assert any(urlparse(x).path == "games.js" for x in runner.assets), "Runner missi
 assert any(urlparse(x).path == "games.css" for x in runner.assets), "Runner missing games.css"
 hub = read_links(ROOT / "arcade.html")
 assert any(urlparse(x).path == "arcade.css" for x in hub.assets), "Hub missing arcade.css"
+
+
+freeplay = read_links(ROOT / "freeplay.html")
+assert any(urlparse(x).path == "freeplay.js" for x in freeplay.assets), "Free Play missing engine"
+assert any(urlparse(x).path == "arcade-progress.js" for x in freeplay.assets), "Free Play missing progress store"
+assert any(urlparse(x).path == "arcade-leaderboard.js" for x in freeplay.assets), "Free Play missing scores"
+assert "freeplay.html" in read_links(ROOT / "arcade.html").links, "Arcade must link to Free Play"
+assert "freeplay.html" in read_links(ROOT / "games.html").links, "Unit games must link to Free Play"
 
 hub_links = [link for link in hub.links if urlparse(link).path == "games.html"]
 practice_links = [link for link in read_links(ROOT / "practice.html").links

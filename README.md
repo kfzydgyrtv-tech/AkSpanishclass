@@ -69,3 +69,23 @@ Upload the PDF to the folder for the page where it should appear.
 
 GitHub Pages builds the listing when it publishes `main`. Use a descriptive filename, such as `El, la, los y las.pdf`, because the site uses the filename as the card title. Spaces and Spanish accents are supported. Removing the file removes its card on the next deployment.
 
+
+
+### Bonus mode and local high scores
+
+**Free Play** (`freeplay.html`) is an unlocked, twelve-round A1–A2 Spanish challenge that is not tied to a textbook unit. The unlock condition is **30 unique correct responses across at least 3 different game types**. Each unit game credits a challenge only once per browser, even if a learner repeats the same answer or resets the round.
+
+Players have 3 lives. Correct answers earn 100 base points plus a streak bonus. The top 10 runs can save **exactly three A–Z letters** as initials, entered with the on-screen up/down controls or a keyboard, as in classic arcade cabinets. The score table appears both on the Games gallery and below Free Play.
+
+Progress and high scores are stored in `localStorage` under `ak-spanish-arcade-v1`. **This is not a global classroom leaderboard**: only players on the same device/browser share a table. Clearing browser data clears progress and scores, and local records are not tamper-resistant. Student identities, contact details, and scores are never sent to GitHub or another backend.
+
+The bonus challenge includes original multiple-choice and typed questions covering vocabulary, agreement, conjugation, reflexive verbs, comparisons, and basic present-perfect usage. Its question bank is in `freeplay.js` and is independent of AULA unit selection.
+
+To test locally:
+
+```bash
+node tests/arcade-smoke.cjs
+```
+
+The publishing workflow runs this test along with the original game test and post-deployment URL checks.
+

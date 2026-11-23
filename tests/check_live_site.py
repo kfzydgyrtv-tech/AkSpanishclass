@@ -15,6 +15,11 @@ paths = [
     "games.html",
     "games.css",
     "games.js",
+    "freeplay.html",
+    "freeplay.js",
+    "freeplay.css",
+    "arcade-progress.js",
+    "arcade-leaderboard.js",
     "games.html?unit=2&game=error",
     "games.html?unit=0&game=scramble",
     "games.html?unit=1&game=memory",
@@ -44,6 +49,10 @@ for path in paths:
                     raise RuntimeError("Wrong asset served for games.js")
                 if path.startswith("games.html") and b"game-area" not in data:
                     raise RuntimeError("Wrong page served for game route")
+                if path == "freeplay.html" and b"freeplay-initials-entry" not in data:
+                    raise RuntimeError("Wrong page served for Free Play")
+                if path == "freeplay.js" and b"NEW HIGH SCORE" not in data:
+                    raise RuntimeError("Free Play script missing score entry")
             last_error = None
             break
         except (HTTPError, URLError, TimeoutError, RuntimeError) as error:
