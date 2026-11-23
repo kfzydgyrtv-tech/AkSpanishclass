@@ -12,6 +12,7 @@ paths = [
     "practice.html",
     "arcade.html",
     "arcade.css",
+    "arcade-rules.js",
     "games.html",
     "games.css",
     "games.js",
@@ -46,6 +47,8 @@ for path in paths:
                     raise RuntimeError(f"HTTP {response.status}: {url}")
                 if len(data) < 50:
                     raise RuntimeError(f"Suspiciously short response: {url}")
+                if path == "arcade.html" and b'arcade-rules-button' not in data:
+                    raise RuntimeError("Missing arcade rules widget on live page")
                 if path == "arcade.html" and b"arcade-cards" not in data:
                     raise RuntimeError("Wrong page served for arcade.html")
                 if path == "games.js" and b"const DATA" not in data:
