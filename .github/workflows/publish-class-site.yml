@@ -33,6 +33,8 @@ jobs:
           node --check games.js
           node tests/game-smoke.cjs
           node --check freeplay.js
+          node --check freeplay-bank.js
+          node --check freeplay-advanced.js
           node --check arcade-progress.js
           node --check arcade-leaderboard.js
           node tests/arcade-smoke.cjs
