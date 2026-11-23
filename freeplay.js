@@ -245,17 +245,17 @@
     const slip=$("freeplay-score-slip");if(slip){
       slip.value="AK'S SPANISH ARCADE | "+initials.join("")+" | SCORE "+points+
         " | SURVIVED "+index+" ROUNDS | STRICT ACCENTS | "+new Date().toISOString().slice(0,10);
-      slip.hidden=false;
+      $("score-slip-panel").hidden=false;
     }
     window.dispatchEvent(new Event("ak-arcade-progress"));
   }
   function finish(){
     stopClock();stopInitialKeys();panel("freeplay-finish");
-    $("freeplay-result").textContent="GAME OVER · ROUND "+(index+1);
+    $("freeplay-result").textContent="GAME OVER · ROUND "+index;
     $("freeplay-final-score").textContent=fmt(points);
     $("freeplay-saved-message").textContent="";
     $("freeplay-initials-entry").hidden=true;
-    $("freeplay-score-slip").hidden=true;
+    $("score-slip-panel").hidden=true;
     if(ArcadeProgress.qualifies(points))showInitials();
     else $("freeplay-saved-message").textContent="You survived "+index+
       " rounds. No top-ten device record this time. Try another run!";
@@ -266,7 +266,7 @@
   $("freeplay-save-score").addEventListener("click",saveScore);
   $("freeplay-copy-score").addEventListener("click",()=>{
     const slip=$("freeplay-score-slip");
-    if(!slip||slip.hidden)return;
+    if(!slip||$("score-slip-panel").hidden)return;
     slip.select();
     if(navigator.clipboard&&navigator.clipboard.writeText){
       navigator.clipboard.writeText(slip.value).then(()=>{$("freeplay-copy-message").textContent="Score slip copied."})
