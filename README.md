@@ -71,21 +71,35 @@ GitHub Pages builds the listing when it publishes `main`. Use a descriptive file
 
 
 
-### Bonus mode and local high scores
+### Endless Free Play (A1–C2) and high scores
 
-**Free Play** (`freeplay.html`) is an unlocked, twelve-round A1–A2 Spanish challenge that is not tied to a textbook unit. The unlock condition is **30 unique correct responses across at least 3 different game types**. Each unit game credits a challenge only once per browser, even if a learner repeats the same answer or resets the round.
+**Free Play** (`freeplay.html`) is now an endless Spanish challenge separate from the AULA units. It unlocks after **30 unique correct responses across three different unit-game types**. Repeating the same answer in the same game and unit does not increase unlock progress.
 
-Players have 3 lives. Correct answers earn 100 base points plus a streak bonus. The top 10 runs can save **exactly three A–Z letters** as initials, entered with the on-screen up/down controls or a keyboard, as in classic arcade cabinets. The score table appears both on the Games gallery and below Free Play.
+**Progression:** rounds 1–10 A1, 11–20 A2, 21–30 B1, 31–40 B2, 41–50 C1, and rounds 51+ C2. Every ten rounds, difficulty/time pressure rises by exactly 0.3% compounded (`1.003 ^ increments`), until C2. The multiplier is capped at `1.003 ^ 5` from round 51 onward; the C2 question deck is reshuffled and repeated indefinitely. Questions gradually shift from straightforward forms and vocabulary to complex agreement, subjunctive, literary/academic register, inferencing and discourse nuances. This is targeted practice, **not an official CEFR or DELE level assessment**.
 
-Progress and high scores are stored in `localStorage` under `ak-spanish-arcade-v1`. **This is not a global classroom leaderboard**: only players on the same device/browser share a table. Clearing browser data clears progress and scores, and local records are not tamper-resistant. Student identities, contact details, and scores are never sent to GitHub or another backend.
+Correct answers receive 100 points plus a streak bonus, adjusted by the same capped multiplier. Each run has three lives. Written responses are checked with Unicode NFC normalization, case-folding, whitespace trim and ignorable punctuation but **never remove Spanish accents**. For example `esta` is not accepted for `está`. On-screen keys are available for `á é í ó ú ü ñ ¿ ¡`.
 
-The bonus challenge includes original multiple-choice and typed questions covering vocabulary, agreement, conjugation, reflexive verbs, comparisons, and basic present-perfect usage. Its question bank is in `freeplay.js` and is independent of AULA unit selection.
+The original A1–B1 grammar-book reference `Gramática básica del estudiante de español` informed practice on articles, agreement, ser/estar, pronouns, indicative tenses, future/conditional, subjunctive, and imperatives. For B2–C2, the original question writing was informed by the Instituto Cervantes Plan Curricular and Council of Europe CEFR level descriptors:
+
+- https://cervantes.org/es/sobre-nosotros/publicaciones/plan-curricular-instituto-cervantes-niveles-referencia-espanol
+- https://www.coe.int/en/web/common-european-framework-reference-languages/table-1-cefr-3.3-common-reference-levels-global-scale/
+- https://cvc.cervantes.es/ensenanza/biblioteca_ele/plan_curricular/indice.htm
+
+The question files are `freeplay.js` (initial curated examples), `freeplay-bank.js` (algorithmically produced original tenses, agreement, vocabulary), and `freeplay-advanced.js` (original advanced grammar, diacritical-accent distinctions, register, reading and inference). Answer keys are client-visible because this site is static; do not use Free Play as a secure exam or graded test.
+
+**Two distinct scoreboards:**
+
+1. **Local high scores:** each browser stores its top ten scores and three-letter initials in `localStorage` (`ak-spanish-arcade-v1`). These are not tamper-resistant.
+2. **Class records published on the website:** `arcade-class-highscores.json` is shipped with GitHub Pages and read by every visitor. The teacher can add entries, then commit the file; after deployment, all visitors see the same approved top ten. To add scores, use entries such as `{"initials":"ABC","score":25800}` in the JSON array. Only teacher-approved entries should be published. The public site **cannot automatically accept scores from other students** without a database/API; players can copy their score slip to share it with the teacher for optional review.
 
 To test locally:
 
 ```bash
+node --check freeplay.js
+node --check freeplay-bank.js
+node --check freeplay-advanced.js
 node tests/arcade-smoke.cjs
 ```
 
-The publishing workflow runs this test along with the original game test and post-deployment URL checks.
+The GitHub Pages workflow runs these tests plus site-asset and live-URL checks.
 
