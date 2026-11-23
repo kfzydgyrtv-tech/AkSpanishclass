@@ -63,6 +63,27 @@ jobs:
           done
           echo 'The branch-based Pages deployment did not finish within three minutes.' >&2
           exit 1
+      - name: Wait until exactly one Pages artifact is visible
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # GitHub's artifact API can lag behind a completed upload.
+          # A clean new workflow run has exactly one github-pages archive.
+          for attempt in {1..40}; do
+            count=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts?per_page=100" \
+              --jq '[.artifacts[] | select(.name == "github-pages" and .expired == false)] | length')
+            if [[ "$count" == "1" ]]; then
+              echo "Pages archive ready"
+              exit 0
+            fi
+            if [[ "$count" -gt 1 ]]; then
+              echo "Multiple Pages artifacts in this run. Use a fresh workflow run." >&2
+              exit 1
+            fi
+            sleep 3
+          done
+          echo "Timed out while waiting for the Pages artifact to appear." >&2
+          exit 1
       - name: Publish the website
         id: deployment
         uses: actions/deploy-pages@v4
