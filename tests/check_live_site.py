@@ -12,6 +12,14 @@ paths = [
     "practice.html",
     "arcade.html",
     "arcade.css",
+    "language-lab.html",
+    "language-lab.css",
+    "language-lab.js",
+    "language-lab-core.js",
+    "language-lab-content.js",
+    "language-lab-dictionary.json",
+    "language-lab-license.md",
+    "freedict-gpl-2.0.txt",
     "arcade-rules.js",
     "games.html",
     "games.css",
@@ -47,6 +55,14 @@ for path in paths:
                     raise RuntimeError(f"HTTP {response.status}: {url}")
                 if len(data) < 50:
                     raise RuntimeError(f"Suspiciously short response: {url}")
+                if path == "language-lab.html" and b'panel-pronounce' not in data:
+                    raise RuntimeError("Language Lab interface was not published")
+                if path == "language-lab-dictionary.json" and b'"headwords":4502' not in data:
+                    raise RuntimeError("Incorrect or missing FreeDict dataset")
+                if path == "language-lab-core.js" and b'buildIndex' not in data:
+                    raise RuntimeError("Dictionary search engine is missing")
+                if path == "freedict-gpl-2.0.txt" and b'GNU GENERAL PUBLIC LICENSE' not in data:
+                    raise RuntimeError("FreeDict license was not published")
                 if path == "arcade.html" and b'arcade-rules-button' not in data:
                     raise RuntimeError("Missing arcade rules widget on live page")
                 if path == "arcade.html" and b"arcade-cards" not in data:
