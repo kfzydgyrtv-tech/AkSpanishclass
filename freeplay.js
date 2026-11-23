@@ -57,19 +57,19 @@
   ].map(([level,type,prompt,answer,options,explanation])=>({level,type,prompt,answer,options,explanation}));
 
 
-  const questions=items.concat(ArcadeQuestionBank.all);
-  const MAX_MISSES=3, BASE_TIME_MS=30000, STEP=1.003;
+  const questions=items.concat(ArcadeQuestionBank.all,ArcadeAdvancedBank.all);
+  const MAX_MISSES=3, BASE_TIME_MS=45000, STEP=1.003, C2_STEP=5;
   const norm=s=>String(s).normalize("NFC").toLocaleLowerCase("es")
     .replace(/[¿?¡!.,]/g,"").replace(/\s+/g," ").trim();
   const mix=a=>{const out=[...a];for(let i=out.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[out[i],out[j]]=[out[j],out[i]]}return out};
   const fmt=n=>String(n).padStart(6,"0");
   const el=(tag,text,cls)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(cls)node.className=cls;return node};
-  let deck={1:[],2:[],3:[],4:[]},index=0,misses=0,points=0,streak=0,answered=false,active=null,initials=["A","A","A"],selected=0;
+  let deck={1:[],2:[],3:[],4:[],5:[],6:[]},index=0,misses=0,points=0,streak=0,answered=false,active=null,initials=["A","A","A"],selected=0;
   let initialKeyHandler=null,clock=null,deadline=0,questionTime=BASE_TIME_MS;
-  const stage=()=>Math.min(4,1+Math.floor(index/10));
-  const stepIndex=()=>Math.floor(index/10);
+  const stage=()=>Math.min(6,1+Math.floor(index/10));
+  const stepIndex=()=>Math.min(C2_STEP,Math.floor(index/10));
   const multiplier=()=>Math.pow(STEP,stepIndex());
-  const allowedMs=()=>BASE_TIME_MS/multiplier();
+  const allowedMs=()=>((active && active.prompt.length>190)?65000:BASE_TIME_MS)/multiplier();
 
   function panel(id){
     ["freeplay-locked","freeplay-intro-panel","freeplay-board","freeplay-finish"].forEach(key=>$(key).hidden=(key!==id));
@@ -102,12 +102,15 @@
     $("freeplay-score").textContent=fmt(points);
     $("freeplay-lives").textContent="♥ ".repeat(MAX_MISSES-misses)+"♡ ".repeat(misses);
     $("freeplay-run-fill").style.width=(index%10)*10+"%";
-    $("freeplay-difficulty").textContent="DIFFICULTY ×"+multiplier().toFixed(4)+" · +0.3% EVERY 10 ROUNDS";
-    $("freeplay-progress-caption").textContent="Next difficulty increase in "+(10-index%10)+" round(s)";
+    $("freeplay-difficulty").textContent="DIFFICULTY ×"+multiplier().toFixed(4)+
+      (stage()===6?" · C2 CAP REACHED":" · +0.3% EVERY 10 ROUNDS");
+    $("freeplay-progress-caption").textContent=stage()===6?
+      "C2 MASTER MODE · ENDLESS ROUNDS · DIFFICULTY CAPPED":
+      "Next 0.3% increase and CEFR stage in "+(10-index%10)+" round(s)";
   }
   function begin(){
     if(!ArcadeProgress.status().unlocked){setup();return;}
-    deck={1:[],2:[],3:[],4:[]};
+    deck={1:[],2:[],3:[],4:[],5:[],6:[]};
     index=0;misses=0;points=0;streak=0;answered=false;active=null;
     stopClock();stopInitialKeys();panel("freeplay-board");question();
   }
@@ -140,7 +143,7 @@
     active=drawQuestion(stage());
     answered=false;
     updateHud();
-    const stages=["","A1","A1+","A2","B1 / EXPERT"];
+    const stages=["","A1","A2","B1","B2","C1","C2 / MASTER"];
     $("freeplay-level").textContent="LEVEL "+stages[stage()]+" · ROUND "+(index+1);
     $("freeplay-prompt").textContent=active.prompt;
     $("freeplay-feedback").textContent="";
