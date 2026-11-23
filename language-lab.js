@@ -185,8 +185,8 @@
       runSearch(true);
     }catch(error){
       dataLoaded=false;
-      $("lab-result-status").textContent="Full dictionary unavailable; classroom terms are still searchable.";
-      $("lab-dictionary-results").replaceChildren(make("p","Dictionary data did not load. Try refreshing the page; reviewed classroom words are available.","lab-empty"));
+      runSearch(true);
+      $("lab-result-status").textContent="FreeDict data unavailable. Classroom-reviewed terms are still searchable.";
     }
   }
   runSearch(true);loadDictionary();
@@ -219,9 +219,9 @@
     tx.value="";lastSpanish="";$("lab-translation-output").replaceChildren(make("span","Direction changed. Type a word or phrase.","lab-muted"));
   });
   $("lab-translate-speak").addEventListener("click",()=>{
-    if(lastSpanish) speak(lastSpanish,$("lab-translation-output"));
-    else if(txDir.value==="es-en")speak(tx.value,$("lab-translation-output"));
-    else $("lab-translation-output").textContent="Translate a supported expression before listening.";
+    if(lastSpanish) speak(lastSpanish,$("lab-translation-speech-status"));
+    else if(txDir.value==="es-en")speak(tx.value,$("lab-translation-speech-status"));
+    else $("lab-translation-speech-status").textContent="Translate a supported expression before listening.";
   });
   for(const phrase of content.phrases.slice(0,10)){
     $("lab-phrase-chips").append(button(phrase.es,()=>{
