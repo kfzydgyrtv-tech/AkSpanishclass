@@ -5,7 +5,7 @@
 <meta name="description" content="Play nine original Spanish A1 and A1+ vocabulary and grammar games in Ak's Arcade.">
 <meta name="theme-color" content="#f8f3e9">
 <title>Ak's Arcade | Spanish Games</title>
-<script src="theme.js?v=2"></script><link rel="stylesheet" href="style.css?v=3"><link rel="stylesheet" href="arcade.css?v=1">
+<script src="theme.js?v=2"></script><link rel="stylesheet" href="style.css?v=3"><link rel="stylesheet" href="arcade.css?v=1"><link rel="stylesheet" href="freeplay.css?v=1"><script src="arcade-progress.js?v=1" defer></script><script src="arcade-leaderboard.js?v=1" defer></script>
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
@@ -23,6 +23,21 @@
  <p>Nine bite-size Spanish challenges. Pick a game, beat your best score, and level up your vocabulary and grammar.</p>
  <div class="arcade-hero-stats"><span>09 GAMES</span><span>10 AULA UNITS</span><span>FREE PLAY</span></div>
  </div><div class="arcade-console" aria-hidden="true"><div class="screen"><span>¡VAMOS!</span><small>PRESS PLAY</small><div class="pixel-star">✦</div></div><div class="console-controls"><span>✚</span><i></i><i></i></div></div>
+</section>
+<section class="arcade-freeplay-feature" aria-label="Unlockable Free Play and local high scores">
+ <div class="arcade-freeplay-card">
+  <span class="status" id="arcade-freeplay-state">BONUS MODE LOCKED</span>
+  <h2>FREE PLAY</h2>
+  <p>Earn 30 unique correct answers across at least 3 different games to unlock an A1–A2 mixed challenge.</p>
+  <p id="arcade-progress-copy" aria-live="polite">Loading browser progress…</p>
+  <div class="freeplay-meter" role="progressbar" aria-label="Correct answers toward Free Play" aria-valuemin="0" aria-valuemax="30"><span id="arcade-progress-fill"></span></div>
+  <a href="freeplay.html" class="freeplay-action">ENTER FREE PLAY →</a>
+ </div>
+ <section class="arcade-highscore-panel" aria-labelledby="arcade-leaders">
+  <div class="arcade-score-heading"><h2 id="arcade-leaders">HIGH SCORES</h2><span>TOP TEN / THIS DEVICE</span></div>
+  <div id="arcade-highscores"></div>
+  <p class="arcade-local-note">Scores are shared only by players on this browser/device. No central leaderboard.</p>
+ </section>
 </section>
 <section class="arcade-section" aria-labelledby="choose-game">
  <div class="arcade-section-head"><div><p class="arcade-overline">SELECT YOUR CHALLENGE</p><h2 id="choose-game">Game library</h2></div><p class="arcade-key">Each game has an AULA unit selector and an A1+ challenge mode.</p></div>
@@ -66,7 +81,7 @@
  </div>
 </section>
 <section class="arcade-footer-banner"><div><span>LEARN BY UNIT</span><h2>Looking for games from today's lesson?</h2><p>They're still listed under their original AULA units in Extra Practice.</p></div><a class="arcade-back-button" href="practice.html">BROWSE UNITS <span aria-hidden="true">→</span></a></section>
-<p class="arcade-note">All nine games run in your browser, without accounts or third-party game services. Scores are not saved or submitted.</p>
+<p class="arcade-note">All nine games run in your browser, without accounts or third-party game services. High scores are saved locally in this browser; no student accounts or online sharing.</p>
 </main>
 <footer class="site-footer"><div class="wrap"><a href="index.html">Ak's Spanish Class</a><span>Grade 10 Spanish · A1–A1+</span><a href="teacher.html">Teacher Access</a></div></footer>
 </body></html>
