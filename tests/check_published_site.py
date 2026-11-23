@@ -10,7 +10,7 @@ PAGES = [
     "review.html", "practice.html", "contact.html", "teacher.html",
     "games.html", "arcade.html", "freeplay.html",
 ]
-ASSETS = ["games.js", "games.css", "arcade.css", "style.css", "theme.js", "freeplay.js", "freeplay-bank.js", "freeplay-advanced.js", "freeplay.css", "arcade-progress.js", "arcade-leaderboard.js", "arcade-class-highscores.json"]
+ASSETS = ["games.js", "games.css", "arcade.css", "style.css", "theme.js", "freeplay.js", "freeplay-bank.js", "freeplay-advanced.js", "freeplay.css", "arcade-progress.js", "arcade-leaderboard.js", "arcade-class-highscores.json", "arcade-rules.js"]
 MODES = {"memory", "scramble", "search", "crossword", "match",
          "sentence", "fill", "error", "verbs"}
 
@@ -55,6 +55,13 @@ for filename in PAGES:
 runner = read_links(ROOT / "games.html")
 assert any(urlparse(x).path == "games.js" for x in runner.assets), "Runner missing games.js"
 assert any(urlparse(x).path == "games.css" for x in runner.assets), "Runner missing games.css"
+# Rules button belongs to the Games gallery, not the global header or activity runner.
+arcade_html = (ROOT / "arcade.html").read_text(encoding="utf-8")
+assert 'id="arcade-rules-button"' in arcade_html, "Missing arcade rules button"
+assert 'id="arcade-rules-panel"' in arcade_html, "Missing arcade rules panel"
+assert 'arcade-rules.js?v=1' in arcade_html, "Missing rules behavior"
+for other_page in ("index.html", "games.html", "practice.html", "freeplay.html"):
+    assert 'id="arcade-rules-button"' not in (ROOT / other_page).read_text(encoding="utf-8"), "Rules button duplicated beyond arcade gallery"
 hub = read_links(ROOT / "arcade.html")
 assert any(urlparse(x).path == "arcade.css" for x in hub.assets), "Hub missing arcade.css"
 

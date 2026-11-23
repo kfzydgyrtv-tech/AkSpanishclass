@@ -5,7 +5,7 @@
 <meta name="description" content="Play nine original Spanish A1 and A1+ vocabulary and grammar games in Ak's Arcade.">
 <meta name="theme-color" content="#f8f3e9">
 <title>Ak's Arcade | Spanish Games</title>
-<script src="theme.js?v=2"></script><link rel="stylesheet" href="style.css?v=3"><link rel="stylesheet" href="arcade.css?v=1"><link rel="stylesheet" href="freeplay.css?v=2"><script src="arcade-progress.js?v=2" defer></script><script src="arcade-leaderboard.js?v=2" defer></script>
+<script src="theme.js?v=2"></script><link rel="stylesheet" href="style.css?v=3"><link rel="stylesheet" href="arcade.css?v=2"><link rel="stylesheet" href="freeplay.css?v=2"><script src="arcade-progress.js?v=2" defer></script><script src="arcade-leaderboard.js?v=2" defer></script>
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
@@ -15,6 +15,25 @@
 <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" hidden>Dark mode</button>
 </div></header>
 <main id="content" class="wrap arcade-page" tabindex="-1">
+<div id="arcade-rules-widget" class="arcade-rules-widget">
+  <button id="arcade-rules-button" class="arcade-rules-button" type="button"
+          aria-controls="arcade-rules-panel" aria-expanded="false"
+          aria-label="Show arcade rules" title="Arcade rules">?</button>
+  <section id="arcade-rules-panel" class="arcade-rules-panel" role="region"
+           aria-label="Arcade rules" aria-hidden="true">
+    <h2>ARCADE RULES</h2>
+    <ol>
+      <li>Scores are reviewed once a week: <strong>every Monday before 4 PM.</strong></li>
+      <li>Entries can only be made <strong>in person or via email on weekdays.</strong></li>
+      <li><strong>1st place</strong> receives a reward card at the end of the week.</li>
+      <li><strong>2nd place</strong> receives 3 reward tickets.</li>
+      <li><strong>3rd place</strong> receives 3 tokens.</li>
+      <li>If the teacher doubts a score, the student must replay under supervision.</li>
+      <li><strong>No cheating.</strong></li>
+    </ol>
+  </section>
+</div>
+
 <div class="arcade-back"><a class="back" href="practice.html">← Practice by AULA unit</a></div>
 <section class="arcade-hero" aria-labelledby="arcade-heading">
  <div class="arcade-orb" aria-hidden="true"></div><div class="arcade-copy">
@@ -89,4 +108,5 @@
 <p class="arcade-note">All nine games run in your browser, without accounts or third-party game services. Browser scores stay on this device; approved class records appear on every device.</p>
 </main>
 <footer class="site-footer"><div class="wrap"><a href="index.html">Ak's Spanish Class</a><span>Grade 10 Spanish · A1–A1+</span><a href="teacher.html">Teacher Access</a></div></footer>
+<script src="arcade-rules.js?v=1" defer></script>
 </body></html>
