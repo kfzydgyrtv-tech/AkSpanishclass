@@ -36,3 +36,23 @@ The site and its repository are public. Use the book and audio folders for mater
 The **Contact Me** page opens a prepared email draft addressed to the teacher. Students send it from their email app. Messages go to the teacher’s mailbox and are not stored on the website or in GitHub.
 
 The **Teacher Access** page links directly to GitHub’s upload screens. GitHub authenticates the uploader and enforces repository write permissions.
+
+## Interactive Spanish games
+
+The **Games** navigation opens `arcade.html`, a retro arcade gallery for nine original, self-hosted vocabulary and grammar games. Each card links to `games.html?unit=0&game=scramble`-style routes. The **Extra Practice** page keeps direct links inside the relevant AULA units.
+
+Game content lives in the `DATA` dictionary in `games.js` (units 0–9). The same nine game engines can be reused across units. The player can change the unit and switch between A1 and A1+ difficulty. No student login, external game service, or score-storage backend is used.
+
+The Pages builder (`.github/build_class_site.py`) automatically copies all top-level HTML, CSS, and JavaScript files into the deployed site. This is important: a file in the repository is **not available on GitHub Pages** unless it is copied into `_class_site` by the publishing workflow. New root-level game pages and styles are now included automatically.
+
+To check the games before deploying, run:
+
+```bash
+node --check games.js
+node tests/game-smoke.cjs
+python3 .github/build_class_site.py
+python3 tests/check_published_site.py
+```
+
+GitHub Actions runs these checks on each push to `main` before publishing. The first smoke test covers all nine game modes, ten AULA units, and two difficulty settings; the second verifies published assets and internal game links.
+
