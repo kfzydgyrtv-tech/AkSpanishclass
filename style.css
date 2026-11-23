@@ -269,3 +269,11 @@ a.print-page:hover { text-decoration: underline; }
 
 /* Dedicated games discovery link on the existing AULA practice page */
 .arcade-promo{margin:3px 0 18px;align-items:center}.arcade-promo span{font-size:.88rem;color:var(--muted)}
+
+/* Home-page arcade feature complements existing warm site visuals. */
+.arcade-home-feature{margin-top:24px;padding:25px 29px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;border:2px solid #8751ce;border-radius:18px;background:radial-gradient(circle at 88% 0%,#752b9b90,transparent 42%),linear-gradient(120deg,#1b104b,#322164);color:#fdf3ff}
+.arcade-home-feature span{font:800 .75rem "Courier New",monospace;color:#9effef;letter-spacing:.08em}
+.arcade-home-feature h2{margin:9px 0;font:800 clamp(1.3rem,3vw,1.7rem) "Courier New",monospace;color:#ff97e3}
+.arcade-home-feature p{max-width:650px;color:#e6ddf5;font-size:.91rem}
+.arcade-home-feature .button{font-family:"Courier New",monospace;font-weight:900}
+@media(max-width:490px){.arcade-home-feature{padding:19px 17px}.arcade-home-feature .button{width:100%}}
