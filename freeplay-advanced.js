@@ -79,13 +79,13 @@ const ArcadeAdvancedBank = (() => {
     ["fuera","Aunque ___ (ser, ella) más fácil, no sería la solución adecuada."],
     ["hubieran advertido","Era improbable que ellos nos ___ (advertir) con antelación."],
     ["hubiésemos previsto","Si ___ (prever, nosotros) ese obstáculo, habríamos cambiado el plan."],
-    ["hubiera existido","De haber ___ un acuerdo, la situación habría sido distinta."],
+    ["existido","De haber ___ un acuerdo, la situación habría sido distinta. (participio de existir)"],
     ["haya comprendido","No estoy seguro de que ella ___ (comprender) las implicaciones."],
     ["hubiera podido","Ojalá yo ___ (poder) intervenir antes."],
     ["resultara","No esperaba que aquello ___ (resultar) tan costoso."],
     ["mantuviera","La dirección exigió que se ___ (mantener, él) la confidencialidad."],
     ["supusiéramos","No era razonable que nosotros ___ (suponer) semejante desenlace."],
-    ["hubiese elegido","No creo que, de haber tenido opción, él ___ (elegir) lo mismo."]
+    ["hubiese elegido","No creo que, de haber tenido opción, él ___ (elegir) lo mismo. (forma en -se del pluscuamperfecto de subjuntivo)"]
   ];
   c1Subj.forEach(([ans,prompt])=>type(5,"Completa con la forma adecuada: "+prompt,ans,
     "This context calls for the appropriate subordinate or hypothetical verbal form."));
