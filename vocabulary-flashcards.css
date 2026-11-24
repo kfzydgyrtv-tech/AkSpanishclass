@@ -1,0 +1,27 @@
+/* Aula 1 vocabulary: flashcard study mode */
+.vocab-bank-unit .flash-start{margin:11px 0 0 8px}
+.flash-panel{margin:16px 0 8px;padding:17px;border:1px solid var(--line);border-radius:15px;background:var(--paper);color:var(--ink)}
+.flash-panel[hidden]{display:none!important}
+.flash-toolbar,.flash-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.flash-toolbar p{font-size:.86rem;color:var(--muted)}
+.flash-controls{justify-content:center;margin-top:15px}
+.flash-controls .button{min-width:88px}
+.flash-stage{display:block;margin-top:15px;position:relative;width:100%;min-height:240px;border:1.5px solid var(--line);border-radius:15px;background:var(--surface);color:var(--ink);cursor:pointer;padding:24px 20px;text-align:center;box-shadow:0 5px 20px #0000000d;transition:box-shadow .18s ease,transform .18s ease}
+.flash-stage:hover{box-shadow:0 8px 24px #00000020;transform:translateY(-2px)}
+.flash-stage:focus-visible,.flash-controls .button:focus-visible,.flash-start:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.flash-face{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;min-height:188px}
+.flash-label{text-transform:uppercase;letter-spacing:.1em;font-size:.7rem;font-weight:800;color:var(--muted)}
+.flash-word{font-size:clamp(1.65rem,5vw,2.6rem);line-height:1.15;font-weight:780;overflow-wrap:anywhere}
+.flash-meaning{font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.2;font-weight:740}
+.flash-hint{font-size:.84rem;color:var(--muted)}
+.flash-sound{display:block;margin-top:10px;font-size:.82rem}
+.flash-def{font-size:.98rem;max-width:600px;line-height:1.5}
+.flash-pos{display:inline-block;border:1px solid var(--line);padding:5px 10px;border-radius:999px;font-size:.8rem;font-weight:700;background:var(--soft-green)}
+.flash-audio-note{font-size:.8rem;color:var(--muted);margin-top:10px;text-align:center}
+.flash-audio-btn{margin:12px auto 0;display:flex;gap:8px;align-items:center;justify-content:center}
+.flash-card-hidden{display:none!important}
+.flash-error{font-size:.85rem;color:var(--muted);margin-top:10px}
+.flash-panel .flash-index{font-variant-numeric:tabular-nums;font-weight:700}
+@media(max-width:550px){.flash-panel{padding:10px}.flash-stage{min-height:230px;padding:18px 12px}.flash-controls{gap:6px}.flash-controls .button{min-width:70px}}
+@media(prefers-reduced-motion:reduce){.flash-stage{transition:none}.flash-stage:hover{transform:none}}
+@media print{.flash-start,.flash-panel{display:none!important}}
