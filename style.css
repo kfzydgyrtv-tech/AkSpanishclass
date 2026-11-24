@@ -299,3 +299,197 @@ a.print-page:hover { text-decoration: underline; }
   .lab-home-icon{width:66px;height:69px;font-size:1.55rem}
 }
 @media(max-width:470px){.lab-home-feature{padding:18px 15px;gap:12px}}
+
+
+/* HYBRID CLASSROOM — screen-only visual layer.
+   Mediterraneo / Aula Modern / Cuaderno / Lingua Lab.
+   Existing layouts, scripts, print styles and arcade controls remain intact. */
+@media screen {
+  :root {
+    --hy-terracotta:#a33d2b; --hy-blue:#2451b6; --hy-blue-soft:#e9efff;
+    --hy-notebook:#f3eadb; --hy-notebook-line:#cdb99e; --hy-violet:#62518a;
+    --hy-lab-accent:#12665e; --hy-lab-soft:#e6f4f2;
+    --hy-shadow:0 5px 18px #47351c0b;
+  }
+  :root[data-theme="dark"] {
+    --hy-terracotta:#f0a08a; --hy-blue:#afc6ff; --hy-blue-soft:#25334e;
+    --hy-notebook:#302b25; --hy-notebook-line:#655747; --hy-violet:#d4c2f3;
+    --hy-lab-accent:#9ce7da; --hy-lab-soft:#203c40;
+    --hy-shadow:0 5px 18px #0003;
+  }
+  /* Common identity: familiar navigation, restrained animation, local fonts. */
+  .site-header { background:var(--surface); }
+  .site-header .brand span { background:#a33d2b;color:#fff9ef;border-radius:9px; }
+  .header-inner nav a { transition:background-color .16s,color .16s; }
+  .header-inner nav a[aria-current="page"] { color:var(--hy-blue);background:var(--hy-blue-soft); }
+  .site-footer { background:var(--surface); }
+  /* Mediterraneo: an arch, setting sun, and ceramic tile motif; all CSS. */
+  .home .hero {
+    background:linear-gradient(115deg,#843322,#a74d35 65%,#b56040);
+    border:1px solid #a84f38;border-radius:24px;
+  }
+  .home .hero-copy { padding:clamp(28px,4.5vw,62px); }
+  .home .course-label {
+    display:inline-block;border:1px solid #fff5df70;border-radius:4px;
+    padding:6px 10px;color:#fff4d9;letter-spacing:.1em;text-transform:uppercase;
+    font-size:.71rem;
+  }
+  .home .hero h1 { letter-spacing:-.06em; }
+  .home .hero p { color:#fff2df; }
+  .home .hero .primary { background:#ffde97;color:#352418; }
+  .home .hero .primary:hover { background:#ffedc2; }
+  .home .hero .hero-secondary { border-color:#fff2d6a0;color:#fff7e9; }
+  .home .hero .hero-secondary:hover { background:#6e2c23; }
+  .home .hero-art {
+    background-image:linear-gradient(45deg,transparent 46%,#ffe8b71f 46%,#ffe8b71f 54%,transparent 54%),
+      linear-gradient(-45deg,transparent 46%,#ffe8b71f 46%,#ffe8b71f 54%,transparent 54%);
+    background-size:52px 52px;
+    border-left:1px solid #f6d8a140;
+  }
+  .home .hero-art .note {
+    top:50%;left:50%;height:clamp(225px,28vw,315px);width:clamp(165px,21vw,245px);
+    border-radius:50% 50% 8px 8px / 38% 38% 8px 8px;
+    box-shadow:none;
+  }
+  .home .hero-art .note-back {
+    background:#f8d7a1;border:1px solid #ffe8c2;
+    transform:translate(-45%,-48%);box-shadow:8px 8px 0 #6f2d2355;
+  }
+  .home .hero-art .note-front {
+    padding:0;transform:translate(-52%,-52%);overflow:hidden;
+    border:8px solid #efd3a4;color:#fff9e8;
+    background:radial-gradient(circle at 53% 25%,#d88b47 0 13%,transparent 13.5%),
+      radial-gradient(ellipse 110% 56% at 10% 109%,#284c3f 0 65%,transparent 65.5%),
+      radial-gradient(ellipse 110% 58% at 95% 100%,#5d795a 0 65%,transparent 65.5%),
+      linear-gradient(#f6e5c3,#e4b98a);
+  }
+  .home .hero-art .note-front span {
+    position:absolute;bottom:10%;left:0;right:0;text-align:center;
+    font:italic 700 clamp(1.6rem,3.3vw,3.15rem)/1.1 var(--heading);
+    letter-spacing:-.035em;margin:0;
+  }
+  .home .hero-art .note-front i { display:none; }
+  .home .hero-art .hero-spark { color:#ffe2a4;left:79%;top:10%;font-size:2.2rem; }
+  .home .hero-art .hero-dot { border-color:#f7d49b;left:10%; }
+  .home .hero .daily-greeting { color:#ffe2a4;font-size:.79rem;font-weight:700;margin-top:19px;letter-spacing:.025em; }
+  /* Aula Modern: academic cards, crisp grid and blue wayfinding. */
+  .home .resource-section h2,.home .practice-banner h2,
+  .inner-page .page-intro h1,.inner-page .contents h2 {
+    font-family:var(--body);letter-spacing:-.045em;
+  }
+  .home .resource-grid { gap:12px; }
+  .home .resource-card,.inner-page .file-card,.inner-page .unit-card,.inner-page .book-panel {
+    border-radius:10px;box-shadow:var(--hy-shadow);
+  }
+  .home .resource-card { border-top:3px solid var(--hy-blue); }
+  .home .resource-card .card-arrow,.inner-page .back { color:var(--hy-blue); }
+  .home .resource-card:hover { border-color:var(--hy-blue); }
+  .inner-page .page-intro { border-bottom:1px solid var(--line);padding-bottom:22px; }
+  .inner-page .unit-number,.inner-page .unit-jump a:hover {
+    background:var(--hy-blue-soft);color:var(--hy-blue);
+  }
+  .inner-page .file-copy h2,.inner-page .unit-heading h2,.inner-page .book-panel h2 {
+    font-family:var(--body);letter-spacing:-.025em;
+  }
+  .inner-page .button.primary { background:#2451b6;color:#fff; }
+  .inner-page .button.primary:hover { background:#193e90; }
+  /* Cuaderno: notebook bulletin and personal study surfaces. */
+  .home .weekly-board {
+    background:var(--hy-notebook);
+    border-color:var(--hy-notebook-line);border-radius:15px;
+    background-image:repeating-linear-gradient(0deg,transparent 0 27px,#8b77520c 27px 28px);
+    box-shadow:var(--hy-shadow);
+  }
+  .home .weekly-board .weekly-eyebrow { color:var(--hy-violet); }
+  .home .weekly-board .weekly-dot { background:var(--hy-violet); }
+  .home .weekly-board .weekly-board-period { border-color:var(--hy-notebook-line); }
+  .home .weekly-board .weekly-notices,.home .weekly-board .weekly-pins {
+    background:var(--surface);border-color:var(--hy-notebook-line);border-radius:9px;
+  }
+  .home .weekly-board .weekly-notice,.home .weekly-board .weekly-pins-list a {
+    border-left:3px solid var(--hy-violet);border-radius:5px;
+  }
+  .home .weekly-board .weekly-pins-list a { background:var(--paper); }
+  .home .weekly-board .weekly-pins-list a:hover { border-color:var(--hy-violet); }
+  .inner-page .vocab-bank-unit { border-left:4px solid var(--hy-violet);box-shadow:var(--hy-shadow); }
+  .inner-page .vocab-bank-unit summary { padding:6px 2px;color:var(--ink); }
+  .inner-page .vocab-bank-unit summary small { color:var(--muted); }
+  .inner-page .vocab-bank-table th { background:var(--hy-notebook); }
+  .inner-page .vocab-note {
+    background-image:repeating-linear-gradient(0deg,transparent 0 22px,var(--line) 22px 23px);
+    line-height:23px;
+  }
+  .inner-page .flash-panel,.lab-page #panel-flashcards .fc-card-form,
+  .lab-page #panel-flashcards .fc-review { background:var(--hy-notebook);border-color:var(--hy-notebook-line); }
+  .inner-page .flash-panel .flash-stage,.lab-page #panel-flashcards .fc-flip {
+    border-top:5px solid var(--hy-violet);box-shadow:var(--hy-shadow);
+    background-color:var(--surface);
+    background-image:repeating-linear-gradient(0deg,transparent 0 26px,var(--line) 26px 27px);
+  }
+  .lab-page #panel-flashcards .fc-folder[aria-current="true"] {
+    border-color:var(--hy-violet);background:var(--hy-notebook);
+  }
+  /* Lingua Lab: cool blue/teal tools, distinct from the academic pages. */
+  .home .lab-home-feature,.lab-page .lab-hero,.dict .dict-hero {
+    background-color:#162a41;
+    background-image:radial-gradient(circle at 86% 15%,#226c7480,transparent 50%),
+      linear-gradient(90deg,#b9e5f20c 1px,transparent 1px),
+      linear-gradient(0deg,#b9e5f20c 1px,transparent 1px);
+    background-size:auto,32px 32px,32px 32px;
+    border:1px solid #355e72;color:#f1f9ff;
+  }
+  .home .lab-home-feature { grid-template-columns:auto minmax(0,1fr) auto auto; }
+  .home .lab-home-feature p,.home .lab-home-eyebrow { color:#c8dbe6; }
+  .home .lab-home-icon { background:#223d50;color:#a4e8d9;border-color:#5a9f9c; }
+  .home .lab-home-icon span { color:#a4e8d9; }
+  .home .lab-home-feature .primary { background:#a4e8d9;color:#132a38; }
+  .home .lab-home-feature .hero-secondary { border-color:#8eb2bc;color:#fff; }
+  .home .lab-home-feature .hero-secondary:hover { background:#29475d; }
+  .home .lab-home-feature .primary:hover { background:#d0f6ec; }
+  .lab-page .lab-hero h1 em,.dict .dict-hero em { color:#a4e8d9; }
+  .lab-page .lab-hero .lab-kicker,.lab-page .lab-hero .lab-hero-stats { color:#b7ebdf; }
+  .lab-page .lab-hero .lab-letter-stack span { border-color:#19384c;box-shadow:6px 8px 0 #0d2037a0; }
+  .lab-page .lab-hero .lab-letter-stack span:nth-child(1) { background:#a4e8d9;color:#173849; }
+  .lab-page .lab-hero .lab-letter-stack span:nth-child(2) { background:#c0ccff;color:#203453; }
+  .lab-page .lab-hero .lab-letter-stack span:nth-child(3) { background:#f1d7a5;color:#26384a; }
+  .lab-page .lab-tabs button[aria-selected="true"] {
+    background:#19374d;color:#fff;border-color:#19374d;box-shadow:inset 0 -3px 0 #a4e8d9;
+  }
+  .lab-page .lab-tabs button[aria-selected="true"] span { color:#a4e8d9; }
+  .lab-page .lab-panel,.dict .dict-search,.dict .dict-card {
+    box-shadow:var(--hy-shadow);border-radius:12px;
+  }
+  .lab-page .lab-panel .lab-cta,.dict .dict-controls button,.dict #more {
+    background:#17635d;color:#fff;border-color:#17635d;
+  }
+  .lab-page .lab-panel .lab-cta:hover,.dict .dict-controls button:hover,.dict #more:hover { background:#104a46; }
+  .lab-page .lab-panel .lab-word,.dict .dict-card h2 { color:var(--hy-lab-accent); }
+  .dict .dict-card { border-top:3px solid var(--hy-lab-accent); }
+  .dict .dict-nav [aria-current="page"] { border-color:var(--hy-lab-accent); }
+  .dict .dict-badge,.lab-page .lab-word-card .lab-word-meta span { background:var(--hy-lab-soft); }
+  .dict .daily-word {
+    margin-top:22px;padding:14px 16px;max-width:460px;
+    border:1px solid #77b8bc;border-radius:8px;background:#13283bd9;
+  }
+  .dict .daily-word small { display:block;color:#a4e8d9;letter-spacing:.12em;font-weight:750; }
+  .dict .daily-word strong { display:block;font:700 1.45rem/1.4 Georgia,serif;margin-top:3px; }
+  .dict .daily-word p { color:#d4e5ef;font-size:.9rem; }
+  /* Avoid changing the arcade's own CSS or introducing motion on demand. */
+  @media(max-width:950px) {
+    .home .lab-home-feature { grid-template-columns:auto minmax(0,1fr); }
+    .home .lab-home-feature .button { grid-column:auto; }
+  }
+  @media(max-width:735px) {
+    .home .hero-art .note { height:188px;width:132px; }
+    .home .hero-art .note-front { border-width:5px; }
+  }
+  @media(max-width:490px) {
+    .home .hero-copy { padding:24px 18px; }
+    .home .resource-grid { gap:8px; }
+    .home .lab-home-feature .button { grid-column:1/-1;white-space:normal; }
+    .inner-page .vocab-bank-unit { border-left-width:3px; }
+  }
+  @media(prefers-reduced-motion:reduce) {
+    .header-inner nav a { transition:none; }
+  }
+}
