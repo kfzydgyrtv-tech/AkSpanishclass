@@ -1,6 +1,25 @@
 {
-  "weekLabel": "Class updates",
-  "announcements": [],
+  "weekLabel": "23–27 November 2026",
+  "announcements": [
+    {
+      "category": "This week's topic",
+      "date": "23–27 November",
+      "title": "Países, nacionalidades y lenguas",
+      "message": "Esta semana estamos estudiando los diferentes países, las nacionalidades y los idiomas que se hablan en ellos.\n\nThis week we are learning about countries, nationalities, and the languages spoken around the world.",
+      "href": "vocabulary.html",
+      "linkText": "Open vocabulary resources"
+    },
+    {
+      "category": "1st class · Homework",
+      "title": "Research your assigned country and a celebrity",
+      "message": "You will be assigned a country. Research its name, nationality, and the languages spoken there. Choose a celebrity from that country and collect information to introduce them.\n\nWrite your notes about the celebrity IN SPANISH in your notebook."
+    },
+    {
+      "category": "2nd class · Classwork",
+      "title": "Design your country and celebrity poster",
+      "message": "Use the information you researched to create your poster. Include the country, nationality, languages, and information about your chosen celebrity.\n\nYou will use this poster in class NEXT WEEK."
+    }
+  ],
   "pinnedLinks": [
     {
       "label": "Class slides",
