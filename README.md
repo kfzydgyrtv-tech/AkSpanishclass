@@ -1,4 +1,5 @@
 # Ak’s Spanish Class
+Welcome to my website, predominantly designed by AI cause I am still learning HTML, which is a pain in the ass. Hopefully this site helps all my students. Heres to growing this website to its fullest potential. 
 
 ## Upload the site to GitHub
 
