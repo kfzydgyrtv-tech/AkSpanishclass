@@ -30,7 +30,10 @@
   function updateToggle(button, theme) {
     const previous = button.dataset.mode;
     if (previous === theme) return;
-    if (!previous) button.setAttribute('aria-label', button.textContent.trim());
+    const spanish = root.lang.toLowerCase().startsWith('es');
+    const action = theme === 'dark' ? (spanish ? 'Cambiar a modo claro' : 'Switch to light mode') : (spanish ? 'Cambiar a modo oscuro' : 'Switch to dark mode');
+    button.setAttribute('aria-label', action);
+    button.title = action;
     button.dataset.mode = theme;
     button.setAttribute('aria-pressed', String(theme === 'dark'));
     button.innerHTML = `<svg data-theme-icon="${theme === 'dark' ? 'moon' : 'sun'}" aria-hidden="true" focusable="false"
@@ -71,3 +74,37 @@
     }
   });
 })();
+
+/* Decorative enhancements: no external requests, no changes to student data. */
+document.addEventListener('DOMContentLoaded', () => {
+  const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const flips = new WeakMap();
+  document.addEventListener('click', event => {
+    const card = event.target.closest?.('.flash-stage, #fc-flip');
+    if (!card || motion.matches || !card.animate || card.disabled) return;
+    flips.get(card)?.cancel();
+    flips.set(card, card.animate([
+      {transform:'perspective(800px) rotateY(-16deg)',opacity:.72},
+      {transform:'perspective(800px) rotateY(0deg)',opacity:1}
+    ],{duration:220,easing:'ease-out'}));
+  });
+  motion.addEventListener?.('change', () => {
+    if(motion.matches) document.querySelectorAll('.flash-stage,#fc-flip').forEach(card=>flips.get(card)?.cancel());
+  });
+  const note = document.getElementById('culture-note');
+  if (!note) return;
+  const date = new Date(), month = date.getMonth()+1, day = date.getDate();
+  const events = [
+    [1,5,6,'Día de Reyes','In Spain and many Latin American communities, January 6 is associated with the Three Kings. Traditions vary by region.'],
+    [4,23,23,'Día del Libro','April 23 celebrates books and reading. Try reading a short Spanish story today.'],
+    [9,15,16,'Independence in Central America and Mexico','Several Central American countries celebrate independence on September 15; Mexico celebrates on September 16.'],
+    [11,1,2,'Día de Muertos','In Mexico, many families remember loved ones through ofrendas, flowers and other local traditions.'],
+    [12,16,24,'Las Posadas','In Mexico and some other communities, Las Posadas are celebrated in the days leading up to Christmas.']
+  ];
+  const item=events.find(([m,a,b])=>m===month && day>=a && day<=b);
+  if(item){
+    document.getElementById('culture-title').textContent=item[3];
+    document.getElementById('culture-copy').textContent=item[4];
+    note.hidden=false;
+  }
+});

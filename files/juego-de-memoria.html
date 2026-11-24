@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Juego de memoria · Español A1–A2</title>
-<script src="../theme.js?v=2"></script>
+<script src="../theme.js?v=3"></script>
 <style>
 :root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#17243a;background:#f1f5fb}*{box-sizing:border-box}body{margin:0}main{max-width:1100px;margin:auto;padding:24px 14px 60px}h1{margin:0;font-size:clamp(1.8rem,4vw,2.6rem)}h2{font-size:1.2rem}p{line-height:1.5}.muted{color:#53657c}.panel{background:#fff;border:1px solid #d4dfeb;border-radius:16px;padding:16px;margin:16px 0;box-shadow:0 5px 22px #23395a0a}.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}.field{display:grid;gap:5px}label{font-size:.88rem;font-weight:700}select,button{font:inherit;border:1px solid #a9b9cc;border-radius:10px;padding:10px;background:white;color:#17243a}button{cursor:pointer}button:disabled{cursor:default}button:focus-visible,select:focus-visible{outline:3px solid #2366c2;outline-offset:2px}.primary{background:#284fa0;color:#fff;border-color:#284fa0}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px}.stat{background:#fff;border:1px solid #d4dfeb;border-radius:12px;padding:12px}.stat small{display:block;color:#53657c}.stat strong{font-size:1.3rem;font-variant-numeric:tabular-nums}.message{min-height:54px;background:#eaf0ff;border-left:4px solid #345cb1;padding:12px;border-radius:8px;margin:14px 0;font-weight:650}.message.good{background:#e5f8ec;border-color:#18844a}.message.bad{background:#fff2e8;border-color:#b4581b}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.card{min-height:105px;padding:8px;background:#3156a4;color:white;border:2px solid #24478f;border-radius:13px;font-weight:800;font-size:1.05rem;overflow-wrap:anywhere;transition:transform .16s,background .16s}.card .content{display:none}.card.revealed,.card.matched{background:white;color:#152238}.card.revealed .content,.card.matched .content{display:block}.card.revealed .back,.card.matched .back{display:none}.card.matched{background:#e4f8ec;border-color:#15824b;box-shadow:0 0 0 2px #8fd6aa}.card.wrong{border-color:#bd6224}.flag{font-size:2.7rem}.card .listen{display:block;font-size:.76rem;font-weight:500;margin-top:4px}.hide{display:none!important}.vocab{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px}.vocab article{border:1px solid #d4dfeb;border-radius:10px;padding:10px;background:#f8fbff}.vocab small{display:block;color:#53657c}.history{padding-left:22px}.history li{padding:3px 0}#win{border:2px solid #15824b}#win h2{color:#11683d}details summary{cursor:pointer;font-weight:750}footer{color:#53657c;margin-top:24px;font-size:.9rem}@media(max-width:620px){main{padding:16px 10px 40px}.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.card{min-height:95px;font-size:.9rem;padding:5px}.flag{font-size:2.2rem}}@media(max-width:360px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
@@ -26,8 +26,17 @@
 [data-theme="dark"] .card:not(.revealed, .matched) { background: #355892; border-color: #8aa9d9; }
 [data-theme="dark"] .card.wrong { border-color: #eda96e; }
 [data-theme="dark"] #win h2 { color: #a2e0bc; }
-</style></head><body><main>
-<header><button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" hidden>Modo oscuro</button><p class="muted">Español · A1–A2 · Juego educativo independiente</p><h1>Juego de memoria</h1><p class="muted">Aprende países, capitales, continentes y nacionalidades.</p></header>
+
+.memory-back{font-size:.86rem;font-weight:700;margin:0 0 18px}
+.memory-back a{color:inherit;text-underline-offset:3px}
+.controls select{min-height:44px}.actions button{min-height:44px}
+[data-theme="dark"] .card.revealed{background:#222f43;color:#edf2fa;border-color:#a6bce0}
+[data-theme="dark"] .card.matched{color:#d8fbe7}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){.card:not(:disabled):hover{transform:translateY(-2px)}}
+@media(max-width:480px){.actions button{flex:1 1 130px}}
+</style><link rel="icon" href="../brand.svg" type="image/svg+xml">
+</head><body><main>
+<header><p class="memory-back"><a href="../practice.html#unit-1">← Volver a la práctica</a> · <a href="../arcade.html">Arcade</a></p><button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" hidden>Modo oscuro</button><p class="muted">Español · A1–A2 · Juego educativo independiente</p><h1>Juego de memoria</h1><p class="muted">Aprende países, capitales, continentes y nacionalidades.</p></header>
 <section class="panel"><h2>Configura tu partida</h2><div class="controls">
 <div class="field"><label for="mode">Tipo de parejas</label><select id="mode"><option value="flag-country">Bandera ↔ país</option><option value="country-nationality">País ↔ nacionalidad</option><option value="country-capital">País ↔ capital</option><option value="country-continent">País ↔ continente</option><option value="masc-fem">Masculino ↔ femenino</option><option value="flag-nationality">Bandera ↔ nacionalidad</option></select></div>
 <div class="field"><label for="difficulty">Dificultad</label><select id="difficulty"><option value="8">Fácil · 8 parejas</option><option value="12">Medio · 12 parejas</option><option value="16">Difícil · 16 parejas</option></select></div>
