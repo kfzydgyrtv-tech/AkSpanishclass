@@ -11,6 +11,8 @@
 <script src="language-lab-content.js?v=1" defer></script>
 <script src="language-lab-core.js?v=1" defer></script>
 <script src="language-lab.js?v=1" defer></script>
+<script src="flashcard-studio.js?v=1" defer></script>
+<link rel="stylesheet" href="flashcard-studio.css?v=1">
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
@@ -26,7 +28,7 @@
 <span class="lab-kicker">AK'S SPANISH CLASS / LANGUAGE LAB 01</span>
 <h1 id="lab-title">Your Spanish<br><em>Language Lab.</em></h1>
 <p>Look up a word. Hear it spoken. Understand how it works. Practice saying it yourself.</p>
-<div class="lab-hero-stats"><span><strong id="lab-dictionary-count">4,502+</strong> dictionary entries</span><span><strong>4</strong> learning tools</span><span><strong>0</strong> external dictionary calls</span></div>
+<div class="lab-hero-stats"><span><strong id="lab-dictionary-count">4,502+</strong> dictionary entries</span><span><strong>5</strong> learning tools</span><span><strong>0</strong> external dictionary calls</span></div>
 </div>
 <div class="lab-hero-art" aria-hidden="true"><div class="lab-letter-stack"><span>Ñ</span><span>á</span><span>¿</span></div><div class="lab-audio-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><small>BUSCA · ESCUCHA · APRENDE</small></div>
 </section>
@@ -35,6 +37,7 @@
  <button id="tab-translate" type="button" role="tab" aria-controls="panel-translate" aria-selected="false" tabindex="-1" data-lab-tab="translate"><span>02</span> Translator</button>
  <button id="tab-pronounce" type="button" role="tab" aria-controls="panel-pronounce" aria-selected="false" tabindex="-1" data-lab-tab="pronounce"><span>03</span> Pronunciation</button>
  <button id="tab-grammar" type="button" role="tab" aria-controls="panel-grammar" aria-selected="false" tabindex="-1" data-lab-tab="grammar"><span>04</span> Grammar</button>
+ <button id="tab-flashcards" type="button" role="tab" aria-controls="panel-flashcards" aria-selected="false" tabindex="-1" data-lab-tab="flashcards"><span>05</span> My Flashcards</button>
 </nav>
 <section id="panel-dictionary" class="lab-panel" role="tabpanel" aria-labelledby="tab-dictionary">
  <div class="lab-section-heading"><div><span class="lab-overline">01 / BILINGUAL LOOKUP</span><h2>Diccionario</h2><p>Search Spanish or English words, with meanings, examples, and pronunciation.</p></div><span class="lab-symbol" aria-hidden="true">A↔B</span></div>
@@ -93,6 +96,28 @@
  </div>
  <div class="lab-subheading"><h3>Grammar quick guides</h3><p>Short, original notes aligned with beginner and intermediate Spanish study.</p></div>
  <div id="lab-grammar-guides" class="lab-grammar-guides"></div>
+</section>
+
+<section id="panel-flashcards" class="lab-panel" role="tabpanel" aria-labelledby="tab-flashcards" hidden>
+ <div class="lab-section-heading"><div><span class="lab-overline">05 / PERSONAL STUDY LIBRARY</span><h2>My Flashcards</h2><p>Create custom Spanish–English cards, organize saved words in folders, and review your decks.</p></div><span class="lab-symbol" aria-hidden="true">▤</span></div>
+ <p class="lab-limit-note"><strong>Private on this device.</strong> Cards are saved to this browser, not to a teacher account. Use Export backup to keep your work before clearing browser data or changing devices.</p>
+ <div class="fc-toolbar"><form id="fc-folder-form"><label for="fc-folder-name">New flashcard folder</label><div class="fc-inline"><input id="fc-folder-name" type="text" maxlength="50" placeholder="e.g. Unit 1 · Introductions" required><button type="submit" class="lab-cta">+ CREATE FOLDER</button></div></form><div class="fc-backup"><button id="fc-export" type="button" class="lab-outline">Export backup</button><label class="lab-outline fc-import">Import backup<input id="fc-import-file" type="file" accept=".json,application/json" hidden></label></div></div>
+ <div class="fc-layout">
+ <aside class="fc-sidebar" aria-label="Flashcard folders"><h3>My folders</h3><div id="fc-folder-list"></div></aside>
+ <div class="fc-main">
+  <div class="fc-heading"><div><h3 id="fc-active-title">My first deck</h3><p id="fc-active-count">0 flashcards</p></div><div class="fc-inline"><button id="fc-rename" type="button" class="lab-outline">Rename</button><button id="fc-delete-folder" type="button" class="lab-outline">Delete folder</button></div></div>
+  <form id="fc-card-form" class="fc-card-form"><h3 id="fc-form-heading">Add a flashcard</h3><input id="fc-edit-id" type="hidden">
+   <div class="fc-fields"><label>Spanish word or phrase <span>*</span><input id="fc-es" type="text" maxlength="180" autocomplete="off" required placeholder="e.g. la casa"></label><label>English translation <span>*</span><input id="fc-en" type="text" maxlength="180" autocomplete="off" required placeholder="e.g. house"></label><label>Pronunciation note (optional)<input id="fc-pron" type="text" maxlength="120" placeholder="Stress, syllables, or IPA"></label><label>Part of speech<select id="fc-pos"><option value="">Not specified</option><option>Noun</option><option>Verb</option><option>Adjective</option><option>Adverb</option><option>Pronoun</option><option>Preposition</option><option>Conjunction</option><option>Interjection</option><option>Expression / phrase</option><option>Other</option></select></label><label class="fc-wide">Definition or explanation<textarea id="fc-def" rows="2" maxlength="400" placeholder="Write what this word means or how it is used."></textarea></label><label class="fc-wide">Example sentence (optional)<input id="fc-example" type="text" maxlength="240" placeholder="e.g. Mi casa es pequeña."></label></div>
+   <div class="fc-inline"><button id="fc-save-card" type="submit" class="lab-cta">SAVE FLASHCARD</button><button id="fc-clear-form" type="button" class="lab-outline">Clear form</button></div>
+  </form>
+  <p id="fc-status" role="status" aria-live="polite" class="fc-status"></p>
+  <div class="fc-study-head"><h3>Cards in this folder</h3><button id="fc-start-study" type="button" class="lab-cta">STUDY FOLDER</button></div>
+  <div id="fc-card-list" class="fc-list"></div>
+  <section id="fc-review" class="fc-review" aria-label="Flashcard review" hidden><div class="fc-inline fc-review-top"><strong id="fc-review-progress"></strong><button id="fc-close-review" type="button" class="lab-outline">Close</button></div>
+    <button id="fc-flip" class="fc-flip" type="button" aria-label="Flip study card"><small id="fc-side"></small><strong id="fc-review-word"></strong><span id="fc-review-meta"></span><span id="fc-review-def"></span><em>Click to flip</em></button>
+    <div class="fc-inline fc-review-controls"><button id="fc-previous" type="button" class="lab-outline">← Previous</button><button id="fc-listen" type="button" class="lab-outline">♫ Listen</button><button id="fc-next" type="button" class="lab-outline">Next →</button><button id="fc-shuffle" type="button" class="lab-outline">Shuffle</button></div><p id="fc-audio-status" role="status" class="lab-muted"></p>
+  </section>
+ </div></div>
 </section>
 <section class="lab-source-footer" aria-label="Source credits"><div><strong>Built for learning, not copied from commercial dictionaries.</strong><p>Spanish–English base data: FreeDict 0.3.1 (4,502 headwords, GPL-2.0-or-later). Core classroom examples and phonetics notes are independently authored. Speech uses installed browser voices.</p></div><div class="lab-source-links"><a href="language-lab-license.md" target="_blank" rel="noopener">Dictionary attribution &amp; license</a><a href="https://freedict.org/" target="_blank" rel="noopener">FreeDict project ↗</a><a href="https://soundsofspeech.uiowa.edu/" target="_blank" rel="noopener">Phonetics reference ↗</a></div></section>
 </main>

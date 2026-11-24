@@ -32,6 +32,7 @@ function badge(s){return node('span',s,'dict-badge')}
 function block(parent,title){var section=node('section');section.appendChild(node('h3',title));parent.appendChild(section);return section}
 function curated(s){var content=window.LanguageLabContent;return content && (content.curated||[]).find(function(e){return norm(e.es)===norm(s)})}
 function esCard(s,r){var a=node('article',undefined,'dict-card');a.appendChild(node('h2',s));a.appendChild(badge('Spanish → English'));
+var save=node('a','☆ Save to flashcards','dict-badge');save.href='../language-lab.html?tab=flashcards&word='+encodeURIComponent(s)+'&meaning='+encodeURIComponent((r.direct&&r.direct[0])||'');save.style.display='inline-block';save.style.marginLeft='8px';a.appendChild(save);
 var note=curated(s);if(note){var n=block(a,'Classroom reference');n.appendChild(badge(note.pos||'word'));if(note.level)n.appendChild(badge(note.level));if(note.gender)n.appendChild(badge(note.gender));if(note.example)n.appendChild(node('p',note.example,'dict-example'))}
 if(syn[s]){var thes=block(a,'Curated thesaurus');thes.appendChild(node('p','Synonyms: '+syn[s].join(' · ')))}
 if(r.direct&&r.direct.length){var direct=block(a,'Direct FreeDict translations');var ol=node('ol');r.direct.slice(0,15).forEach(function(v){ol.appendChild(node('li',v))});direct.appendChild(ol)}

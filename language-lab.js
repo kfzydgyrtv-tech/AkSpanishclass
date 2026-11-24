@@ -30,7 +30,7 @@
 
   // Accessible tab switching; all content is already locally available after loading.
   const tabs=[...document.querySelectorAll("[data-lab-tab]")];
-  const panelNames=["dictionary","translate","pronounce","grammar"];
+  const panelNames=["dictionary","translate","pronounce","grammar","flashcards"];
   function activateTab(name,focus=false){
     if(!panelNames.includes(name))return;
     tabs.forEach(t=>{
@@ -129,6 +129,7 @@
       if(favourites.has(key))favourites.delete(key);
       else favourites.add(key);
       saveFavourites();
+      if(favourites.has(key))window.dispatchEvent(new CustomEvent("ak-lab-word-bookmarked",{detail:{es:e.es,en:e.en[0]||"",pos:e.pos||"",definition:e.example||"",example:e.example||""}}));
       favorite.textContent=favourites.has(key)?"★ Saved":"☆ Save";
       favorite.setAttribute("aria-pressed",String(favourites.has(key)));
       if(filterSaved)runSearch(true);
