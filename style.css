@@ -598,3 +598,104 @@ a.print-page:hover { text-decoration: underline; }
   }
 }
 @media print { .unit-cover,.culture-note{display:none!important} }
+
+
+/* Final layout pass: aligned content rails, balanced grids and uncluttered copy.
+   Screen-only so classroom print sheets retain their existing layout. */
+@media screen {
+  body:has(.site-header) { min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; }
+  body:has(.site-header) > main { flex:1 0 auto; min-width:0; }
+  body:has(.site-header) .inner-page { min-height:0; }
+  .site-header .header-inner {
+    display:grid;grid-template-columns:minmax(0,1fr) auto;
+    align-items:center;gap:0 16px;padding:12px 0 8px;
+  }
+  .site-header .brand { grid-column:1;grid-row:1;min-width:0;justify-self:start; }
+  .site-header .theme-toggle { grid-column:2;grid-row:1;justify-self:end; }
+  .site-header .header-inner nav {
+    grid-column:1/-1;grid-row:2;display:flex;flex-wrap:wrap;gap:3px 8px;
+    justify-content:space-between;align-items:center;min-width:0;
+    padding:7px 0 0;margin-top:8px;border-top:1px solid var(--line);
+  }
+  .site-header .header-inner nav a { white-space:nowrap;min-height:36px;display:inline-flex;align-items:center;padding:8px 10px; }
+  .site-footer .wrap { gap:10px 20px;align-items:center; }
+  .site-footer .wrap > * { min-width:0; }
+  .home { padding-bottom:38px; }
+  .home .hero,.home .weekly-board,.home .resource-section,.home .lab-home-feature,
+  .home .arcade-home-feature,.home .practice-banner { margin-bottom:0; }
+  .home .weekly-board,.home .resource-section,.home .lab-home-feature,
+  .home .arcade-home-feature,.home .practice-banner { margin-top:22px; }
+  .home .hero-copy { min-width:0; }
+  .home .hero-copy h1 { max-width:100%; }
+  .home .resource-grid { align-items:stretch; }
+  .home .resource-card { height:100%;min-height:158px;padding-bottom:38px; }
+  .home .resource-card p { margin-bottom:0; }
+  .home .resource-card .card-arrow { bottom:14px; }
+  .home .resource-audio-link { display:flex;justify-content:flex-end;margin:12px 0 0; }
+  .home .resource-audio-link a { color:var(--hy-blue);font-weight:700;font-size:.86rem;padding:5px 2px; }
+  .home .resource-audio-link a:hover { text-decoration:underline; }
+  .home .lab-home-feature { grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px; }
+  .home .lab-home-feature > div { min-width:0; }
+  .home .lab-home-actions { display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px; }
+  .home .lab-home-actions .button { min-height:44px;white-space:normal;text-align:center; }
+  .home .practice-banner { display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:15px; }
+  .home .practice-banner > div { min-width:0; }
+  .home .practice-banner .button { text-align:center; }
+  .home .arcade-home-feature { gap:20px; }
+  .home .arcade-home-feature > div { flex:1 1 250px;min-width:0; }
+  .home .arcade-home-feature > .button { flex:0 0 auto; }
+  .inner-page .page-intro { margin-bottom:22px; }
+  .inner-page .page-intro h1 { overflow-wrap:anywhere; }
+  .inner-page .contents { scroll-margin-top:18px; }
+  .inner-page .file-card { align-items:center; }
+  .inner-page .file-actions { align-items:center;gap:8px; }
+  .inner-page .file-actions .button { min-height:42px;text-align:center; }
+  .inner-page .book-panel-copy { min-width:0; }
+  .inner-page .vocab-bank-unit details summary { padding-block:8px; }
+  .inner-page .vocab-bank-unit details[open] summary { margin-bottom:12px; }
+  .inner-page .vocab-bank-unit .vocab-bank-print,
+  .inner-page .vocab-bank-unit .flash-start { min-height:42px; }
+  .inner-page .vocab-bank-table { margin-top:8px; }
+  .inner-page .game-tabs button,.inner-page .games-controls button { min-height:42px; }
+  .dict .dict-search,.dict .dict-card,.sound-page .sound-detail { min-width:0; }
+  .dict .dict-controls { align-items:stretch; }
+  .dict .dict-controls button,.dict .dict-controls select { min-height:44px; }
+  .dict .dict-list { align-items:start; }
+  .sound-page .sound-back:last-child { margin-top:24px;margin-bottom:0; }
+  .sound-page .sound-table { table-layout:fixed; }
+  .arcade-page .arcade-section-head { align-items:flex-end;gap:12px; }
+  .arcade-page .arcade-score-heading { flex-wrap:wrap;gap:8px; }
+  .arcade-page .arcade-card-body .arcade-play { margin-top:auto;padding-top:12px; }
+  .freeplay-shell .freeplay-options button { min-width:0;overflow-wrap:anywhere; }
+  @media (max-width:1000px) {
+    .site-header .header-inner nav { justify-content:flex-start; }
+    .home .lab-home-feature { grid-template-columns:auto minmax(0,1fr); }
+    .home .lab-home-actions { grid-column:1/-1;justify-content:flex-end; }
+  }
+  @media (max-width:735px) {
+    .site-header .header-inner { gap:0 8px;padding-top:10px; }
+    .site-header .header-inner nav { gap:3px 5px;margin-top:7px; }
+    .site-header .header-inner nav a { font-size:.79rem;padding:7px 8px; }
+    .home .weekly-board,.home .resource-section,.home .lab-home-feature,
+    .home .arcade-home-feature,.home .practice-banner { margin-top:16px; }
+    .home .lab-home-actions { justify-content:stretch; }
+    .home .lab-home-actions .button { flex:1 1 120px; }
+    .home .practice-banner { grid-template-columns:auto minmax(0,1fr); }
+    .home .practice-banner .button { grid-column:1/-1;margin:0; }
+    .inner-page .file-actions { justify-content:flex-start; }
+    .arcade-page .arcade-section-head { align-items:flex-start; }
+  }
+  @media (max-width:490px) {
+    .site-header .header-inner nav { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px; }
+    .site-header .header-inner nav a { justify-content:center;text-align:center;white-space:normal;line-height:1.25;padding:6px 3px;min-height:40px; }
+    .site-header .header-inner nav a::after { left:5px;right:5px; }
+    .home .resource-card { min-height:148px;padding:14px 12px 34px; }
+    .home .resource-audio-link { justify-content:flex-start; }
+    .home .lab-home-actions .button { flex:1 1 100%; }
+    .home .arcade-home-feature > .button { flex:1 1 100%; }
+    .site-footer .wrap { display:grid;grid-template-columns:1fr auto;font-size:.78rem;gap:8px; }
+    .site-footer .wrap > span { grid-column:1/-1;grid-row:2; }
+    .site-footer .wrap > a:last-child { grid-column:2;grid-row:1; }
+    .inner-page .file-actions .button { flex:1 1 120px; }
+  }
+}

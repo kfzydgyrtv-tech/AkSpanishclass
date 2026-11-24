@@ -129,9 +129,9 @@ def render_resources(site):
     marker = '    <section class="contents" aria-labelledby="unit-heading">'
     edit(site / "aula-1.html", marker, '<div class="actions upload-shortcuts">' +
          "".join(shortcuts) + "</div>\n" + book + "\n" + audio_room(site) + "\n" + marker)
-    edit(site / "index.html", '    <section class="practice-banner">',
-         '    <div class="actions upload-shortcuts"><a class="button" href="aula-1.html#audio">'
-         'Textbook audio by unit →</a></div>\n    <section class="practice-banner">')
+    edit(site / "index.html", '    </section>\n    <section class="lab-home-feature"',
+         '      <div class="resource-audio-link"><a href="aula-1.html#audio">Textbook audio by unit →</a></div>\n'
+         '    </section>\n    <section class="lab-home-feature"')
 
     for page, folder, extensions, title, anchor in (
         ("class-slides.html", "slides", SLIDES, "Additional class slides", "class-uploads"),

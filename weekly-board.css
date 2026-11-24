@@ -23,3 +23,13 @@
 .weekly-board-status:not(:empty){margin-bottom:12px;color:var(--muted);font-size:.82rem}
 @media(max-width:750px){.weekly-board-grid{grid-template-columns:1fr}.weekly-notices,.weekly-pins{padding:14px}}
 @media print{.weekly-board{break-inside:avoid}.weekly-pins-list a{text-decoration:none}}
+
+
+@media screen {
+  .weekly-board .weekly-board-grid { align-items:stretch; }
+  .weekly-board .weekly-notices,.weekly-board .weekly-pins { min-width:0; }
+  .weekly-board .weekly-board-period { white-space:normal;text-align:center;overflow-wrap:anywhere; }
+  .weekly-board .weekly-pins-list a { min-width:0;overflow-wrap:anywhere; }
+  .weekly-board .weekly-pins-list a span:first-child { min-width:0; }
+  .weekly-board .weekly-pins-list a span:last-child { flex:0 0 auto; }
+}

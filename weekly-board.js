@@ -36,7 +36,7 @@ function render(data){
     if(href){const a=element("a",item.linkText||"Open resource");a.href=href;article.append(a);}
     host.append(article);
   }
-  if(!host.childNodes.length)host.append(element("p","No announcements posted yet. Check back for class updates.","weekly-board-empty"));
+  if(!host.childNodes.length)host.append(element("p","No announcements yet.","weekly-board-empty"));
   const links=$("weekly-board-links");
   const pins=Array.isArray(data.pinnedLinks)?data.pinnedLinks:[];
   if(pins.length){
