@@ -14,7 +14,7 @@
 <header class="site-header"><div class="wrap header-inner"><a class="brand" href="../index.html"><span aria-hidden="true" class="brand-mark">Ñ</span>Ak's Spanish Class</a><nav aria-label="Main navigation"><a href="../aula-1.html">Aula 1</a><a href="../class-slides.html">Class Slides</a><a href="../vocabulary.html">Vocabulary Sheets</a><a href="../review.html">Review Materials</a><a href="../practice.html">Practice</a><a href="../arcade.html">Games</a><a href="../language-lab.html">Language Lab</a><a href="index.html" aria-current="page">Dictionary</a><a href="../contact.html">Contact Me</a></nav><button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" hidden>Dark mode</button></div></header>
 <main id="content" class="wrap dict" tabindex="-1">
 <p><a href="../language-lab.html">← Language Lab</a></p>
-<section class="dict-hero"><div class="dict-small">SPANISH ↔ ENGLISH · A LANGUAGE LAB REFERENCE</div><h1>Diccionario <em>Vivo</em></h1><p>Search Spanish and English vocabulary with source-labelled meanings, classroom examples and a written guide to pronunciation.</p><p id="counts" class="dict-small">Loading search index…</p><aside class="daily-word" aria-label="Word of the day"><small>PALABRA DEL DÍA / WORD OF THE DAY</small><strong lang="es" id="daily-word-es">aprender</strong><p id="daily-word-en">to learn · verb</p><p lang="es" id="daily-word-example">Me gusta aprender español.</p></aside></section>
+<section class="dict-hero"><div class="dict-small">SPANISH ↔ ENGLISH · A LANGUAGE LAB REFERENCE</div><h1>Diccionario <em>Vivo</em></h1><p>Search Spanish and English vocabulary with source-labelled meanings, classroom examples and a written guide to pronunciation.</p><p id="counts" class="dict-small">Loading search index…</p><aside class="daily-word" aria-label="Word of the day"><small>PALABRA DEL DÍA / WORD OF THE DAY</small><strong lang="es" id="daily-word-es">aprender</strong><p id="daily-word-en">to learn · verb</p><p lang="es" id="daily-word-example">Me gusta aprender español.</p><p class="word-translation" id="daily-word-translation">I like learning Spanish.</p></aside></section>
 <nav class="dict-nav" aria-label="Dictionary sections"><a href="index.html" aria-current="page">Dictionary + Thesaurus</a><a href="phonetics.html">Alphabet & IPA</a><a href="../language-lab.html">Grammar & Audio Lab</a></nav>
 <section class="dict-search"><form id="form"><label for="word">Search a word or expression</label><div class="dict-controls"><select id="lang" aria-label="Lookup language"><option value="es">Spanish → English</option><option value="en">English → Spanish</option></select><input id="word" type="search" value="hola" autocomplete="off" required><button type="submit">SEARCH</button></div></form><div class="dict-quick"><button data-word="casa">casa</button><button data-word="banco">banco</button><button data-word="hablar">hablar</button><button data-word="zapato">zapato</button><button data-word="house" data-lang="en">house</button></div><p id="status" class="dict-status" role="status" aria-live="polite">Loading…</p></section>
 <section id="results" class="dict-list" aria-label="Dictionary results"></section><div class="dict-more"><button id="more" type="button" hidden>Load more</button></div>
@@ -53,26 +53,27 @@ document.querySelectorAll('[data-word]').forEach(function(b){b.addEventListener(
 /* Curated A1 study words; independent of the dictionary's search index. */
 (() => {
   const words = [
-    ['aprender', 'to learn · verb', 'Me gusta aprender español.'],
-    ['amigo / amiga', 'friend · noun', 'Ana es mi amiga.'],
-    ['hablar', 'to speak · verb', 'Hablo español.'],
-    ['libro', 'book · noun', 'Tengo un libro.'],
-    ['vivir', 'to live · verb', 'Vivo en China.'],
-    ['familia', 'family · noun', 'Mi familia es grande.'],
-    ['escuela', 'school · noun', 'Voy a la escuela.'],
-    ['comer', 'to eat · verb', 'Me gusta comer manzanas.'],
-    ['casa', 'house · noun', 'Mi casa es pequeña.'],
-    ['grande', 'big / large · adjective', 'La ciudad es grande.'],
-    ['día', 'day · noun', 'Hoy es un buen día.'],
-    ['estudiar', 'to study · verb', 'Estudio español.'],
-    ['feliz', 'happy · adjective', 'Estoy feliz.'],
-    ['ciudad', 'city · noun', 'Vivo en una ciudad.']
+    ['aprender', 'to learn · verb', 'Me gusta aprender español.', 'I like learning Spanish.'],
+    ['amigo / amiga', 'friend · noun', 'Ana es mi amiga.', 'Ana is my friend.'],
+    ['hablar', 'to speak · verb', 'Hablo español.', 'I speak Spanish.'],
+    ['libro', 'book · noun', 'Tengo un libro.', 'I have a book.'],
+    ['vivir', 'to live · verb', 'Vivo en China.', 'I live in China.'],
+    ['familia', 'family · noun', 'Mi familia es grande.', 'My family is big.'],
+    ['escuela', 'school · noun', 'Voy a la escuela.', 'I go to school.'],
+    ['comer', 'to eat · verb', 'Me gusta comer manzanas.', 'I like eating apples.'],
+    ['casa', 'house · noun', 'Mi casa es pequeña.', 'My house is small.'],
+    ['grande', 'big / large · adjective', 'La ciudad es grande.', 'The city is big.'],
+    ['día', 'day · noun', 'Hoy es un buen día.', 'Today is a good day.'],
+    ['estudiar', 'to study · verb', 'Estudio español.', 'I study Spanish.'],
+    ['feliz', 'happy · adjective', 'Estoy feliz.', 'I am happy.'],
+    ['ciudad', 'city · noun', 'Vivo en una ciudad.', 'I live in a city.']
   ];
   const today = new Date();
   const day = Math.floor(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) / 86400000);
-  const [es, en, example] = words[((day % words.length) + words.length) % words.length];
+  const [es, en, example, translation] = words[((day % words.length) + words.length) % words.length];
   document.getElementById('daily-word-es').textContent = es;
   document.getElementById('daily-word-en').textContent = en;
   document.getElementById('daily-word-example').textContent = example;
+  document.getElementById('daily-word-translation').textContent = translation;
 })();
 </script></body></html>
