@@ -1,0 +1,18 @@
+{
+  "weekLabel": "Class updates",
+  "announcements": [],
+  "pinnedLinks": [
+    {
+      "label": "Class slides",
+      "href": "class-slides.html"
+    },
+    {
+      "label": "Vocabulary banks",
+      "href": "vocabulary.html"
+    },
+    {
+      "label": "Review materials",
+      "href": "review.html"
+    }
+  ]
+}

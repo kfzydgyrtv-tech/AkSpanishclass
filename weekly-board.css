@@ -1,0 +1,25 @@
+/* Weekly classroom bulletin — data loaded from weekly-board.json */
+.weekly-board{margin-top:24px;padding:clamp(20px,3.6vw,36px);border:1px solid var(--line);border-radius:20px;background:var(--surface);color:var(--ink)}
+.weekly-board-head{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.weekly-eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:.75rem;letter-spacing:.1em;font-weight:800;color:var(--muted)}
+.weekly-dot{display:inline-block;background:#d18b44;width:8px;height:8px;border-radius:99px}
+.weekly-board-head h2{font-family:var(--heading);font-size:clamp(1.8rem,4vw,2.5rem);margin:5px 0}
+.weekly-board-head p{font-size:.9rem;color:var(--muted)}
+.weekly-board-period{border:1px solid var(--line);background:var(--paper);padding:8px 12px;border-radius:999px;font-size:.82rem;font-weight:700}
+.weekly-board-grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(230px,1fr);gap:16px}
+.weekly-notices,.weekly-pins{min-width:0;padding:19px;border:1px solid var(--line);border-radius:14px;background:var(--paper)}
+.weekly-notices h3,.weekly-pins h3{font-size:1rem;margin:0 0 15px}
+.weekly-notice-list,.weekly-pins-list{display:grid;gap:10px}
+.weekly-notice{border:1px solid var(--line);border-radius:11px;padding:16px;background:var(--surface)}
+.weekly-notice .weekly-notice-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px;font-size:.72rem;color:var(--muted);font-weight:700}
+.weekly-notice .weekly-tag{border:1px solid var(--line);border-radius:7px;padding:3px 7px;background:var(--soft-green);color:var(--ink)}
+.weekly-notice h4{margin:0 0 6px;font-size:1rem;line-height:1.35}
+.weekly-notice p{font-size:.88rem;color:var(--muted);white-space:pre-wrap;overflow-wrap:anywhere}
+.weekly-notice a{display:inline-block;margin-top:10px;font-size:.85rem;font-weight:750;text-decoration:underline;text-underline-offset:3px}
+.weekly-board-empty{padding:22px;border:1px dashed var(--line);border-radius:11px;color:var(--muted);font-size:.88rem}
+.weekly-pins-list a{display:flex;justify-content:space-between;gap:10px;align-items:center;border-radius:10px;border:1px solid var(--line);padding:13px;background:var(--surface);font-size:.84rem;font-weight:700}
+.weekly-pins-list a:hover{border-color:var(--focus);background:var(--soft-green)}
+.weekly-board-status:empty{display:none}
+.weekly-board-status:not(:empty){margin-bottom:12px;color:var(--muted);font-size:.82rem}
+@media(max-width:750px){.weekly-board-grid{grid-template-columns:1fr}.weekly-notices,.weekly-pins{padding:14px}}
+@media print{.weekly-board{break-inside:avoid}.weekly-pins-list a{text-decoration:none}}

@@ -8,6 +8,8 @@
   <title>Ak's Spanish Class</title>
   <script src="theme.js?v=2"></script>
   <link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="weekly-board.css?v=1">
+<script src="weekly-board.js?v=1" defer></script>
 </head>
 <body>
   <a class="skip" href="#content">Skip to content</a>
@@ -34,6 +36,30 @@
         <div class="note note-back"></div><div class="note note-front">
           <span lang="es">¡Hola!</span><i></i><i></i><i></i>
         </div><span class="hero-spark">✳</span><span class="hero-dot"></span>
+      </div>
+    </section>
+    <section class="weekly-board" id="weekly-board" aria-labelledby="weekly-board-title">
+      <div class="weekly-board-head">
+        <div><span class="weekly-eyebrow"><span class="weekly-dot" aria-hidden="true"></span> CLASS BULLETIN</span>
+          <h2 id="weekly-board-title">This Week</h2>
+          <p>Announcements, reminders, and what to prepare for Spanish class.</p>
+        </div>
+        <span class="weekly-board-period" id="weekly-board-period">Class updates</span>
+      </div>
+      <div id="weekly-board-status" class="weekly-board-status" role="status" aria-live="polite"></div>
+      <div class="weekly-board-grid">
+        <div class="weekly-notices">
+          <h3>Latest announcements</h3>
+          <div id="weekly-board-notices" class="weekly-notice-list"><p class="weekly-board-empty">No announcements posted yet. Check back for class updates.</p></div>
+        </div>
+        <aside class="weekly-pins" aria-labelledby="weekly-pins-title">
+          <h3 id="weekly-pins-title">Pinned class links</h3>
+          <div id="weekly-board-links" class="weekly-pins-list">
+            <a href="class-slides.html">Class slides <span aria-hidden="true">↗</span></a>
+            <a href="vocabulary.html">Vocabulary banks <span aria-hidden="true">↗</span></a>
+            <a href="review.html">Review materials <span aria-hidden="true">↗</span></a>
+          </div>
+        </aside>
       </div>
     </section>
     <section class="resource-section" aria-labelledby="resources-heading">
@@ -76,14 +102,6 @@
     <section class="arcade-home-feature" aria-labelledby="arcade-home-heading">
       <div><span>★ NEW / SPANISH GAMES ★</span><h2 id="arcade-home-heading">Insert coin. Learn Spanish.</h2><p>Step into a neon 90s-inspired arcade with nine original vocabulary and grammar games. No sign-in needed.</p></div>
       <a class="button primary" href="arcade.html">Enter Ak's Arcade →</a>
-    </section>
-    <section class="highlights" aria-labelledby="highlights-heading">
-      <div><h2 id="highlights-heading">This Week</h2><p>Quick links for Grade 10</p></div>
-      <div class="quick-links">
-        <a href="class-slides.html">Unit 1 slides <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></a>
-        <a href="vocabulary.html">Units 0–1 vocabulary <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></a>
-        <a href="review.html">Midterm review <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></a>
-      </div>
     </section>
     <section class="practice-banner">
       <span class="resource-icon tone-practice"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4zM8 10v4m-2-2h4m6-.5h.01m2 2h.01"/></svg></span>
