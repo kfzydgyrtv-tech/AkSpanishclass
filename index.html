@@ -27,6 +27,7 @@
         <span class="course-label">Grade 10 Spanish · A1</span>
         <h1>Ak's Spanish<br>Class</h1>
         <p>Find your textbook, catch up on a lesson, or get a little more practice.</p>
+        <p class="daily-greeting"><span lang="es" id="daily-greeting-es">¡Hola!</span> <span id="daily-greeting-en">— Hello!</span></p>
         <div class="actions">
           <a class="button primary" href="aula-1.html">Open Aula 1 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></a>
           <a class="button hero-secondary" href="practice.html">Explore practice</a>
@@ -111,5 +112,21 @@
   </div>
   </main>
   <footer class="site-footer"><div class="wrap"><a href="index.html">Ak's Spanish Class</a><span>Grade 10 Spanish · A1</span><a href="teacher.html">Teacher Access</a></div></footer>
+<script>
+/* Local daily greeting; no network requests or tracking. */
+(() => {
+  const greetings = [
+    ['¡Hola!', 'Hello!'], ['¡Buenos días!', 'Good morning!'],
+    ['¡Buenas tardes!', 'Good afternoon!'], ['¡Buenas noches!', 'Good evening!'],
+    ['¿Qué tal?', 'How’s it going?'], ['¿Cómo estás?', 'How are you?'],
+    ['¡Hasta pronto!', 'See you soon!']
+  ];
+  const today = new Date();
+  const day = Math.floor(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) / 86400000);
+  const [es, en] = greetings[((day % greetings.length) + greetings.length) % greetings.length];
+  document.getElementById('daily-greeting-es').textContent = es;
+  document.getElementById('daily-greeting-en').textContent = '— ' + en;
+})();
+</script>
 </body>
 </html>
