@@ -122,3 +122,65 @@ assert "phonetics.html" in read_links(dict_root / "index.html").links
 
 print(f"PASS: {len(PAGES)} deployed pages, {len(ASSETS)} core assets, "
       f"{len(hub_links)} arcade cards, {len(practice_links)} unit game links")
+
+
+
+# Sitewide visual and navigation regression guardrail; validate the built site,
+# including nested dictionary and the standalone memory game.
+from urllib.parse import unquote
+from collections import Counter
+
+class SiteAudit(HTMLParser):
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.ids = []
+        self.references = []
+        self.main_nav = []
+        self.in_main_nav = False
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if attrs.get("id"):
+            self.ids.append(attrs["id"])
+        if tag == "nav" and attrs.get("aria-label") == "Main navigation":
+            self.in_main_nav = True
+        if self.in_main_nav and tag == "a" and attrs.get("href"):
+            self.main_nav.append(attrs["href"])
+        for name in ("href", "src"):
+            if attrs.get(name) and tag in {"a", "link", "script", "iframe", "audio", "source", "img", "video"}:
+                self.references.append(attrs[name])
+    def handle_endtag(self, tag):
+        if tag == "nav":
+            self.in_main_nav = False
+
+all_pages = PAGES + ["dictionary/index.html", "dictionary/phonetics.html", "files/juego-de-memoria.html"]
+parsed = {}
+for filename in all_pages:
+    audit = SiteAudit()
+    audit.feed((ROOT / filename).read_text(encoding="utf-8"))
+    parsed[filename] = audit
+    duplicates = [key for key, count in Counter(audit.ids).items() if count > 1]
+    assert not duplicates, f"Duplicate IDs: {filename}: {duplicates}"
+    if not filename.startswith("files/"):
+        expected = "index.html" if filename.startswith("dictionary/") else "dictionary/index.html"
+        assert expected in audit.main_nav, f"Missing Dictionary navigation: {filename}"
+        assert len(audit.main_nav) == 9, f"Inconsistent main navigation: {filename}"
+    assert any(urlparse(x).path.endswith("brand.svg") for x in audit.references), f"Missing favicon: {filename}"
+
+for filename, audit in parsed.items():
+    for link in audit.references:
+        url = urlparse(link)
+        if url.scheme or url.netloc:
+            continue
+        path = unquote(url.path)
+        target = ((ROOT / filename).parent / path).resolve() if path else (ROOT / filename).resolve()
+        assert target.is_relative_to(ROOT.resolve()), f"Link outside website: {filename}: {link}"
+        assert target.exists(), f"Broken local link: {filename}: {link}"
+        if target.is_file() and target.suffix == ".html" and url.fragment:
+            key = target.relative_to(ROOT.resolve()).as_posix()
+            if key in parsed:
+                assert unquote(url.fragment) in parsed[key].ids, f"Missing anchor: {filename}: {link}"
+
+vocab_html = (ROOT / "vocabulary.html").read_text(encoding="utf-8")
+assert vocab_html.count('class="unit-cover"') == 10, "Missing vocabulary unit artwork"
+assert "prefers-reduced-motion" in (ROOT / "style.css").read_text(encoding="utf-8")
+print("PASS: all 15 pages, consistent navigation, local links, anchors, brand and unit covers.")

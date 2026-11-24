@@ -15,7 +15,20 @@ function render(data){
     const article=element("article",undefined,"weekly-notice");
     const meta=element("div",undefined,"weekly-notice-meta");
     if(item.category)meta.append(element("span",String(item.category).slice(0,40),"weekly-tag"));
-    if(item.date)meta.append(element("time",String(item.date).slice(0,50)));
+    if(item.date){
+      const raw=String(item.date).slice(0,50);
+      const time=element("time",raw);
+      if(/^\d{4}-\d{2}-\d{2}$/.test(raw)){
+        const date=new Date(raw+"T00:00:00Z");
+        if(Number.isFinite(date.getTime())&&date.toISOString().slice(0,10)===raw){
+          time.dateTime=raw;
+          const today=new Date();
+          const age=(Date.UTC(today.getFullYear(),today.getMonth(),today.getDate())-date.getTime())/86400000;
+          if(age>=0&&age<=6)meta.append(element("span","NEW","weekly-new"));
+        }
+      }
+      meta.append(time);
+    }
     if(meta.childNodes.length)article.append(meta);
     article.append(element("h4",item.title.slice(0,160)));
     if(item.message)article.append(element("p",String(item.message).slice(0,1200)));
@@ -27,12 +40,13 @@ function render(data){
   const links=$("weekly-board-links");
   const pins=Array.isArray(data.pinnedLinks)?data.pinnedLinks:[];
   if(pins.length){
-    links.replaceChildren();
+    const validated=[];
     for(const item of pins.slice(0,8)){
       if(!item||typeof item.label!=="string")continue;
       const href=allowedInternal(item.href);if(!href)continue;
-      const a=element("a");a.href=href;a.append(element("span",item.label.slice(0,90)),element("span","↗"));a.lastChild.setAttribute("aria-hidden","true");links.append(a);
+      const a=element("a");a.href=href;a.append(element("span",item.label.slice(0,90)),element("span","↗"));a.lastChild.setAttribute("aria-hidden","true");validated.push(a);
     }
+    if(validated.length)links.replaceChildren(...validated);
   }
 }
 fetch("weekly-board.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw Error("Not available");return r.json()}).then(render).catch(()=>{$("weekly-board-status").textContent="Showing pinned class links. Weekly announcements are temporarily unavailable.";});
